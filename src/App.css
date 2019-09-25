@@ -20,3 +20,13 @@
 .App-link {
   color: #09d3ac;
 }
+
+.stretchWidth{
+  min-width: 100%;
+  width: 100%
+}
+
+.stretchHeight{
+  min-height: 100vh;
+  height: 100vh;
+}
