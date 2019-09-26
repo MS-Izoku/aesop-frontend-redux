@@ -15,7 +15,7 @@ class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
-      currentChapter: { id: 0 , title: "N/A", body: "Chapter Data Not Found" }
+      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" }
     };
   }
 
@@ -23,12 +23,16 @@ class ChapterEditor extends Component {
     this.setState({ currentChapter: chapter });
   };
 
-  setCurrentChapterData(body) {
-    console.log(body)
-    if(this.state !== undefined)
-      this.setState({currentChapter: {...this.state.currentChapter , body}})
-
-  }
+  setCurrentChapterTitle = title => {
+    this.setState({ currentChapter: { ...this.state.currentChapter, title } });
+  };
+  setCurrentChapterData = body => {
+    console.log("====RTE====");
+    console.log(body);
+    if (this.state !== undefined)
+      this.setState({ currentChapter: { ...this.state.currentChapter, body } });
+    //this.setState({currentChapter: {...this.state.currentChapter , body}})
+  };
 
   componentDidMount() {
     this.props.getChapters();
@@ -38,19 +42,21 @@ class ChapterEditor extends Component {
   setInitialChapter = () => {
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
-      this.autoSave(10000);
+      this.autoSave(120000);
     }, 1000);
   };
 
   autoSave = time => {
-    const patchHandler = this.props.patchChapter;
-
     this.interval = setInterval(() => {
-      console.log(this.state.currentChapter.id);
-      if (this.state.currentChapter.id !== 0)
-        patchHandler(this.state.currentChapter);
-      console.log("Saving...");
+      this.saveChapter();
     }, time);
+  };
+
+  saveChapter = () => {
+    const patchHandler = this.props.patchChapter;
+    if (this.state.currentChapter.id !== 0)
+      patchHandler(this.state.currentChapter);
+    console.log("Saving...");
   };
 
   componentWillUnmount() {
@@ -70,6 +76,8 @@ class ChapterEditor extends Component {
             <ChapterEditorRT
               currentChapter={this.state.currentChapter}
               setCurrentChapterData={this.setCurrentChapterData}
+              setCurrentChapterTitle={this.setCurrentChapterTitle}
+              saveChapter={this.saveChapter}
             />
             <RTEditorRightBar />
           </div>

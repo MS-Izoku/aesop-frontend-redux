@@ -4,18 +4,32 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
 import { getChapters } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 class ChapterEditorRT extends Component {
+  constructor() {
+    super();
+    this.state = {
+      title: ""
+    };
+  }
 
-  saveChapter = () => {
-    // patch the chapter to the DB
+  handleTitleChange = event => {
+    const titleChangeHandler = this.props.setCurrentChapterTitle;
+    titleChangeHandler(event.target.value);
   };
 
   render() {
     //console.log(this.props);
     return (
       <div className="col-lg-8 stretchHeight">
-        <Button onClick={this.saveChapter}>SAVE</Button>
+        <Form>
+          <Form.Control
+            id="chapter-title"
+            onChange={this.handleTitleChange}
+            value={this.props.currentChapter.title}
+          />
+        </Form>
         <CKEditor
           editor={ClassicEditor}
           data={this.props.currentChapter.body} //this.props.chapter[0].body}
@@ -26,11 +40,12 @@ class ChapterEditorRT extends Component {
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
-            //console.log('====DATA====')
-            //this.props.setCurrentChapterData(data)
+            console.log("====DATA====");
+            this.props.setCurrentChapterData(data);
             //console.log({ event, editor, data });
           }}
         />
+        <button onClick={this.props.saveChapter}>SAVE</button>
       </div>
     );
   }
