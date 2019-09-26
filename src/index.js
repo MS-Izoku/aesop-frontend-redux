@@ -6,40 +6,54 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunkMiddleware from "redux-thunk";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {createLogger} from 'redux-logger'
-import {composeWithDevTools} from 'redux-devtools-extension'
+import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import rootReducer from "./reducers/rootReducer.js";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //#region Pages
 import App from "./App";
-import LoginPage from './pages/LoginPage'
-import StoryHub from './pages/StoryHub'
-import CharacterManager from './pages/CharacterManager'
-import ChapterEditor from './pages/ChapterEditor'
-import SignUp from './pages/SignUp'
+import LoginPage from "./pages/LoginPage";
+import StoryHub from "./pages/StoryHub";
+import CharacterManager from "./pages/CharacterManager";
+import ChapterEditor from "./pages/ChapterEditor";
+import SignUp from "./pages/SignUp";
 
-import CharacterHub from './pages/CharacterHub'
+import CharacterHub from "./pages/CharacterHub";
 //#endregion
 
+
+
 const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-)
-const store = createStore(rootReducer, middleware)
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+);
+const store = createStore(rootReducer, middleware);
 
 //const store = createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.render(
   <Provider store={store}>
     <Router>
       <React.Fragment>
-        <Route exact path='/' component={App} store={store}/>
-        <Route exact path='/chaptereditor/:id' component={ChapterEditor} store={store}/>
-        <Route exact path='/login' component={LoginPage} store={store}/>
-        <Route exact path='/stories' component={StoryHub} store={store}/>
-        <Route exact path="/cm" component={CharacterManager} store={store}/>
-        <Route exact path="/signup" component={SignUp} store={store}/>
-        <Route exact path='/characters' component={CharacterHub} store={store}/>
+        <Route exact path="/" component={App} store={store} />
+
+        <Route
+          exact
+          path="/chaptereditor/:id"
+          component={ChapterEditor}
+          store={store}
+        />
+
+        <Route exact path="/login" component={LoginPage} store={store} />
+        <Route exact path="/stories" component={StoryHub} store={store} />
+        <Route exact path="/cm" component={CharacterManager} store={store} />
+        <Route exact path="/signup" component={SignUp} store={store} />
+        <Route
+          exact
+          path="/characters"
+          component={CharacterHub}
+          store={store}
+        />
       </React.Fragment>
     </Router>
   </Provider>,

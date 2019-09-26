@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { getChapters, patchChapter } from "../actions/chapterActions";
 
 import { withRouter } from "react-router";
+import { HotKeys } from "react-hotkeys";
 
 class ChapterEditor extends Component {
   constructor() {
@@ -34,11 +35,6 @@ class ChapterEditor extends Component {
     //this.setState({currentChapter: {...this.state.currentChapter , body}})
   };
 
-  componentDidMount() {
-    this.props.getChapters();
-    this.setInitialChapter();
-  }
-
   setInitialChapter = () => {
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
@@ -59,29 +55,53 @@ class ChapterEditor extends Component {
     console.log("Saving...");
   };
 
+  componentDidMount() {
+    this.props.getChapters();
+    this.setInitialChapter();
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  //#region hotkeys
+  keyMap = {
+    saveChapterCMD: {
+      name: "Save Chapter",
+      sequence: "control+s",
+      action: "keydown"
+    }
+  };
+
+  keyMapHandler = {
+    saveChapterCMD: () => {
+      this.saveChapter();
+      console.log("SAVING WITH HOTKEY");
+    }
+  };
+  //#endregion
+
   render() {
     return (
       <div>
-        <NavHeader />
-        <div className="container-fluid">
-          <div className="row">
-            <RTEditorLeftBar
-              storyID={this.props.match.params.id}
-              setCurrentChapter={this.setCurrentChapter}
-            />
-            <ChapterEditorRT
-              currentChapter={this.state.currentChapter}
-              setCurrentChapterData={this.setCurrentChapterData}
-              setCurrentChapterTitle={this.setCurrentChapterTitle}
-              saveChapter={this.saveChapter}
-            />
-            <RTEditorRightBar />
+        <HotKeys keyMap={this.keyMap} handlers={this.keyMapHandler}>
+          <NavHeader />
+          <div className="container-fluid">
+            <div className="row">
+              <RTEditorLeftBar
+                storyID={this.props.match.params.id}
+                setCurrentChapter={this.setCurrentChapter}
+              />
+              <ChapterEditorRT
+                currentChapter={this.state.currentChapter}
+                setCurrentChapterData={this.setCurrentChapterData}
+                setCurrentChapterTitle={this.setCurrentChapterTitle}
+                saveChapter={this.saveChapter}
+              />
+              <RTEditorRightBar />
+            </div>
           </div>
-        </div>
+        </HotKeys>
       </div>
     );
   }

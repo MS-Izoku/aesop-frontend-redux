@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getChapters } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { HotKeys } from "react-hotkeys";
 
 class ChapterEditorRT extends Component {
   constructor() {
@@ -20,7 +21,6 @@ class ChapterEditorRT extends Component {
   };
 
   render() {
-    //console.log(this.props);
     return (
       <div className="col-lg-8 stretchHeight">
         <Form>
