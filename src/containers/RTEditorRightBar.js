@@ -5,7 +5,7 @@ import ChapterEditorCharacterbar from "../components/ChapterEditorCharacterbar";
 class RTEditorRightBar extends Component {
   render() {
     return (
-      <div className="col bg-info stretchHeight">
+      <div className="col bg-info stretchHeight debugger">
         <ChapterEditorCharacterbar />
         <hr />
         <ChapterEditorFootNotebar />

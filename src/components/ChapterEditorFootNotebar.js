@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 
 class ChapterEditorFootnoteBar extends Component {
   componentDidMount() {
-    console.log('Getting Footnotes')
+    //console.log('Getting Footnotes')
     this.props.getFootnotes();
   }
 

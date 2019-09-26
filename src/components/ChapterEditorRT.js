@@ -6,48 +6,29 @@ import { getChapters } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
 
 class ChapterEditorRT extends Component {
-  constructor() {
-    super();
-    this.state = {
-      chapter: { title: "No Title Found", body: "Body Goes here" },
-      chapters: {}
-    };
-  }
-  componentDidMount() {
-    //this.props.getChapters();
-    this.getChapter();
-  }
-
-  getChapter = () => {
-    fetch("http://localhost:3000/users/1/stories/1/chapters/11/")
-      .then(resp => resp.json())
-      .then(json => {
-        this.setState({ chapter: json });
-        console.log("========");
-        console.log(json);
-      });
-  };
 
   saveChapter = () => {
     // patch the chapter to the DB
   };
 
   render() {
-    // debugger
-    console.log(this.props);
+    //console.log(this.props);
     return (
       <div className="col-lg-8 stretchHeight">
         <Button onClick={this.saveChapter}>SAVE</Button>
         <CKEditor
           editor={ClassicEditor}
-          data={this.state.chapter.body} //this.props.chapter[0].body}
+          data={this.props.currentChapter.body} //this.props.chapter[0].body}
           onInit={editor => {
             // You can store the "editor" and use when it is needed.
-            console.log("Editor is ready to use!", editor);
+            //console.log("Editor is ready to use!", editor);
+            //this.setState({editor})
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
-            console.log({ event, editor, data });
+            //console.log('====DATA====')
+            //this.props.setCurrentChapterData(data)
+            //console.log({ event, editor, data });
           }}
         />
       </div>
@@ -57,7 +38,7 @@ class ChapterEditorRT extends Component {
 
 // I want to get the currently selected chapter
 const mapStateToProps = state => {
-  return { chapter: state.chapter };
+  return { chapters: state.chapters };
 };
 
 const mapDispatchToProps = dispatch => {

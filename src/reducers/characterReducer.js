@@ -7,14 +7,14 @@ export default function(
     case types.GET_CHARACTERS:
       return action.characters;
     case types.POST_CHARACTER:
-      return [...characters, action.character];
+      return [...state, action.character];
     case types.PATCH_CHARACTER:
       const charID = action.character.id;
       console.log(charID);
       let newState = state;
       newState.map((char) =>{
         if(char.id === charID){
-          return{...char , action.character }
+          return Object.assign({} , action.character)
         }
         else return char
       })

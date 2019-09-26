@@ -13,9 +13,9 @@ export const receiveChapters = () => {
 
 // THIS WORKS
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
-export const getChapters = () => {
+export const getChapters = (storyID=1 ) => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/1/chapters/`)
+    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`)
       .then(resp => resp.json())
       .then(chapters => {
         console.log("===ACTIONS===");
@@ -30,7 +30,7 @@ export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
 // form popup later to define title?
 export const postChapter = (chapterData = {}, storyID) => {
   return dispatch => {
-    fetch('http://localhost:3000/users/1/stories/1/chapters', {
+    fetch("http://localhost:3000/users/1/stories/1/chapters", {
       method: "POST",
       headers: {
         "Content-Type": "applicaiton/json",
@@ -51,30 +51,51 @@ export const postChapter = (chapterData = {}, storyID) => {
   };
 };
 
-export const patchChapter = (chapterData, chapterIndex) => {
-  fetch(baseChapterURL + `/${chapterIndex}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "applicaiton/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      //chapter data goes here
+export const patchChapterFetch = chapter => ({
+  type: "PATCH_CHAPTER",
+  chapter
+});
+export const patchChapter = (chapterData) => {
+  console.log(chapterData)
+  return dispatch => {
+    fetch( 'http://localhost:3000/users/1/stories/1/chapters' +`/${chapterData.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        title: chapterData.title,
+        body: chapterData.body
+        //chapter data goes here
+      })
     })
-  });
+      .then(resp => resp.json())
+      .then(json => {
+        console.log(json)
+        return dispatch(patchChapterFetch(json));
+      });
+  };
 };
 
+export const deleteChapterFetch = chapter => ({
+  type: "DELETE_CHAPTER",
+  chapter
+});
 export const deleteChapter = chapterIndex => {
-  fetch(baseChapterURL + `/${chapterIndex}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({ id: chapterIndex })
-  }).then(resp =>
-    resp.json().then(json => {
-      console.log(json);
-    })
-  );
+  return dispatch => {
+    fetch(baseChapterURL + `/${chapterIndex}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ id: chapterIndex })
+    }).then(resp =>
+      resp.json().then(json => {
+        console.log(json);
+        return dispatch(deleteChapterFetch(json));
+      })
+    );
+  };
 };

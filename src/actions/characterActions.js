@@ -58,9 +58,9 @@ export const updateFetchCharacter = character => ({
   type: "PATCH_CHARACTER",
   character
 });
-export const updateCharacter = (characterObj, storyID) => {
+export const updateCharacter = characterObj => {
   return dispatch => {
-    return fetch("http://localhost:3000/users/1/stories/1/characters", {
+    return fetch(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -72,13 +72,38 @@ export const updateCharacter = (characterObj, storyID) => {
         weight: characterObj.weight,
         biography: characterObj.biography,
         backstory: characterObj.backstory,
-        personality: characterObj.personality,
-        story_id: storyID // get this from params
+        personality: characterObj.personality
       }
     })
       .then(resp => resp.json())
       .then(json => {
         return dispatch(updateFetchCharacter(json));
+      });
+  };
+};
+
+export const deleteCharacterFetch = character => ({
+  type: "DELETE_CHARCTER",
+  character
+});
+export const deleteCharcter = character => {
+  return dispatch => {
+    return fetch(
+      `http://localhost:3000/users/1/stories/1/characters/${character.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          id: character.id
+        })
+      }
+    )
+      .then(resp => resp.json())
+      .then(json => {
+        return dispatch(deleteCharacterFetch(json));
       });
   };
 };
