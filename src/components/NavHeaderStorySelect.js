@@ -24,7 +24,6 @@ class NavHeaderStorySelect extends Component {
   }
 
   render() {
-    //console.log(this.props.stories)
     return (
       <div>
         <NavDropdown title="Story Select" id="basic-nav-dropdown">

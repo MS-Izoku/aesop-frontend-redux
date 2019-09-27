@@ -60,7 +60,6 @@ class CharacterIndex extends Component {
   };
 
   render() {
-    console.log(this.props.characters.length);
     return (
       <div className="container-fluid">
         <Carousel

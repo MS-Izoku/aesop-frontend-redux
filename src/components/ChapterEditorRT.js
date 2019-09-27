@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
-import { getChapters } from "../actions/chapterActions";
+import { getChapters , deleteChapter } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { HotKeys } from "react-hotkeys";
@@ -20,7 +20,13 @@ class ChapterEditorRT extends Component {
     titleChangeHandler(event.target.value);
   };
 
+  handleDeleteChapter = () =>{
+    console.log(this.props.currentChapter)
+    this.props.deleteChapter(this.props.currentChapter)
+  }
+
   render() {
+    //console.log(this.props.currentChapter)
     return (
       <div className="col-lg-8 stretchHeight">
         <Form>
@@ -40,12 +46,12 @@ class ChapterEditorRT extends Component {
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
-            console.log("====DATA====");
             this.props.setCurrentChapterData(data);
             //console.log({ event, editor, data });
           }}
         />
         <button onClick={this.props.saveChapter}>SAVE</button>
+        <button onClick={this.handleDeleteChapter}>DELETE</button>
       </div>
     );
   }
@@ -58,7 +64,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: () => dispatch(getChapters())
+    getChapters: () => dispatch(getChapters()),
+    deleteChapter: (chapter)=> dispatch(deleteChapter(chapter))
   };
 };
 export default connect(

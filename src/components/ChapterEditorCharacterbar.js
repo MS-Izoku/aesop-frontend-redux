@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getCharacters } from "../actions/characterActions";
 import ListGroup from 'react-bootstrap/ListGroup'
+import {withRouter} from 'react-router'
 
 class ChapterEditorCharacterbar extends Component {
   componentDidMount() {
-    this.props.getCharacters();
+    this.props.getCharacters(this.props.match.params.story_id);
   }
 
   renderCharacters = () => {
@@ -33,11 +34,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCharacters: () => dispatch(getCharacters())
+    getCharacters: (index) => dispatch(getCharacters(index))
   };
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChapterEditorCharacterbar);
+)(ChapterEditorCharacterbar));

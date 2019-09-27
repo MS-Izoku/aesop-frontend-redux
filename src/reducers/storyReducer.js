@@ -6,7 +6,6 @@ export default function(
 ) {
   switch (action.type) {
     case types.GET_STORIES:
-      console.log(state);
       return action.stories;
     case types.POST_STORY:
       return [...state.stories, action.story];
@@ -22,11 +21,9 @@ export default function(
       });
 
     case types.DELETE_STORY:
-      // get the index of the replaced item in the action
-      return [
-        ...state.stories.slice(0, action.index),
-        ...state.stories.slice(action.index + 1)
-      ];
+      return state.filter(story =>{
+        return story.id !== action.id
+      })
     default:
       return state;
   }

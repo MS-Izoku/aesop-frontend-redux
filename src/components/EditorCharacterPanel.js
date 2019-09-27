@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 class EditorCharacterPanel extends Component {
   renderCharactersInChapter = () => {
-    console.log(this.props);
     return <li key={0}>Chapter-Character</li>;
   };
   render() {

@@ -8,7 +8,7 @@ class RTEditorRightBar extends Component {
       <div className="col bg-info stretchHeight debugger">
         <ChapterEditorCharacterbar />
         <hr />
-        <ChapterEditorFootNotebar />
+        <ChapterEditorFootNotebar currentChapter={this.props.currentChapter}/>
         <hr />
       </div>
     );

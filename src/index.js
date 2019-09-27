@@ -39,7 +39,7 @@ ReactDOM.render(
 
         <Route
           exact
-          path="/chaptereditor/:id"
+          path="/chaptereditor/:story_id/:chapter_id"
           component={ChapterEditor}
           store={store}
         />
@@ -47,6 +47,7 @@ ReactDOM.render(
         <Route exact path="/login" component={LoginPage} store={store} />
         <Route exact path="/stories" component={StoryHub} store={store} />
         <Route exact path="/cm" component={CharacterManager} store={store} />
+        <Route exact path="/cm/:story_id/:character_id" component={CharacterManager} store={store} />
         <Route exact path="/signup" component={SignUp} store={store} />
         <Route
           exact

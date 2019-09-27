@@ -9,19 +9,18 @@ export default function(
     case types.POST_CHARACTER:
       return [...state, action.character];
     case types.PATCH_CHARACTER:
-      const charID = action.character.id;
-      console.log(charID);
-      let newState = state;
-      newState.map((char) =>{
-        if(char.id === charID){
-          return Object.assign({} , action.character)
-        }
-        else return char
-      })
-      return newState;
+      return state.map(char =>{
+        return char.id === action.character.id ? action.character : char
+      });
     case types.DELETE_CHARACTER:
       return state;
     default:
       return state;
   }
 }
+
+
+// console.log(action.chapter)
+// if (chapter.id === action.chapter.id) {
+//   return action.chapter
+// } else return chapter;

@@ -11,13 +11,11 @@ export const fetchCharacters = characters => ({
   type: "GET_CHARACTERS",
   characters
 });
-export const getCharacters = () => {
+export const getCharacters = (storyID) => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/1/characters/`)
+    fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`)
       .then(resp => resp.json())
       .then(chars => {
-        console.log("===ACTIONS===");
-        console.log(chars);
         return dispatch(fetchCharacters(chars));
       })
       .catch(err => console.error("error fetching things", err));
@@ -48,7 +46,6 @@ export const postCharacter = (characterObj, storyID) => {
     })
       .then(resp => resp.json())
       .then(json => {
-        console.log(json);
         return dispatch(postFetchCharacter(json));
       });
   };
@@ -58,7 +55,7 @@ export const updateFetchCharacter = character => ({
   type: "PATCH_CHARACTER",
   character
 });
-export const updateCharacter = characterObj => {
+export const patchCharacter = characterObj => {
   return dispatch => {
     return fetch(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`, {
       method: "PATCH",
@@ -86,7 +83,7 @@ export const deleteCharacterFetch = character => ({
   type: "DELETE_CHARCTER",
   character
 });
-export const deleteCharcter = character => {
+export const deleteCharacter = character => {
   return dispatch => {
     return fetch(
       `http://localhost:3000/users/1/stories/1/characters/${character.id}`,

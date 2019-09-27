@@ -28,17 +28,14 @@ class ChapterEditor extends Component {
     this.setState({ currentChapter: { ...this.state.currentChapter, title } });
   };
   setCurrentChapterData = body => {
-    console.log("====RTE====");
-    console.log(body);
     if (this.state !== undefined)
       this.setState({ currentChapter: { ...this.state.currentChapter, body } });
-    //this.setState({currentChapter: {...this.state.currentChapter , body}})
   };
 
   setInitialChapter = () => {
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
-      this.autoSave(120000);
+      this.autoSave(30000);
     }, 1000);
   };
 
@@ -52,7 +49,6 @@ class ChapterEditor extends Component {
     const patchHandler = this.props.patchChapter;
     if (this.state.currentChapter.id !== 0)
       patchHandler(this.state.currentChapter);
-    console.log("Saving...");
   };
 
   componentDidMount() {
@@ -64,6 +60,20 @@ class ChapterEditor extends Component {
     clearInterval(this.interval);
   }
 
+  setCurrentChapterAfterDelete = () =>{
+    // I need to get the chapterIndex working in the seeds to get them working at this point
+    switch(this.state.currentChapter.chapter_index){
+      case undefined:
+        // redirect to the story hub here
+        return
+      case 1:
+        // redirect to the story hub here
+        return
+      default:
+        // go to the previous-chapter based on the index 
+        return
+    }
+  }
   //#region hotkeys
   keyMap = {
     saveChapterCMD: {
@@ -89,7 +99,7 @@ class ChapterEditor extends Component {
           <div className="container-fluid">
             <div className="row">
               <RTEditorLeftBar
-                storyID={this.props.match.params.id}
+                storyID={this.props.match.params.story_id}
                 setCurrentChapter={this.setCurrentChapter}
               />
               <ChapterEditorRT
@@ -97,8 +107,9 @@ class ChapterEditor extends Component {
                 setCurrentChapterData={this.setCurrentChapterData}
                 setCurrentChapterTitle={this.setCurrentChapterTitle}
                 saveChapter={this.saveChapter}
+                setCurrentChapterAfterDelete={this.setCurrentChapterAfterDelete}
               />
-              <RTEditorRightBar />
+              <RTEditorRightBar currentChapter={this.state.currentChapter}/>
             </div>
           </div>
         </HotKeys>

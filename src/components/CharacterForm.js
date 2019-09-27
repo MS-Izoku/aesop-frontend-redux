@@ -3,6 +3,15 @@ import Form from "react-bootstrap/Form";
 import NumericInput from "react-numeric-input";
 import Button from "react-bootstrap/Button";
 
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import {
+  getCharacters,
+  postCharacter,
+  patchCharacter,
+  deleteCharacter
+} from "../actions/characterActions";
+
 class CharacterForm extends Component {
   weightFormat = num => num + " kg/lbs";
   heightFormat = num => num + " cm/in";
@@ -13,15 +22,21 @@ class CharacterForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = (event) =>{
-    console.log("Handle Character submission here")
-  }
+  handleSubmit = event => {
+    console.log("Handle Character submission here");
+  };
 
-  deleteCharacer = () => {
+  deleteCharacter = () => {
     console.log("Delete Here");
   };
 
+  componentDidMount = () => {
+   // console.log(this.props.match.params.story_id)
+   // this.props.getCharacters(this.props.match.params.story_id);
+  };
+
   render() {
+    console.log(this.props);
     return (
       <div className="container-fluid">
         <h1>Character Creator</h1>
@@ -33,6 +48,8 @@ class CharacterForm extends Component {
               type="text"
               placeholder="Character Name..."
               name="name"
+              value={this.props.currentCharacter.name}
+              onChange={this.handleChange}
             />
             <hr />
           </Form.Group>
@@ -98,7 +115,7 @@ class CharacterForm extends Component {
             Submit
           </Button>
 
-          <Button variant="danger" type="submit" onClick={this.deleteCharacer}>
+          <Button variant="danger" type="submit" onClick={this.deleteCharacter}>
             DELETE
           </Button>
         </Form>
@@ -107,4 +124,22 @@ class CharacterForm extends Component {
   }
 }
 
-export default CharacterForm;
+const mapStateToProps = state => {
+  return { character: state.character };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // getCharacters: (storyID) => dispatch(getCharacters(storyID)),
+    // postCharacter: () => dispatch(postCharacter()),
+    // patchCharacter: () => dispatch(patchCharacter()),
+    // deleteCharacter: () => dispatch(deleteCharacter())
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CharacterForm)
+);

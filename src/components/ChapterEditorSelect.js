@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
- // setCurrentChapter,
+  // setCurrentChapter,
   getChapters,
   postChapter
 } from "../actions/chapterActions";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router";
 
 class ChapterEditorSelect extends Component {
   getChaptersForList = () => {
@@ -15,11 +16,15 @@ class ChapterEditorSelect extends Component {
       return (
         <ListGroup.Item
           key={chapter.id}
-          onClick={()=>{
-            this.handleSetCurrentChapter(chapter)
+          onClick={() => {
+            this.handleSetCurrentChapter(chapter);
           }}
         >
-          <NavLink to={`/chaptereditor/${chapter.id}`}>{chapter.title}</NavLink>
+          <NavLink
+            to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
+          >
+            {chapter.title}
+          </NavLink>
         </ListGroup.Item>
       );
     });
@@ -27,21 +32,18 @@ class ChapterEditorSelect extends Component {
 
   handleSetCurrentChapter = chapter => {
     const handler = this.props.setCurrentChapter;
-    handler(chapter)
+    handler(chapter);
   };
 
   componentDidMount() {
-    console.log(this.props);
     this.props.getChapters();
   }
 
   createChapter = () => {
-    this.props.postChapter({}, this.props.storyID);
-    console.log("Create Here...");
+    this.props.postChapter(this.props.match.params.story_id);
   };
 
   render() {
-    //console.log(this.props);
     return (
       <div>
         <ListGroup.Item>
@@ -60,19 +62,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // setCurrentChapter: () => {
-    //   dispatch(setCurrentChapter());
-    // },
     getChapters: () => {
       dispatch(getChapters());
     },
-    postChapter: () => {
-      dispatch(postChapter({}));
+    postChapter: storyID => {
+      dispatch(postChapter(storyID));
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChapterEditorSelect);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChapterEditorSelect)
+);

@@ -7,8 +7,4 @@ class SHChapterGUI extends Component{
     }
 }
 
-// const mapStateToProps = (state) =>{
-//     return {stories: state.stories}
-// }
-
 export default SHChapterGUI

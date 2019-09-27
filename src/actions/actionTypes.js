@@ -13,7 +13,7 @@ export const RECEIVE_STORY = "RECEIVE_STORY"; // this is used when receiving FET
 //#region Chapter CRUD actions
 export const GET_CHAPTERS = "GET_CHAPTERS";
 export const POST_CHAPTER = "POST_CHAPTER";
-export const PATCH_CHAPTER = "PATCH_CHAPTERS";
+export const PATCH_CHAPTER = "PATCH_CHAPTER";
 export const DELETE_CHAPTER = "DELETE_CHAPTER";
 export const RECEIVE_CHAPTERS = "RECEIVE_CHAPTERS"; // this is used when receiving FETCH data in THUNK
 export const SET_CURRENT_CHAPTER = "SET_CURRENT_CHAPTER";
