@@ -1,6 +1,8 @@
 import * as types from "../actions/actionTypes.js";
 export default function(
-  state = [{ id: 0, title: "Allo", body: "N/A", chapter_id: 11 }],
+  state = [
+    { id: 0, title: "Allo", body: "N/A", chapter_id: 11 }
+  ],
   action
 ) {
   switch (action.type) {

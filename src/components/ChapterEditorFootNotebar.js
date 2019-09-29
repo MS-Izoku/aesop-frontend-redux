@@ -6,12 +6,6 @@ import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
 class ChapterEditorFootnoteBar extends Component {
-  constructor() {
-    super();
-    this.state = {
-      modalToggled: false
-    };
-  }
 
   componentDidMount() {
     this.props.getFootnotes(
@@ -24,19 +18,31 @@ class ChapterEditorFootnoteBar extends Component {
     return this.props.footnotes.map(note => {
       return (
         <ListGroup.Item key={note.id}>
-          <Button onClick={this.toggleFootnoteModal}>{note.title}</Button>
+          <Button
+            onClick={() => {
+              this.setupModal(note);
+            }}
+          >
+            {note.title} Whee
+          </Button>
         </ListGroup.Item>
       );
     });
   };
 
-  toggleFootnoteModal = () => {};
+  setupModal = note => {
+    console.log(note)
+    this.props.setCurrentFootnote(note);
+    this.props.toggleModal();
+  };
+
 
   postNewFootNote = () => {
     this.props.postFootNote(this.props.currentChapter);
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <ListGroup>

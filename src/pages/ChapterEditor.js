@@ -12,12 +12,25 @@ import { getChapters, patchChapter } from "../actions/chapterActions";
 import { withRouter } from "react-router";
 import { HotKeys } from "react-hotkeys";
 
+import FootNoteModal from "../components/FootNoteModal.js";
+
 class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
-      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" }
+      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
+      currentFootnote: { id: 0, title: "N/A", body: "N/A" },
+      modalIsToggled: false
     };
+  }
+
+  toggleModal = () => {
+    this.setState({ modalIsToggled: !this.state.modalIsToggled });
+  };
+
+  setCurrentFootNote=(note)=>{
+    console.log('Got here')
+    this.setState({currentFootnote: note})
   }
 
   setCurrentChapter = chapter => {
@@ -60,20 +73,20 @@ class ChapterEditor extends Component {
     clearInterval(this.interval);
   }
 
-  setCurrentChapterAfterDelete = () =>{
+  setCurrentChapterAfterDelete = () => {
     // I need to get the chapterIndex working in the seeds to get them working at this point
-    switch(this.state.currentChapter.chapter_index){
+    switch (this.state.currentChapter.chapter_index) {
       case undefined:
         // redirect to the story hub here
-        return
+        return;
       case 1:
         // redirect to the story hub here
-        return
+        return;
       default:
-        // go to the previous-chapter based on the index 
-        return
+        // go to the previous-chapter based on the index
+        return;
     }
-  }
+  };
   //#region hotkeys
   keyMap = {
     saveChapterCMD: {
@@ -109,7 +122,16 @@ class ChapterEditor extends Component {
                 saveChapter={this.saveChapter}
                 setCurrentChapterAfterDelete={this.setCurrentChapterAfterDelete}
               />
-              <RTEditorRightBar currentChapter={this.state.currentChapter}/>
+              <RTEditorRightBar
+                currentChapter={this.state.currentChapter}
+                toggleModal={this.toggleModal}
+                setCurrentFootnote={this.setCurrentFootNote}
+              />
+              <FootNoteModal
+                currentFootnote={this.state.currentFootnote}
+                toggleModal={this.toggleModal}
+                modalIsToggled={this.state.modalIsToggled}
+              />
             </div>
           </div>
         </HotKeys>
