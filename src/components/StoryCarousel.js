@@ -32,13 +32,11 @@ class StoryCarousel extends Component {
     const newDate = new Date(dateStr);
     return newDate.toLocaleDateString();
   };
+
   renderStoryCards = () => {
     return this.props.stories.map(story => {
-      console.log(story);
-      const firstChapter = story.chapters.sort((a, b) => {
-        return a.chapter_index - b.chapter_index;
-      })[0];
-      console.log(story.id)
+      //console.log(story.chapters, story);
+      const firstChapter = story.chapters[0];
       return (
         <Card key={story.id}>
           <Card.Title>{story.title}</Card.Title>
@@ -55,9 +53,37 @@ class StoryCarousel extends Component {
     });
   };
   render() {
+    console.log(this.props)
     return (
       <div>
-        <Carousel responsive={responsive}>{this.renderStoryCards()}</Carousel>
+        {/* <Carousel
+          responsive={responsive}
+          ssr={true}
+          infinite={false}
+          //containerClass="carousel-container"
+        >
+          {this.renderStoryCards()}
+        </Carousel> */}
+        <Carousel
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          responsive={responsive}
+          ssr={true} // means to render carousel on server-side.
+          infinite={true}
+          //autoPlay={this.props.deviceType !== "mobile" ? true : false}
+          //autoPlaySpeed={1000}
+          keyBoardControl={true}
+          customTransition="all .05"
+          transitionDuration={500}
+          containerClass="carousel-container"
+          removeArrowOnDeviceType={["tablet", "mobile"]}
+          deviceType={this.props.deviceType}
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+        >
+          {this.renderStoryCards()}
+        </Carousel>
         <Button>
           <Nav onClick={this.props.postStory}>New Story</Nav>
         </Button>

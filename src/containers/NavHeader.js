@@ -19,7 +19,7 @@ class NavHeader extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="/stories">Story Hub</Nav.Link>
-            <Nav.Link href="/characters">Character Hub</Nav.Link>
+            {/* <Nav.Link href="/characters">Character Hub</Nav.Link> */}
             <NavHeaderStorySelect />
           </Nav>
           <Form inline>

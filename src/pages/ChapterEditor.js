@@ -50,7 +50,7 @@ class ChapterEditor extends Component {
     console.log("Stories:", this.props);
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
-      //this.autoSave(30000);
+      this.autoSave(30000);
     }, 1000);
   };
 

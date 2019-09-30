@@ -1,6 +1,8 @@
 import * as types from "../actions/actionTypes.js";
 export default function(
-  state = [{ name: "No Characters Found", biography: "No Biography Found" }],
+  state = [
+    { name: "No Characters Found", biography: "No Biography Found", id: 0 }
+  ],
   action
 ) {
   switch (action.type) {
@@ -9,8 +11,8 @@ export default function(
     case types.POST_CHARACTER:
       return [...state, action.character];
     case types.PATCH_CHARACTER:
-      return state.map(char =>{
-        return char.id === action.character.id ? action.character : char
+      return state.map(char => {
+        return char.id === action.character.id ? action.character : char;
       });
     case types.DELETE_CHARACTER:
       return state;
@@ -18,7 +20,6 @@ export default function(
       return state;
   }
 }
-
 
 // console.log(action.chapter)
 // if (chapter.id === action.chapter.id) {

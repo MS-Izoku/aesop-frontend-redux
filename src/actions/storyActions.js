@@ -20,6 +20,7 @@ export const getStories = () => {
 
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = () => {
+  console.log('Starting story post fetch')
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/`, {
       method: "POST",
@@ -31,7 +32,7 @@ export const postStory = () => {
         title: "New Story",
         pitch: "Pitch!",
         high_concept: "A Story Concept",
-        chapters: [{ title: "undefined title", body: "undefined body" }]
+        //chapters: [{ title: "undefined title", body: "undefined body" }]
       })
     })
       .then(resp => resp.json())
@@ -46,7 +47,8 @@ export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 
 export const patchStory = story => {
   return dispatch => {
-    fetch("http://localhost:3000/users/1/stories"`/${story.id}`, {
+    console.log(story)
+    fetch(`http://localhost:3000/users/1/stories/${story.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -7,7 +7,7 @@ import { getCharacters } from "../actions/characterActions";
 import { getStories } from "../actions/storyActions";
 import { connect } from "react-redux";
 import Nav from "react-bootstrap/Nav";
-import Button from 'react-bootstrap/Button'
+import Button from "react-bootstrap/Button";
 
 // boilerplate from the github page, required for user
 const responsive = {
@@ -32,8 +32,10 @@ const responsive = {
 
 class CharacterIndex extends Component {
   componentDidMount() {
-    this.props.getCharacters();
     this.props.getStories();
+    this.props.stories.map(story => {
+      this.props.getCharacters(story.id);
+    });
   }
 
   createCharacterCard = characterObj => {
@@ -55,6 +57,7 @@ class CharacterIndex extends Component {
 
   createAllCharacterCards = () => {
     return this.props.characters.map(char => {
+      console.log(char);
       return this.createCharacterCard(char);
     });
   };
@@ -63,10 +66,17 @@ class CharacterIndex extends Component {
     return (
       <div className="container-fluid">
         <Carousel
+          swipeable={false}
+          draggable={false}
+          showDots={true}
           responsive={responsive}
           ssr={true} // means to render carousel on server-side.
           infinite={true}
+          //autoPlay={this.props.deviceType !== "mobile" ? true : false}
+          //autoPlaySpeed={1000}
           keyBoardControl={true}
+          customTransition="all .005"
+          transitionDuration={500}
           containerClass="carousel-container"
           removeArrowOnDeviceType={["tablet", "mobile"]}
           deviceType={this.props.deviceType}
@@ -87,7 +97,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getStories: () => dispatch(getStories()),
-    getCharacters: () => dispatch(getCharacters())
+    getCharacters: storyID => dispatch(getCharacters(storyID)),
   };
 };
 export default connect(
