@@ -20,11 +20,9 @@ export default function chapterReducer(
           return action.chapter
         } else return chapter;
       });
-    //return Object.assign(state , action.chapter)
-
-    case types.DELETE_CHAPTER:
-      console.log(action.chapter)
-      return state.filter(chapter => chapter.id !== action.chapter.id);
+    case "DELETE_CHAPTER":
+      console.log('You hit the reducer')
+      return state.filter(chapter => {return chapter.id !== action.chapter.id});
     //return state
     default:
       return state;

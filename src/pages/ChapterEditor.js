@@ -18,6 +18,7 @@ class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
+      firstChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
       currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
       currentFootnote: { id: 0, title: "N/A", body: "N/A" },
       modalIsToggled: false
@@ -28,10 +29,10 @@ class ChapterEditor extends Component {
     this.setState({ modalIsToggled: !this.state.modalIsToggled });
   };
 
-  setCurrentFootNote=(note)=>{
-    console.log('Got here')
-    this.setState({currentFootnote: note})
-  }
+  setCurrentFootNote = note => {
+    console.log("Got here");
+    this.setState({ currentFootnote: note });
+  };
 
   setCurrentChapter = chapter => {
     this.setState({ currentChapter: chapter });
@@ -46,7 +47,7 @@ class ChapterEditor extends Component {
   };
 
   setInitialChapter = () => {
-    console.log('Stories:' , this.props)
+    console.log("Stories:", this.props);
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
       //this.autoSave(30000);
@@ -66,9 +67,11 @@ class ChapterEditor extends Component {
   };
 
   componentDidMount() {
+    if (this.state.firstChapterInState !== this.props.chapters[0])
+      this.setState({ firstChapter: this.props.chapters[0] });
     this.props.getChapters(this.props.match.params.story_id);
     this.setInitialChapter();
-    console.log(this.props)
+    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -77,18 +80,14 @@ class ChapterEditor extends Component {
 
   setCurrentChapterAfterDelete = () => {
     // I need to get the chapterIndex working in the seeds to get them working at this point
-    switch (this.state.currentChapter.chapter_index) {
-      case undefined:
-        // redirect to the story hub here
-        return;
-      case 1:
-        // redirect to the story hub here
-        return;
-      default:
-        // go to the previous-chapter based on the index
-        return;
-    }
+    console.log(this.props.chapters, "SET A NEW CHAPTER");
+    //const firstChapterInState = this.props.chapters[0];
+    this.setState({
+      firstChapter: this.props.chapters[0],
+      currentChapter: this.props.chapters[0]
+    });
   };
+
   //#region hotkeys
   keyMap = {
     saveChapterCMD: {
@@ -123,6 +122,7 @@ class ChapterEditor extends Component {
                 setCurrentChapterTitle={this.setCurrentChapterTitle}
                 saveChapter={this.saveChapter}
                 setCurrentChapterAfterDelete={this.setCurrentChapterAfterDelete}
+                firstChapterInState={this.state.firstChapter}
               />
               <RTEditorRightBar
                 currentChapter={this.state.currentChapter}
@@ -142,11 +142,11 @@ class ChapterEditor extends Component {
 }
 
 const mapStateToProps = state => {
-  return { chapters: state.chapters , footnotes: state.footnotes };
+  return { chapters: state.chapters, footnotes: state.footnotes };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: (storyID) => dispatch(getChapters(storyID)),
+    getChapters: storyID => dispatch(getChapters(storyID)),
     patchChapter: chapter => dispatch(patchChapter(chapter))
   };
 };

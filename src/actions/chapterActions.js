@@ -23,7 +23,6 @@ export const getChapters = (storyID = 1) => {
 export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
 // form popup later to define title?
 export const postChapter = storyID => {
-  const baseURL = `http://localhost:3000/users/1/stories/${storyID}/chapters/`;
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
       method: "POST",
@@ -45,7 +44,6 @@ export const patchChapterFetch = chapter => ({
   chapter
 });
 export const patchChapter = chapterData => {
-  console.log(chapterData)
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,
@@ -77,8 +75,7 @@ export const deleteChapterFetch = chapter => ({
 export const deleteChapter = chapter => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters` +
-        `/${chapter.id}`,
+      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
       {
         method: "DELETE",
         headers: {
@@ -87,10 +84,10 @@ export const deleteChapter = chapter => {
         },
         body: JSON.stringify({ id: chapter.id })
       }
-    ).then(resp =>
-      resp.json().then(json => {
+    )
+      .then(resp => resp.json())
+      .then(json => {
         return dispatch(deleteChapterFetch(json));
-      })
-    );
+      });
   };
 };

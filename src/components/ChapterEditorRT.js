@@ -4,7 +4,9 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
 import { getChapters, deleteChapter } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
+import { withRouter } from "react-router";
 import Form from "react-bootstrap/Form";
+import Nav from 'react-bootstrap/Nav'
 import { HotKeys } from "react-hotkeys";
 
 class ChapterEditorRT extends Component {
@@ -21,8 +23,9 @@ class ChapterEditorRT extends Component {
   };
 
   handleDeleteChapter = () => {
-    console.log(this.props.currentChapter);
+    console.log("DELETING HERE");
     this.props.deleteChapter(this.props.currentChapter);
+    this.props.setCurrentChapterAfterDelete();
   };
 
   render() {
@@ -31,7 +34,7 @@ class ChapterEditorRT extends Component {
         <Form
           onSubmit={event => {
             event.preventDefault();
-            this.props.saveChapter()
+            this.props.saveChapter();
           }}
         >
           <Form.Control
@@ -58,7 +61,18 @@ class ChapterEditorRT extends Component {
           }}
         />
         <button onClick={this.props.saveChapter}>SAVE</button>
-        <button onClick={this.handleDeleteChapter}>DELETE</button>
+        {/* <Nav.Link href={}> */}
+        <Nav.Link href={`/chaptereditor/${this.props.match.params.story_id}/${this.props.firstChapterInState.id}`}>
+          <Button
+            onClick={() => {
+              this.props.setCurrentChapterAfterDelete();
+              this.handleDeleteChapter();
+            }}
+          >
+            DELETE
+          </Button>
+        </Nav.Link>
+        {/* </Nav> */}
       </div>
     );
   }
@@ -76,7 +90,9 @@ const mapDispatchToProps = dispatch => {
     deleteChapter: chapter => dispatch(deleteChapter(chapter))
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChapterEditorRT);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChapterEditorRT)
+);
