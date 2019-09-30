@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {connect } from 'react-redux'
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { patchFootnote } from "../actions/footnoteActions";
 
 class FootNoteModal extends Component {
+  // this component is not properly updating after prop changes
   constructor(props) {
     super(props);
     this.state = {
-      title: this.props.currentFootnote.title,
-      body: this.props.currentFootnote.body
+      //   id: this.props.currentNote.id,
+      title: this.props.currentNote.title,
+      body: this.props.currentNote.body
     };
   }
   handleChange = event => {
@@ -17,15 +21,25 @@ class FootNoteModal extends Component {
   };
 
   handleSave = () => {
-    this.props.toggleModal();
+    const toggler = this.props.toggleModal;
+    toggler();
+
+    console.log(this.state);
+    this.props.patchFootnote(
+      this.props.match.params.chapter_id,
+      this.props.match.params.story_id,
+      this.props.currentNote.id,
+      this.state
+    );
   };
+
+  componentDidUpdate() {
+    console.log("MODAL UPDATE <<<", this.props);
+  }
 
   // figure out where in this file to update the form-data
 
   render() {
-    console.log("===FNM===");
-    console.log(this.props.currentFootnote);
-    console.log(this.state)
     return (
       <Modal show={this.props.modalIsToggled}>
         <Modal.Header>
@@ -33,7 +47,8 @@ class FootNoteModal extends Component {
             size="lg"
             type="text"
             name="title"
-            value={this.state.title}
+            defaultValue={this.props.currentNote.title} // I need to get this changing depending on
+            //the value of the prop, it currently does not
             onChange={this.handleChange}
           />
         </Modal.Header>
@@ -45,7 +60,7 @@ class FootNoteModal extends Component {
                 as="textarea"
                 placeholder="Note..."
                 name="body"
-                value={this.state.body}
+                defaultValue={this.props.currentNote.body}
                 onChange={this.handleChange}
                 rows={5}
               />
@@ -57,7 +72,7 @@ class FootNoteModal extends Component {
           <Button variant="secondary" onClick={this.props.toggleModal}>
             Close
           </Button>
-          <Button variant="primary" onClick={this.props.handleSave}>
+          <Button variant="primary" onClick={this.handleSave}>
             Save changes
           </Button>
         </Modal.Footer>
@@ -66,11 +81,18 @@ class FootNoteModal extends Component {
   }
 }
 
-const mapStateToProps = (state) =>{
-    return {footnotes: state.footnotes}
-}
-
-const mapDispatchToProps = (dispatch) =>{
-    return {}
-}
-export default connect(mapStateToProps , mapDispatchToProps)(FootNoteModal);
+const mapStateToProps = state => {
+  return { currentNote: state.footnotes.currentNote };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    patchFootnote: (chapterID, storyID, footnoteID, data) =>
+      dispatch(patchFootnote(chapterID, storyID, footnoteID, data))
+  };
+};
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FootNoteModal)
+);

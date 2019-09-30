@@ -9,7 +9,9 @@ export default function chapterReducer(
 ) {
   switch (action.type) {
     case types.GET_CHAPTERS:
-      return action.chapters;
+      return action.chapters.sort((a,b) =>{
+        return a.chapter_index - b.chapter_index
+      });
     case types.POST_CHAPTER:
       return [...state, action.chapter];
     case types.PATCH_CHAPTER:

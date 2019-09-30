@@ -46,9 +46,10 @@ class ChapterEditor extends Component {
   };
 
   setInitialChapter = () => {
+    console.log('Stories:' , this.props)
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
-      this.autoSave(30000);
+      //this.autoSave(30000);
     }, 1000);
   };
 
@@ -65,8 +66,9 @@ class ChapterEditor extends Component {
   };
 
   componentDidMount() {
-    this.props.getChapters();
+    this.props.getChapters(this.props.match.params.story_id);
     this.setInitialChapter();
+    console.log(this.props)
   }
 
   componentWillUnmount() {
@@ -128,7 +130,6 @@ class ChapterEditor extends Component {
                 setCurrentFootnote={this.setCurrentFootNote}
               />
               <FootNoteModal
-                currentFootnote={this.state.currentFootnote}
                 toggleModal={this.toggleModal}
                 modalIsToggled={this.state.modalIsToggled}
               />
@@ -141,11 +142,11 @@ class ChapterEditor extends Component {
 }
 
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return { chapters: state.chapters , footnotes: state.footnotes };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: () => dispatch(getChapters()),
+    getChapters: (storyID) => dispatch(getChapters(storyID)),
     patchChapter: chapter => dispatch(patchChapter(chapter))
   };
 };

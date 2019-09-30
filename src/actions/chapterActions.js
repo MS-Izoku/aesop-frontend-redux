@@ -1,6 +1,3 @@
-import * as types from "./actionTypes.js";
-import thunk from "redux-thunk";
-// this will need to be modularized based on the current user/story information
 const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
 
 // export const setCurrentChapter = chapterObj => {
@@ -48,6 +45,7 @@ export const patchChapterFetch = chapter => ({
   chapter
 });
 export const patchChapter = chapterData => {
+  console.log(chapterData)
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,

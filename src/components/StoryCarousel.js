@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { connect } from "react-redux";
-import { getStories } from "../actions/storyActions";
+import { getStories, postStory } from "../actions/storyActions";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
@@ -34,14 +34,21 @@ class StoryCarousel extends Component {
   };
   renderStoryCards = () => {
     return this.props.stories.map(story => {
+      console.log(story);
+      const firstChapter = story.chapters.sort((a, b) => {
+        return a.chapter_index - b.chapter_index;
+      })[0];
+      console.log(story.id)
       return (
-        <Card>
+        <Card key={story.id}>
           <Card.Title>{story.title}</Card.Title>
           <Card.Text>{story.high_concept}</Card.Text>
           <Card.Text>Chapters: {story.chapters.length}</Card.Text>
           <Card.Text>Last Update: {this.parseDate(story.updated_at)}</Card.Text>
           <Button>
-            <Nav.Link href="/chaptereditor">Go To</Nav.Link>
+            <Nav.Link href={`/chaptereditor/${story.id}/${firstChapter.id}`}>
+              Chapter Editor
+            </Nav.Link>
           </Button>
         </Card>
       );
@@ -52,7 +59,7 @@ class StoryCarousel extends Component {
       <div>
         <Carousel responsive={responsive}>{this.renderStoryCards()}</Carousel>
         <Button>
-          <Nav href="#">New Story</Nav> {/* Post a new story with this button*/}
+          <Nav onClick={this.props.postStory}>New Story</Nav>
         </Button>
       </div>
     );
@@ -64,7 +71,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { getStories: () => dispatch(getStories()) };
+  return {
+    getStories: () => dispatch(getStories()),
+    postStory: () => dispatch(postStory())
+  };
 };
 
 export default connect(

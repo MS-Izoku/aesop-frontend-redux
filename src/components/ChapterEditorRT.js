@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
-import { getChapters , deleteChapter } from "../actions/chapterActions";
+import { getChapters, deleteChapter } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { HotKeys } from "react-hotkeys";
@@ -20,18 +20,26 @@ class ChapterEditorRT extends Component {
     titleChangeHandler(event.target.value);
   };
 
-  handleDeleteChapter = () =>{
-    console.log(this.props.currentChapter)
-    this.props.deleteChapter(this.props.currentChapter)
-  }
+  handleDeleteChapter = () => {
+    console.log(this.props.currentChapter);
+    this.props.deleteChapter(this.props.currentChapter);
+  };
 
   render() {
     return (
       <div className="col-lg-8 stretchHeight">
-        <Form>
+        <Form
+          onSubmit={event => {
+            event.preventDefault();
+            this.props.saveChapter()
+          }}
+        >
           <Form.Control
             id="chapter-title"
-            onChange={this.handleTitleChange}
+            onChange={event => {
+              event.preventDefault();
+              this.handleTitleChange(event);
+            }}
             value={this.props.currentChapter.title}
           />
         </Form>
@@ -58,13 +66,14 @@ class ChapterEditorRT extends Component {
 
 // I want to get the currently selected chapter
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return { stories: state.stories, chapters: state.chapters };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: () => dispatch(getChapters()),
-    deleteChapter: (chapter)=> dispatch(deleteChapter(chapter))
+    getChapters: storyID => dispatch(getChapters(storyID)),
+
+    deleteChapter: chapter => dispatch(deleteChapter(chapter))
   };
 };
 export default connect(

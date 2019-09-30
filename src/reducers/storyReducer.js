@@ -8,7 +8,7 @@ export default function(
     case types.GET_STORIES:
       return action.stories;
     case types.POST_STORY:
-      return [...state.stories, action.story];
+      return [...state, action.story];
     case types.PATCH_STORY:
       // get the index of the changed item in the action
       return state.stories.map((story, index) => {

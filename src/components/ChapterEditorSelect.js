@@ -12,22 +12,26 @@ import { withRouter } from "react-router";
 
 class ChapterEditorSelect extends Component {
   getChaptersForList = () => {
-    return this.props.chapters.map(chapter => {
-      return (
-        <ListGroup.Item
-          key={chapter.id}
-          onClick={() => {
-            this.handleSetCurrentChapter(chapter);
-          }}
-        >
-          <NavLink
-            to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
+    return this.props.chapters
+      .sort((a, b) => {
+        return a.chapter_index - b.chapter_index;
+      })
+      .map(chapter => {
+        return (
+          <ListGroup.Item
+            key={chapter.id}
+            onClick={() => {
+              this.handleSetCurrentChapter(chapter);
+            }}
           >
-            {chapter.title}
-          </NavLink>
-        </ListGroup.Item>
-      );
-    });
+            <NavLink
+              to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
+            >
+              {chapter.title}
+            </NavLink>
+          </ListGroup.Item>
+        );
+      });
   };
 
   handleSetCurrentChapter = chapter => {
