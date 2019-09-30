@@ -7,6 +7,8 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 
+import { withRouter } from "react-router";
+
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.
@@ -36,34 +38,37 @@ class StoryCarousel extends Component {
   renderStoryCards = () => {
     return this.props.stories.map(story => {
       //console.log(story.chapters, story);
-      const firstChapter = story.chapters[0];
       return (
         <Card key={story.id}>
           <Card.Title>{story.title}</Card.Title>
           <Card.Text>{story.high_concept}</Card.Text>
           <Card.Text>Chapters: {story.chapters.length}</Card.Text>
           <Card.Text>Last Update: {this.parseDate(story.updated_at)}</Card.Text>
-          <Button>
-            <Nav.Link href={`/chaptereditor/${story.id}/${firstChapter.id}`}>
-              Chapter Editor
-            </Nav.Link>
+
+          <Button
+            onClick={() => {
+              this.props.history.push(`/stories/${story.id}`);
+            }}
+          >
+            Story Editor
+          </Button>
+          <Button
+            onClick={() => {
+              this.props.history.push(
+                `/chaptereditor/${story.id}/${story.chapters[0].id}`
+              );
+            }}
+          >
+            Chapter Editor
           </Button>
         </Card>
       );
     });
   };
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <div>
-        {/* <Carousel
-          responsive={responsive}
-          ssr={true}
-          infinite={false}
-          //containerClass="carousel-container"
-        >
-          {this.renderStoryCards()}
-        </Carousel> */}
         <Carousel
           swipeable={false}
           draggable={false}
@@ -84,9 +89,7 @@ class StoryCarousel extends Component {
         >
           {this.renderStoryCards()}
         </Carousel>
-        <Button>
-          <Nav onClick={this.props.postStory}>New Story</Nav>
-        </Button>
+        <Button onClick={this.props.postStory}>New Story</Button>
       </div>
     );
   }
@@ -103,7 +106,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StoryCarousel);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(StoryCarousel)
+);

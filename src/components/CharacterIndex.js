@@ -57,7 +57,7 @@ class CharacterIndex extends Component {
 
   createAllCharacterCards = () => {
     return this.props.characters.map(char => {
-      console.log(char);
+      //console.log(char);
       return this.createCharacterCard(char);
     });
   };

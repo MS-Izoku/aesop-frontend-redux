@@ -53,7 +53,7 @@ ReactDOM.render(
         <Route exact path="/signup" component={SignUp} store={store} />
         <Route
           exact
-          path="/characters"
+          path="/characters/:story_id"
           component={CharacterHub}
           store={store}
         />
@@ -63,6 +63,7 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

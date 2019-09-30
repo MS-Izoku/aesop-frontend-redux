@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import { getStories, patchStory, deleteStory } from "../actions/storyActions";
 
 import StoryEditorGUI from "../components/StoryEditorGUI";
+import StoryViewerGUI from "../components/StoryViewerGUI";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -22,9 +23,6 @@ class StoryEditor extends Component {
   }
 
   componentDidMount() {
-    console.log(
-      `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
-    );
     fetch(
       `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
     )
@@ -35,37 +33,40 @@ class StoryEditor extends Component {
       });
   }
 
-  renderStoryInformation = () => {
-    return <div></div>;
-  };
-
   saveStory = storyObj => {
     const newObj = Object.assign({}, storyObj, {
       id: parseInt(this.props.match.params.story_id)
     });
-    console.log(newObj);
     this.props.patchStory(newObj);
+    this.setState({ currentStory: newObj });
   };
 
   handleDelete = () => {
     this.props.deleteStory(this.props.match.params.story_id);
   };
 
+  switchEditorView = () => {
+    this.setState({ inEditor: !this.state.inEditor });
+  };
+
   render() {
-    //debugger;
-    console.log("STATE CHANGE", this.state);
     return (
       <div>
         <NavHeader />
-        {/* <StoryEditorGUI
-          currentStory={this.state.currentStory}
-          setCurrentStory={this.setCurrentStory}
-        /> */}
-        <StoryEditorGUI
-          currentStory={this.state.currentStory}
-          saveStory={this.saveStory}
-          handleDelete={this.handleDelete}
-        />
+        {this.state.inEditor ? (
+          <StoryEditorGUI
+            currentStory={this.state.currentStory}
+            saveStory={this.saveStory}
+            handleDelete={this.handleDelete}
+            switchEditorView={this.switchEditorView}
+          />
+        ) : (
+          <StoryViewerGUI
+            currentStory={this.state.currentStory}
+            switchEditorView={this.switchEditorView}
+            currentStory={this.state.currentStory}
+          />
+        )}
       </div>
     );
   }

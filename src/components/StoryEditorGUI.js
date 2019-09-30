@@ -36,6 +36,7 @@ class StoryEditorGUI extends Component {
   render() {
     return (
       <div className="container-fluid">
+        <Button onClick={this.props.switchEditorView}>SWITCH</Button>
         <Form onSubmit={this.handleSave}>
           <Form.Group controlId="titleControl">
             <Form.Label>Title</Form.Label>
@@ -81,12 +82,12 @@ class StoryEditorGUI extends Component {
           <Button
             variant="warning"
             onClick={() => {
-                console.log(this.props)
+              console.log(this.props);
               this.props.history.push(
                 `/chaptereditor/${this.props.match.params.story_id}/${this.props.currentStory.chapters[0].id}`
               );
             }}
-          />
+          >Chapter Editor</Button>
         </Form>
       </div>
     );
