@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
-
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Card from "react-bootstrap/Card";
 class ChapterViewer extends Component {
   constructor(props) {
     super(props);
@@ -44,14 +45,31 @@ class ChapterViewer extends Component {
     }
   };
 
+  chapterView = () => {
+    return this.state.chapter.body === "Chapter Not Found" ||
+      this.state.chapter.body === "" ? (
+      "Select Chapter"
+    ) : (
+      <div dangerouslySetInnerHTML={{ __html: this.state.chapter.body }} />
+    );
+  };
   render() {
     return (
       <div>
-        <h1>VIEWER</h1>
-        <div id="chapter-body">{this.state.chapter.body}</div>
-        // this needs some html parsing
-        <h2>LIST</h2>
-        <div id="chapter-list">{this.renderList()}</div>
+        <Button>Edit Chapter</Button>
+        <Card id="chapter-viewer">
+          <ButtonGroup id="chapter-list">{this.renderList()}</ButtonGroup>
+          <div id="reader-header">
+            <Card.Header className="text-center">
+              <h2>
+                {this.state.chapter.title === "Chapter Note Found"
+                  ? "Select Chapter"
+                  : this.state.chapter.title}
+              </h2>
+            </Card.Header>
+          </div>
+          <Card.Body>{this.chapterView()}</Card.Body>
+        </Card>
       </div>
     );
   }

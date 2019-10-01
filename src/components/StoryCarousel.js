@@ -37,7 +37,7 @@ class StoryCarousel extends Component {
 
   renderStoryCards = () => {
     return this.props.stories.map(story => {
-      //console.log(story.chapters, story);
+      //console.log(story.chapters, story)
       return (
         <Card key={story.id}>
           <Card.Title>{story.title}</Card.Title>

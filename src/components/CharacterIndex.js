@@ -59,19 +59,34 @@ class CharacterIndex extends Component {
   };
 
   createAllCharacterCards = () => {
-    return this.props.characters
-      .sort((a, b) => {
-        if (a.name > b.name) return 1;
-        if (b.name > a.name) return -1;
-        else return 0;
-      })
-      .map(char => {
-        return this.createCharacterCard(char);
-      });
+    if (this.props.characters.length > 0) {
+      return this.props.characters
+        .sort((a, b) => {
+          if (a.name > b.name) return 1;
+          if (b.name > a.name) return -1;
+          else return 0;
+        })
+        .map(char => {
+          return this.createCharacterCard(char);
+        });
+    } else
+      return (
+        <Card key={0}>
+          <Image rounded fluid alt="character-pic" src={'https://webhostingmedia.net/wp-content/uploads/2018/01/http-error-404-not-found.png'} />
+          <Card.Title>{'No Characters Found'}</Card.Title>
+          <Card.Text>
+            Create one Here!
+          </Card.Text>
+          <Button>
+            <Nav.Link href={`/cm/${this.props.match.params.story_id}/`}>
+              Go To
+            </Nav.Link>
+          </Button>
+        </Card>
+      );
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="container-fluid">
         <Carousel
@@ -92,7 +107,7 @@ class CharacterIndex extends Component {
           dotListClass="custom-dot-list-style"
           itemClass="carousel-item-padding-40-px"
         >
-          {this.createAllCharacterCards()}
+          {this.createAllCharacterCards(this.props.characters)}
         </Carousel>
       </div>
     );

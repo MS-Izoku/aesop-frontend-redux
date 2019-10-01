@@ -6,7 +6,12 @@ import { getStories, patchStory, deleteStory } from "../actions/storyActions";
 
 import StoryEditorGUI from "../components/StoryEditorGUI";
 import StoryViewerGUI from "../components/StoryViewerGUI";
-import CharacterIndex from '../components/CharacterIndex'
+import CharacterIndex from "../components/CharacterIndex";
+
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import AccordionToggle from "react-bootstrap/AccordionToggle";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -18,7 +23,8 @@ class StoryEditor extends Component {
         title: "IAMA",
         high_concept: "",
         pitch: "",
-        user_id: 1
+        user_id: 1,
+        chapters:[]
       }
     };
   }
@@ -29,7 +35,7 @@ class StoryEditor extends Component {
     )
       .then(resp => resp.json())
       .then(json => {
-        console.log("FETCH_DATA", json);
+        console.log("SETTING CURRENT STORY DATA", json);
         this.setState({ currentStory: json });
       });
   }
@@ -61,13 +67,32 @@ class StoryEditor extends Component {
             handleDelete={this.handleDelete}
             switchEditorView={this.switchEditorView}
           />
-        ) : (<div>
-          <StoryViewerGUI
-            currentStory={this.state.currentStory}
-            switchEditorView={this.switchEditorView}
-            currentStory={this.state.currentStory}
-          />
-          <CharacterIndex />
+        ) : (
+          <div>
+            <Accordion defaultActiveKey="0">
+              <Card>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
+                  <h2 className="text-center">Characters</h2>
+                </Accordion.Toggle>
+
+                <Accordion.Collapse eventKey="0">
+                  <CharacterIndex />
+                </Accordion.Collapse>
+              </Card>
+
+              <Card>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
+                  <h2 className="text-center">Story Viewer</h2>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="1">
+                  <StoryViewerGUI
+                    currentStory={this.state.currentStory}
+                    switchEditorView={this.switchEditorView}
+                    currentStory={this.state.currentStory}
+                  />
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
           </div>
         )}
       </div>
