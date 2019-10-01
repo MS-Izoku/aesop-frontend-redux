@@ -5,25 +5,53 @@ import Button from "react-bootstrap/Button";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import {
-  getCharacters,
-  postCharacter,
-  patchCharacter,
-  deleteCharacter
-} from "../actions/characterActions";
+import { patchCharacter } from "../actions/characterActions";
 
 class CharacterForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentCharacter: {
+        name: "",
+        height: 100,
+        weight: 100,
+        biography: "",
+        personality: "",
+        appearance: "",
+        img_url: ""
+      }
+    };
+  }
+
   weightFormat = num => num + " kg/lbs";
   heightFormat = num => num + " cm/in";
 
   // load in characer data from the currently selected character state
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    console.log(event.target.value);
+    this.setState({
+      currentCharacter: {
+        ...this.state.currentCharacter,
+        [event.target.name]: event.target.value
+      }
+    });
   };
 
+  handleHeightChange = (val) => {
+    this.setState({currentCharacter: {...this.state.currentCharacter , height: val}})
+  };
+
+  handleWeightChange = (val) =>{
+    this.setState({currentCharacter: {...this.state.currentCharacter , weight: val}})
+  }
+
   handleSubmit = event => {
-    console.log("Handle Character submission here");
+    event.preventDefault();
+    this.props.setCurrentCharacter(this.state.currentCharacter);
+    this.props.patchCharacter(this.state.currentCharacter);
+    console.log(this.state.currentCharacter);
+    this.props.swapEditorState();
   };
 
   deleteCharacter = () => {
@@ -31,12 +59,10 @@ class CharacterForm extends Component {
   };
 
   componentDidMount = () => {
-   // console.log(this.props.match.params.story_id)
-   // this.props.getCharacters(this.props.match.params.story_id);
+    this.setState({ currentCharacter: this.props.currentCharacter });
   };
 
   render() {
-    console.log(this.props);
     return (
       <div className="container-fluid">
         <h1>Character Creator</h1>
@@ -48,7 +74,7 @@ class CharacterForm extends Component {
               type="text"
               placeholder="Character Name..."
               name="name"
-              value={this.props.currentCharacter.name}
+              value={this.state.currentCharacter.name}
               onChange={this.handleChange}
             />
             <hr />
@@ -59,24 +85,29 @@ class CharacterForm extends Component {
             <Form.Label>Height</Form.Label>
             <NumericInput
               format={this.heightFormat}
-              value={100}
+              value={this.state.currentCharacter.height}
               strict={true}
+              name="height"
+              onChange={this.handleHeightChange}
             />
             <br />
             <Form.Label>Weight</Form.Label>
             <NumericInput
               format={this.weightFormat}
-              value={100}
+              value={this.state.currentCharacter.weight}
               strict={true}
               name="weight"
+              onChange={this.handleWeightChange}
             />
             <br />
             <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
-              placeholder="Description of Appearance"
+              placeholder="Appearance..."
+              value={this.state.currentCharacter.appearance}
               name="appearance"
               rows={5}
+              onChange={this.handleChange}
             />
             <hr />
           </Form.Group>
@@ -86,8 +117,10 @@ class CharacterForm extends Component {
             <Form.Control
               as="textarea"
               placeholder="Biography..."
+              value={this.state.currentCharacter.biography}
               name="biography"
               rows={5}
+              onChange={this.handleChange}
             />
             <hr />
           </Form.Group>
@@ -100,23 +133,22 @@ class CharacterForm extends Component {
               placeholder="Personality..."
               rows={5}
               name="personality"
+              value={this.state.currentCharacter.personality}
+              onChange={this.handleChange}
             />
             <hr />
-            <Form.Label>Backstory</Form.Label>
-            <Form.Control
-              as="textarea"
-              placeholder="Backstory..."
-              rows={5}
-              name="backstory"
-            />
           </Form.Group>
 
           <Button variant="primary" type="submit">
             Submit
           </Button>
 
-          <Button variant="danger" type="submit" onClick={this.deleteCharacter}>
+          <Button variant="danger" onClick={this.deleteCharacter}>
             DELETE
+          </Button>
+
+          <Button variant="warning" onClick={this.props.swapEditorState}>
+            Cancel
           </Button>
         </Form>
       </div>
@@ -125,15 +157,12 @@ class CharacterForm extends Component {
 }
 
 const mapStateToProps = state => {
-  return { character: state.character };
+  return { characters: state.characters };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    // getCharacters: (storyID) => dispatch(getCharacters(storyID)),
-    // postCharacter: () => dispatch(postCharacter()),
-    // patchCharacter: () => dispatch(patchCharacter()),
-    // deleteCharacter: () => dispatch(deleteCharacter())
+    patchCharacter: charObj => dispatch(patchCharacter(charObj))
   };
 };
 

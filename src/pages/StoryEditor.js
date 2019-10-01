@@ -6,6 +6,7 @@ import { getStories, patchStory, deleteStory } from "../actions/storyActions";
 
 import StoryEditorGUI from "../components/StoryEditorGUI";
 import StoryViewerGUI from "../components/StoryViewerGUI";
+import CharacterIndex from '../components/CharacterIndex'
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -60,12 +61,14 @@ class StoryEditor extends Component {
             handleDelete={this.handleDelete}
             switchEditorView={this.switchEditorView}
           />
-        ) : (
+        ) : (<div>
           <StoryViewerGUI
             currentStory={this.state.currentStory}
             switchEditorView={this.switchEditorView}
             currentStory={this.state.currentStory}
           />
+          <CharacterIndex />
+          </div>
         )}
       </div>
     );

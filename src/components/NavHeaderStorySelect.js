@@ -12,7 +12,7 @@ class NavHeaderStorySelect extends Component {
   getStoriesForSelect = () => {
     return this.props.stories.map(story => {
       return (
-        <NavDropdown.Item key={story.id} href={`/stories/${story.id}`}>
+        <NavDropdown.Item key={story.id === undefined ? 0 : story.id} href={`/stories/${story.id}`}>
           {story.title}
         </NavDropdown.Item>
       );
