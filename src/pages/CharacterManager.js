@@ -12,6 +12,7 @@ import {
   patchCharacter,
   deleteCharacter
 } from "../actions/characterActions";
+import PageFooter from "../components/PageFooter";
 
 class CharacterManager extends Component {
   constructor() {
@@ -73,6 +74,7 @@ class CharacterManager extends Component {
             swapEditorState={this.swapEditorState}
           />
         )}
+        <PageFooter/>
       </div>
     );
   }

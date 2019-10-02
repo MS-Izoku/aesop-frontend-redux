@@ -21,6 +21,7 @@ class StoryEditorGUI extends Component {
     event.preventDefault();
     console.log(this.state);
     this.props.saveStory(this.state);
+    this.props.switchEditorView()
     // callback the patch function here
   };
 
@@ -31,6 +32,11 @@ class StoryEditorGUI extends Component {
 
   componentDidMount() {
     console.log("Mouting props", this.props);
+    this.setState({
+      title: this.props.currentStory.title,
+      high_concept: this.props.currentStory.high_concept,
+      pitch: this.props.currentStory.pitch
+    });
   }
 
   render() {
@@ -87,7 +93,9 @@ class StoryEditorGUI extends Component {
                 `/chaptereditor/${this.props.match.params.story_id}/${this.props.currentStory.chapters[0].id}`
               );
             }}
-          >Chapter Editor</Button>
+          >
+            Chapter Editor
+          </Button>
         </Form>
       </div>
     );

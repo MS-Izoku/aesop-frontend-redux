@@ -138,6 +138,15 @@ class CharacterForm extends Component {
             />
             <hr />
           </Form.Group>
+          <Form.Group>
+            <Form.Label>Image Url</Form.Label>
+            <Form.Control
+            type="text"
+            placeholder="http://..."
+            name="img_url"
+            value={this.props.currentCharacter.img_url}
+            onChange={this.handleChange}></Form.Control>
+          </Form.Group>
 
           <Button variant="primary" type="submit">
             Submit

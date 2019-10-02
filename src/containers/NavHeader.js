@@ -13,7 +13,7 @@ import Button from "react-bootstrap/Button";
 class NavHeader extends Component {
   render() {
     return (
-      <Navbar bg="dark" expand="lg">
+      <Navbar bg="info" expand="lg">
         <Navbar.Brand href="/">AESOP</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -23,8 +23,8 @@ class NavHeader extends Component {
             <NavHeaderStorySelect />
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
+            {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+            <Button variant="outline-success">Search</Button> */}
           </Form>
         </Navbar.Collapse>
       </Navbar>

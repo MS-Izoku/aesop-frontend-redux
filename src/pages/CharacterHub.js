@@ -5,6 +5,7 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 
 import { getCharacters } from "../actions/characterActions";
+import PageFooter from "../components/PageFooter";
 
 class CharacterHub extends Component {
   constructor() {
@@ -23,6 +24,7 @@ class CharacterHub extends Component {
       <div>
         <NavHeader />
         <CharacterIndex currentCharacers={this.state.characters} />
+        <PageFooter />
       </div>
     );
   }

@@ -4,14 +4,16 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { getStories, patchStory, deleteStory } from "../actions/storyActions";
 
+import ChapterViewer from "../components/ChapterViewer";
 import StoryEditorGUI from "../components/StoryEditorGUI";
 import StoryViewerGUI from "../components/StoryViewerGUI";
 import CharacterIndex from "../components/CharacterIndex";
+import PageFooter from "../components/PageFooter";
 
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import AccordionToggle from "react-bootstrap/AccordionToggle";
+//import Button from "react-bootstrap/Button";
+//import AccordionToggle from "react-bootstrap/AccordionToggle";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class StoryEditor extends Component {
         high_concept: "",
         pitch: "",
         user_id: 1,
-        chapters:[]
+        chapters: []
       }
     };
   }
@@ -69,7 +71,31 @@ class StoryEditor extends Component {
           />
         ) : (
           <div>
+            <StoryViewerGUI
+              currentStory={this.state.currentStory}
+              switchEditorView={this.switchEditorView}
+              currentStory={this.state.currentStory}
+            />
             <Accordion defaultActiveKey="0">
+              <Card>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
+                  <h2 className="text-center">Story Viewer</h2>
+                </Accordion.Toggle>
+
+                <Accordion.Collapse eventKey="1">
+                  {/* <StoryViewerGUI
+                    currentStory={this.state.currentStory}
+                    switchEditorView={this.switchEditorView}
+                    currentStory={this.state.currentStory}
+                  /> */}
+                  <ChapterViewer //currentStory={this.props.currentStory}/>
+                    currentStory={this.state.currentStory}
+                    switchEditorView={this.switchEditorView}
+                    currentStory={this.state.currentStory}
+                  />
+                </Accordion.Collapse>
+              </Card>
+
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
                   <h2 className="text-center">Characters</h2>
@@ -79,22 +105,10 @@ class StoryEditor extends Component {
                   <CharacterIndex />
                 </Accordion.Collapse>
               </Card>
-
-              <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
-                  <h2 className="text-center">Story Viewer</h2>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="1">
-                  <StoryViewerGUI
-                    currentStory={this.state.currentStory}
-                    switchEditorView={this.switchEditorView}
-                    currentStory={this.state.currentStory}
-                  />
-                </Accordion.Collapse>
-              </Card>
             </Accordion>
           </div>
         )}
+        <PageFooter />
       </div>
     );
   }

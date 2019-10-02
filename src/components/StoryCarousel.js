@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Carousel from "react-multi-carousel";
+//import Carousel from "react-bootstrap/Carousel";
 import "react-multi-carousel/lib/styles.css";
 import { connect } from "react-redux";
 import { getStories, postStory } from "../actions/storyActions";
@@ -9,87 +10,124 @@ import Nav from "react-bootstrap/Nav";
 
 import { withRouter } from "react-router";
 
+import ReactAliceCarousel from "react-alice-carousel";
+import InfiniteCarousel from "react-leaf-carousel";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
 const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5
-  },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 3
+    items: 3,
+    slidesToSlide: 3 // optional, default to 1.
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 2
+    items: 2,
+    slidesToSlide: 2 // optional, default to 1.
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
   }
 };
 
 class StoryCarousel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stories: [{ chapters: [] }]
+    };
+  }
   parseDate = dateStr => {
     const newDate = new Date(dateStr);
     return newDate.toLocaleDateString();
   };
 
+  componentDidMount() {
+    console.log(this.props.stories);
+  }
+
   renderStoryCards = () => {
     return this.props.stories.map(story => {
-      //console.log(story.chapters, story)
       return (
-        <Card key={story.id}>
-          <Card.Title>{story.title}</Card.Title>
-          <Card.Text>{story.high_concept}</Card.Text>
-          <Card.Text>Chapters: {story.chapters.length}</Card.Text>
-          <Card.Text>Last Update: {this.parseDate(story.updated_at)}</Card.Text>
+        <div>
+          <Card key={story.id + 125} className="px-2 pb-1 pt-1">
+            <Card.Title className="text-center mt-1 mb-0">
+              <h2>{story.title}</h2>
+            </Card.Title>
+            <hr />
+            <Card.Text className="mt-0">
+              {story.high_concept !== undefined && story.high_concept !== null
+                ? story.high_concept.substring(0, 252) + "..."
+                : ""}
+            </Card.Text>
+            <Card.Text className="text-center">
+              Chapters: {story.chapters.length}
+            </Card.Text>
+            <Card.Text className="text-center">
+              Last Update: {this.parseDate(story.updated_at)}
+            </Card.Text>
 
-          <Button
-            onClick={() => {
-              this.props.history.push(`/stories/${story.id}`);
-            }}
-          >
-            Story Editor
-          </Button>
-          <Button
-            onClick={() => {
-              this.props.history.push(
-                `/chaptereditor/${story.id}/${story.chapters[0].id}`
-              );
-            }}
-          >
-            Chapter Editor
-          </Button>
-        </Card>
+            <Button
+              onClick={() => {
+                this.props.history.push(`/stories/${story.id}`);
+              }}
+            >
+              Story Editor
+            </Button>
+            <Button
+              onClick={() => {
+                this.props.history.push(
+                  `/chaptereditor/${story.id}/${story.chapters[0].id}`
+                );
+              }}
+            >
+              Chapter Editor
+            </Button>
+          </Card>
+        </div>
+      );
+    });
+  };
+
+
+  // onClick={() => {
+  //   this.props.history.push(
+  //     `/chaptereditor/${story.id}/${story.chapters[0].id}`
+  //   );
+  // }}
+
+
+  testerRender = () => {
+    return this.props.stories.map(story => {
+      console.log(story);
+      return (
+        <div className="bg-danger">
+          <Card>
+          <p>{story.title}</p>
+          <p>{story.pitch}</p>
+          </Card>
+        </div>
       );
     });
   };
   render() {
-    console.log(this.props);
+    // find a decent carousel to display the story information
+    //console.log(this.props);
     return (
-      <div>
-        <Carousel
-          swipeable={false}
-          draggable={false}
-          showDots={true}
-          responsive={responsive}
-          ssr={true} // means to render carousel on server-side.
-          infinite={true}
-          //autoPlay={this.props.deviceType !== "mobile" ? true : false}
-          //autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .05"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          deviceType={this.props.deviceType}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          {this.renderStoryCards()}
-        </Carousel>
-        <Button onClick={this.props.postStory}>New Story</Button>
+      <div className="container">
+        {this.renderStoryCards()}
+        <div className="text-center">
+          <Button onClick={this.props.postStory}>New Story</Button>
+        </div>
+
+        
+
+        
       </div>
     );
   }
