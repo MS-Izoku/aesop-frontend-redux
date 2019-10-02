@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Pagination from "react-bootstrap/Pagination";
-import Card from "react-bootstrap/Card";
 class ChapterViewer extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +25,14 @@ class ChapterViewer extends Component {
               }}
               key={chapter.id}
             >
-              <div className="text-center">{chapter.title}</div>
+              <div className="text-center">
+                {chapter.title.length > 20
+                  ? `${chapter.chapter_index}. ${chapter.title.substring(
+                      0,
+                      17
+                    )}...`
+                  : `${chapter.chapter_index}. ${chapter.title}`}
+              </div>
             </Pagination.Item>
           );
         });
@@ -47,26 +51,33 @@ class ChapterViewer extends Component {
   chapterView = () => {
     return this.state.chapter.body === "Chapter Not Found" ||
       this.state.chapter.body === "" ? (
-      <div className="text-center stretchHeight px-3 pt-3 pb-3">Select Chapter</div>
+      <div className="text-center stretchHeight px-3 pt-3 pb-3">
+        Select Chapter
+      </div>
     ) : (
-      <div className="stretchHeight px-3 pt-3 pb-3" dangerouslySetInnerHTML={{ __html: this.state.chapter.body }} />
+      <div className="stretchHeight px-3 pt-3 pb-3">
+        <h3 className="text-center">{this.state.chapter.title}</h3>
+        <hr />
+        <div
+          className=""
+          dangerouslySetInnerHTML={{ __html: this.state.chapter.body }}
+        />
+      </div>
     );
   };
   render() {
     return (
-      <div className="bg-dark row px-0"> 
-          <div className="col bg-danger">
-            <Pagination className="bg-dark" id="chapter-list">
-              <div>{this.renderList()}</div>
-            </Pagination>
+      <div className="bg-dark row px-0">
+        <Pagination id="chapter-list" className="col text-center w-100 px-2">
+          <div>{this.renderList()}</div>
+        </Pagination>
+
+        <div className="col-lg-8">
+          <div id="reader-header" className="bg-info col">
+            <p>{this.chapterView()}</p>
           </div>
-          
-          <div className="col-lg-8">
-            <div id="reader-header" className="bg-info col">
-              <p>{this.chapterView()}</p>
-            </div>
-          </div>
-          <div className="col bg-danger" id="filler"></div>
+        </div>
+        <div className="col bg-danger" id="filler"></div>
       </div>
     );
   }

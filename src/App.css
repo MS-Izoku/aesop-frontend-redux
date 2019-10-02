@@ -1,5 +1,42 @@
 /* @import "react-alice-carousel/lib/alice-carousel.css"; */
 
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
+/* font-family: 'Libre Baskerville', serif; */
+html , body{
+  margin-top: 2%;
+  height: 100%;
+  background: #B03830;
+}
+
+*{
+  font-family: 'Libre Baskerville', serif;
+}
+
+/* .btn:focus{
+  outline: none;
+} */
+
+.overflow-scroll{
+  overflow: scroll;
+}
+/* #region Buttons */
+.custom-btn{
+  border-radius: 0;
+  outline: none;
+  color: #F0EAD6;
+}
+
+.custom-btn:hover{
+
+  outline: none;
+}
+
+.custom-btn:focus:{
+  outline: none;
+}
+/* Add Color Transitions */
+/* #endregion */
+
 .stretchWidth{
   min-width: 100%;
   width: 100%;
@@ -42,37 +79,101 @@
 }
 
 
-.bg-primary-color{
-  background: #8DCDC1;
+/* =====  BACKGROUND COLORS === */
+.red-1{
+  background: #B03830;
+}
+.red-2{
+  background: #b84840;
 }
 
-.bg-secondary{
-  background:  #D3E397;
-}
-.bg-tertiary{
-  background: #FFF5C3;
+.red-3{
+  background: #a83830;
 }
 
-.bg-darkest{
-  background: #7C786A
+.red-4{
+  background: #b84038;
 }
 
-.bg-none{
-  background: rbga(0 , 0 , 0 , 0)
+.red-light{
+  background: #b86058;
+}
+
+.main-dark{
+  background: #383020
+}
+
+.main-dark-text{
+  color: #383020
+}
+
+.grey-light{
+  background: #a8a090
+}
+
+.grey{
+  background: #888068
+}
+
+.grey-dark{
+  background: #484838
+}
+
+.eggshell{
+  background: #F0EAD6;
+}
+/* ====== TEXT COLORATION ===== */
+.red-1-text{
+  color: #B03830;
+}
+.red-2-text{
+  color: #b84840;
+}
+
+.red-3-text{
+  color: #a83830;
+}
+
+.red-4-text{
+  color: #b84038;
+}
+
+.red-light-text{
+  color: #b86058;
+}
+
+.main-dark-text{
+  color: #383020
 }
 
 
-.text-primary{
-  color: rgb(141, 205, 193);
+.grey-light-text{
+  color: #a8a090
 }
 
-.text-secondary{
-  color: rgb(211, 227, 151);
-}
-.text-tertiary{
-  color: rgb(255, 245, 195);
+.grey-text{
+  color: #888068
 }
 
-.text-darkest{
-  color: #7C786A;
+.grey-dark-text{
+  color: #484838
+}
+
+.eggshell-text{
+  color: #F0EAD6;
+}
+
+/* ===== SHADOW ===== */
+
+
+.affix{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999 !important;
+}
+
+
+.storyHub{
+ margin-bottom: 50vh;
 }

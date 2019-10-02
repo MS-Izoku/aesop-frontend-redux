@@ -5,13 +5,16 @@ import StoryCarousel from "../components/StoryCarousel";
 import PageFooter from "../components/PageFooter";
 
 class StoryHub extends Component {
+  constructor(){
+    super()
+  }
   render() {
     return (
-      <div>
+      <div className="grey-light">
         <NavHeader />
-     
+        <div className="container-fluid storyHub">
           <StoryCarousel />
-
+        </div>
         <PageFooter />
         {/* <StoryCarousel /> */}
       </div>

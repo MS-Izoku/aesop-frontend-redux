@@ -82,30 +82,7 @@ class StoryCarousel extends Component {
       );
     });
   };
-
-  //   <Button
-  //   onClick={() => {
-  //     this.props.history.push(`/stories/${story.id}`);
-  //   }}
-  // >
-  //   Story Editor
-  // </Button>
-  // <Button
-  //   onClick={() => {
-  //     this.props.history.push(
-  //       `/chaptereditor/${story.id}/${story.chapters[0].id}`
-  //     );
-  //   }}
-  // >
-  //   Chapter Editor
-  // </Button>
-
-  // onClick={() => {
-  //   this.props.history.push(
-  //     `/chaptereditor/${story.id}/${story.chapters[0].id}`
-  //   );
-  // }}
-
+  
   render() {
     return (
       <div className="container-fluid">

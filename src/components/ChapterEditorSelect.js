@@ -18,13 +18,13 @@ class ChapterEditorSelect extends Component {
       })
       .map(chapter => {
         return (
-          <ListGroup.Item className="bg-tertiary text-center"
+          <ListGroup.Item className="text-center eggshell border-0"
             key={chapter.id}
             onClick={() => {
               this.handleSetCurrentChapter(chapter);
             }}
           >
-            <NavLink className="text-center"
+            <NavLink className="text-center red-3-text"
               to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
             >
               {chapter.title.length > 20 ? `${chapter.chapter_index}. ${chapter.title.substring(0 , 20)}...` : `${chapter.chapter_index}. ${chapter.title}`}
@@ -50,8 +50,8 @@ class ChapterEditorSelect extends Component {
   render() {
     return (
       <ListGroup>
-        <ListGroup.Item className="bg-tertiary">
-          <Button onClick={this.createChapter} className="bg-secondary border-none">Create New Chapter</Button>
+        <ListGroup.Item className="eggshell text-center border-0 overflow-scroll">
+          <Button onClick={this.createChapter} bsPrefix="btn btn-block custom-btn mx-0 red-3">Create New Chapter</Button>
         </ListGroup.Item>
         <ListGroup>{this.getChaptersForList()}</ListGroup>
         <hr />

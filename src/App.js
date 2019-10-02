@@ -14,16 +14,16 @@ import Image from "react-bootstrap/Image";
 
 function App() {
   return (
-    <div className="App bg-img">
+    <div className="App grey-light">
       <NavHeader />
       <div className="container">
         <div>
-          <JumboTron  id="mission-statement" className="mt-5 rounded">
+          <JumboTron  id="mission-statement" className="mt-5 rounded light-grey">
      
-            <h1 className="text-center">Welcome to AESOP</h1>
+            <h1 className="text-center main-dark-text">Welcome to AESOP</h1>
             
             <hr/>
-            <p className="text-center">
+            <p className="text-center main-dark-text">
               We here at AESOP are dedicated to our writers, helping them to
               organize their idea for worldbuilding, writing, and anything else
               you can put up here!
@@ -42,7 +42,7 @@ function App() {
 
             <footer className="container-fluid">
               <hr />
-              <Button block size="lg" href="/stories">
+              <Button size="lg" href="/stories" bsPrefix="btn red-1 btn-block light-grey-text">
                 Start Writing!
               </Button>
             </footer>

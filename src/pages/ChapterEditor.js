@@ -13,6 +13,7 @@ import { withRouter } from "react-router";
 import { HotKeys } from "react-hotkeys";
 
 import FootNoteModal from "../components/FootNoteModal.js";
+import PageFooter from '../components/PageFooter'
 
 class ChapterEditor extends Component {
   constructor() {
@@ -107,7 +108,7 @@ class ChapterEditor extends Component {
       <div>
         <HotKeys keyMap={this.keyMap} handlers={this.keyMapHandler}>
           <NavHeader />
-          <div className="container-fluid bg-primary-color">
+          <div className="container-fluid grey-light">
             <div className="row">
               <RTEditorLeftBar
                 storyID={this.props.match.params.story_id}
@@ -133,6 +134,7 @@ class ChapterEditor extends Component {
             </div>
           </div>
         </HotKeys>
+        <PageFooter />
       </div>
     );
   }

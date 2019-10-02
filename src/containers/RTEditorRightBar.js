@@ -8,7 +8,7 @@ import {connect } from 'react-redux'
 class RTEditorRightBar extends Component {
   render() {
     return (
-      <div className="col bg-primary-color stretchHeight">
+      <div className="col stretchHeight eggshell">
         <ChapterEditorCharacterbar />
         <hr />
       </div>

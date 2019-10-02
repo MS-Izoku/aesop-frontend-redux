@@ -6,7 +6,7 @@ import { getChapters, deleteChapter } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 import Form from "react-bootstrap/Form";
-import Nav from 'react-bootstrap/Nav'
+import Nav from "react-bootstrap/Nav";
 import { HotKeys } from "react-hotkeys";
 
 //import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -40,7 +40,7 @@ class ChapterEditorRT extends Component {
         >
           <Form.Control
             id="chapter-title"
-            className="text-center border-none bg-tertiary"
+            className="text-center bg-tertiary border-0 pt-1 pb-1"
             onChange={event => {
               event.preventDefault();
               this.handleTitleChange(event);
@@ -49,6 +49,7 @@ class ChapterEditorRT extends Component {
           />
         </Form>
         <CKEditor
+        className="stretchHeight"
           editor={ClassicEditor}
           data={this.props.currentChapter.body} //this.props.chapter[0].body}
           onInit={editor => {
@@ -62,19 +63,25 @@ class ChapterEditorRT extends Component {
             //console.log({ event, editor, data });
           }}
         />
-        <button onClick={this.props.saveChapter}>SAVE</button>
-        {/* <Nav.Link href={}> */}
-        <Nav.Link href={`/chaptereditor/${this.props.match.params.story_id}/${this.props.firstChapterInState.id}`}>
-          <Button
-            onClick={() => {
-              this.props.setCurrentChapterAfterDelete();
-              this.handleDeleteChapter();
-            }}
-          >
-            DELETE
-          </Button>
-        </Nav.Link>
-        {/* </Nav> */}
+
+        <div className="container-fluid">
+          <div className="row">
+            {" "}
+            <Button bsPrefix="btn col custom-btn red-3 mx-2" onClick={this.props.saveChapter}>
+              SAVE
+            </Button>
+            <Nav.Link
+              href={`/chaptereditor/${this.props.match.params.story_id}/${this.props.firstChapterInState.id}`}
+              className="col btn custom-btn red-3 mx-2"
+              onClick={() => {
+                this.props.setCurrentChapterAfterDelete();
+                this.handleDeleteChapter();
+              }}
+            >
+              DELETE
+            </Nav.Link>
+          </div>
+        </div>
       </div>
     );
   }
