@@ -47,16 +47,14 @@ class ChapterViewer extends Component {
   chapterView = () => {
     return this.state.chapter.body === "Chapter Not Found" ||
       this.state.chapter.body === "" ? (
-      "Select Chapter"
+      <div className="text-center stretchHeight px-3 pt-3 pb-3">Select Chapter</div>
     ) : (
-      <div dangerouslySetInnerHTML={{ __html: this.state.chapter.body }} />
+      <div className="stretchHeight px-3 pt-3 pb-3" dangerouslySetInnerHTML={{ __html: this.state.chapter.body }} />
     );
   };
   render() {
     return (
-      <div className="bg-dark">
-        <div className="row px-0">
-          
+      <div className="bg-dark row px-0"> 
           <div className="col bg-danger">
             <Pagination className="bg-dark" id="chapter-list">
               <div>{this.renderList()}</div>
@@ -69,8 +67,6 @@ class ChapterViewer extends Component {
             </div>
           </div>
           <div className="col bg-danger" id="filler"></div>
-
-        </div>
       </div>
     );
   }
