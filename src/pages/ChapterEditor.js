@@ -79,9 +79,6 @@ class ChapterEditor extends Component {
   }
 
   setCurrentChapterAfterDelete = () => {
-    // I need to get the chapterIndex working in the seeds to get them working at this point
-    console.log(this.props.chapters, "SET A NEW CHAPTER");
-    //const firstChapterInState = this.props.chapters[0];
     this.setState({
       firstChapter: this.props.chapters[0],
       currentChapter: this.props.chapters[0]
@@ -110,7 +107,7 @@ class ChapterEditor extends Component {
       <div>
         <HotKeys keyMap={this.keyMap} handlers={this.keyMapHandler}>
           <NavHeader />
-          <div className="container-fluid">
+          <div className="container-fluid bg-primary-color">
             <div className="row">
               <RTEditorLeftBar
                 storyID={this.props.match.params.story_id}

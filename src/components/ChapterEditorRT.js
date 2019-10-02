@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form";
 import Nav from 'react-bootstrap/Nav'
 import { HotKeys } from "react-hotkeys";
 
+//import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+
 class ChapterEditorRT extends Component {
   constructor() {
     super();
@@ -23,7 +25,6 @@ class ChapterEditorRT extends Component {
   };
 
   handleDeleteChapter = () => {
-    console.log("DELETING HERE");
     this.props.deleteChapter(this.props.currentChapter);
     this.props.setCurrentChapterAfterDelete();
   };
@@ -39,6 +40,7 @@ class ChapterEditorRT extends Component {
         >
           <Form.Control
             id="chapter-title"
+            className="text-center border-none bg-tertiary"
             onChange={event => {
               event.preventDefault();
               this.handleTitleChange(event);

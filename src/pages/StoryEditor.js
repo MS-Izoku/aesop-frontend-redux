@@ -76,18 +76,13 @@ class StoryEditor extends Component {
               switchEditorView={this.switchEditorView}
               currentStory={this.state.currentStory}
             />
-            <Accordion defaultActiveKey="0">
+            <Accordion defaultActiveKey="1">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
                   <h2 className="text-center">Story Viewer</h2>
                 </Accordion.Toggle>
 
                 <Accordion.Collapse eventKey="1">
-                  {/* <StoryViewerGUI
-                    currentStory={this.state.currentStory}
-                    switchEditorView={this.switchEditorView}
-                    currentStory={this.state.currentStory}
-                  /> */}
                   <ChapterViewer //currentStory={this.props.currentStory}/>
                     currentStory={this.state.currentStory}
                     switchEditorView={this.switchEditorView}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Carousel from "react-multi-carousel";
+//import Carousel from "react-multi-carousel";
+import Carousel from "react-bootstrap/Carousel";
 import "react-multi-carousel/lib/styles.css";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
@@ -41,20 +42,33 @@ class CharacterIndex extends Component {
 
   createCharacterCard = characterObj => {
     return (
-      <Card key={characterObj.id}>
-        <Image rounded fluid alt="character-pic" src={characterObj.img_url} />
-        <Card.Title>{characterObj.name}</Card.Title>
-        <Card.Text>
-          {characterObj.biography !== null
-            ? characterObj.biography.substring(0, 50)
-            : "No Bio Found"}
-        </Card.Text>
-        <Button>
-          <Nav.Link href={`/cm/${characterObj.story_id}/${characterObj.id}`}>
-            Go To
-          </Nav.Link>
-        </Button>
-      </Card>
+      // <Card key={characterObj.id}>
+      //   <Image rounded fluid alt="character-pic" src={characterObj.img_url} />
+      //   <Card.Title>{characterObj.name}</Card.Title>
+      //   <Card.Text>
+      //     {characterObj.biography !== null
+      //       ? characterObj.biography.substring(0, 50)
+      //       : "No Bio Found"}
+      //   </Card.Text>
+      //   <Button>
+      //     <Nav.Link href={`/cm/${characterObj.story_id}/${characterObj.id}`}>
+      //       Go To
+      //     </Nav.Link>
+      //   </Button>
+      // </Card>
+
+      <Carousel.Item>
+        <div className="text-center">
+          <Image src={characterObj.img_url} rounded className="" />
+          <h2>{characterObj.name}</h2>
+          <div className="container-fluid">
+            <p> {characterObj.biography !== null
+             ? characterObj.biography.substring(0, 50)
+             : "No Bio Found"}</p>
+            <Button href={`/cm/${characterObj.story_id}/${characterObj.id}`}>Charcter Page</Button>
+          </div>
+        </div>
+      </Carousel.Item>
     );
   };
 
@@ -71,25 +85,20 @@ class CharacterIndex extends Component {
         });
     } else
       return (
-        <Card key={0}>
-          <Image rounded fluid alt="character-pic" src={'https://webhostingmedia.net/wp-content/uploads/2018/01/http-error-404-not-found.png'} />
-          <Card.Title>{'No Characters Found'}</Card.Title>
-          <Card.Text>
-            Create one Here!
-          </Card.Text>
-          <Button>
-            <Nav.Link href={`/cm/${this.props.match.params.story_id}/`}>
-              Go To
-            </Nav.Link>
-          </Button>
-        </Card>
+        <Carousel.Item>
+          <h2 className="text-center">No Characters Found</h2>
+          <p className="text-center">Make Them Here</p>
+          <div className="text-center">
+            <Button>Create Character</Button>
+          </div>
+        </Carousel.Item>
       );
   };
 
   render() {
     return (
       <div className="container-fluid">
-        <Carousel
+        {/* <Carousel
           swipeable={false}
           draggable={false}
           showDots={true}
@@ -108,6 +117,13 @@ class CharacterIndex extends Component {
           itemClass="carousel-item-padding-40-px"
         >
           {this.createAllCharacterCards(this.props.characters)}
+        </Carousel> */}
+        <Carousel
+          className="bg-dark"
+          indicators={false}
+          controls={this.props.characters.length > 1 ? true : false}
+        >
+          {this.createAllCharacterCards()}
         </Carousel>
       </div>
     );

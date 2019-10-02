@@ -12,26 +12,6 @@ class ChapterViewer extends Component {
       chapter: { title: "Chapter Not Found", body: "Chapter Not Found" }
     };
   }
-  // renderList = () => {
-  //   if (this.props.currentStory.chapters !== undefined)
-  //     return this.props.currentStory.chapters
-  //       .sort((a, b) => {
-  //         return a.chapter_index - b.chapter_index;
-  //       })
-  //       .map(chapter => {
-  //         return (
-  //           <Button
-  //             onClick={() => {
-  //               console.log(chapter);
-  //               this.renderChapter(chapter.chapter_index);
-  //             }}
-  //             key={chapter.id}
-  //           >
-  //             {chapter.title}
-  //           </Button>
-  //         );
-  //       });
-  // };
 
   renderList = () => {
     if (this.props.currentStory.chapters !== undefined)
@@ -74,25 +54,22 @@ class ChapterViewer extends Component {
   };
   render() {
     return (
-      <div className="container-fluid">
+      <div className="bg-dark">
         <div className="row px-0">
-          <div className="col-lg-2 bg-danger">
-            <Pagination id="chapter-list">
+          
+          <div className="col bg-danger">
+            <Pagination className="bg-dark" id="chapter-list">
               <div>{this.renderList()}</div>
             </Pagination>
           </div>
-          <div className="col-lg-10">
-            <div id="reader-header" className="bg-info">
-              <Card.Header className="text-center">
-                <h2>
-                  {this.state.chapter.title === "Chapter Not Found"
-                    ? "Select Chapter"
-                    : this.state.chapter.title}
-                </h2>
-              </Card.Header>
-              <Card.Body>{this.chapterView()}</Card.Body>
+          
+          <div className="col-lg-8">
+            <div id="reader-header" className="bg-info col">
+              <p>{this.chapterView()}</p>
             </div>
           </div>
+          <div className="col bg-danger" id="filler"></div>
+
         </div>
       </div>
     );

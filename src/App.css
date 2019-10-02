@@ -35,3 +35,44 @@
   max-width: 20vh;
   width: 20vh;
 }
+
+.carousel {
+  padding: 5%;
+  margin-top: 2.5%;
+}
+
+
+.bg-primary-color{
+  background: #8DCDC1;
+}
+
+.bg-secondary{
+  background:  #D3E397;
+}
+.bg-tertiary{
+  background: #FFF5C3;
+}
+
+.bg-darkest{
+  background: #7C786A
+}
+
+.bg-none{
+  background: rbga(0 , 0 , 0 , 0)
+}
+
+
+.text-primary{
+  color: rgb(141, 205, 193);
+}
+
+.text-secondary{
+  color: rgb(211, 227, 151);
+}
+.text-tertiary{
+  color: rgb(255, 245, 195);
+}
+
+.text-darkest{
+  color: #7C786A;
+}
