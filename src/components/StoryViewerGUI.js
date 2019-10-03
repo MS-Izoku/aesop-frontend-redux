@@ -1,31 +1,28 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import ChapterViewer from '../components/ChapterViewer'
 
-import Button from "react-bootstrap/Button";
 class StoryViewerGUI extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     currentChapter: {
-  //       title: "N/A",
-  //       body: "N/A",
-  //       chapter_index: 0,
-  //       story_index: 0
-  //     }
-  //   };
-  // }
-
   render() {
-    console.log(this.props);
     return (
-      <div className="container-fluid">
-        <Button onClick={this.props.switchEditorView}>SWITCH</Button>
-        <h1 className="text-center">{this.props.currentStory.title}</h1>
-        <p className="text-center"><i>{this.props.currentStory.pitch}</i></p>
-        <p className="text-center"> {this.props.currentStory.high_concept}</p>
-        {/* <ChapterViewer currentStory={this.props.currentStory}/> */}
-
+      <div className="container-fluid px-3 grey-light pt-2">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-lg-8">
+            <h2 className="text-center">
+              <span> <hr/>
+              {this.props.currentStory.title}
+              </span><hr/>
+              </h2>
+            <p className="text-center">
+              <em>{this.props.currentStory.pitch}</em>
+            </p>
+            <p className="text-center">
+              {" "}
+              {this.props.currentStory.high_concept}
+            </p>
+          </div>
+          <div className="col"></div>
+        </div>
       </div>
     );
   }

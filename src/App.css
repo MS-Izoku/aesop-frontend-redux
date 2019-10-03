@@ -9,6 +9,7 @@ html , body{
 }
 
 *{
+  color: #161613;
   font-family: 'Libre Baskerville', serif;
 }
 
@@ -27,11 +28,11 @@ html , body{
 }
 
 .custom-btn:hover{
-
+  background: #b86058;
   outline: none;
 }
 
-.custom-btn:focus:{
+.custom-btn:focus{
   outline: none;
 }
 /* Add Color Transitions */
@@ -177,3 +178,9 @@ html , body{
 .storyHub{
  margin-bottom: 50vh;
 }
+
+/*#region Accordion Icons*/
+.accordionIcon{
+  transform: rotate(180deg)
+}
+/*#endregion*/

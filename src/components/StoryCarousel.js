@@ -51,30 +51,35 @@ class StoryCarousel extends Component {
   }
 
   renderStoryCards = () => {
+    let index = 0
     return this.props.stories.map(story => {
+      ++index;
       return (
-        <Carousel.Item className="">
+        <Carousel.Item>
           <div className="container">
-            <h2 className="text-center">{story.title}</h2>
-            <div className="text-center m-0">
+            <h2 className="text-center eggshell-text">{story.title}</h2>
+            <div className="text-center m-0 eggshell-text">
               {story.pitch}
             </div>
+            <hr className="eggshell"/>
             <div className="text-center">
               <Button
+              bsPrefix="btn custom-btn red-3"
                 onClick={() => {
                   this.props.history.push(`/stories/${story.id}`);
                 }}
               >
-                Story Editor
+                <span className="eggshell-text">Story Editor</span>
               </Button>
               <Button
+                bsPrefix="btn custom-btn red-3"
                 onClick={() => {
                   this.props.history.push(
                     `/chaptereditor/${story.id}/${story.chapters[0].id}`
                   );
                 }}
               >
-                Chapter Editor
+                <span className="eggshell-text">Chapter Editor</span>
               </Button>
             </div>
           </div>
@@ -85,11 +90,10 @@ class StoryCarousel extends Component {
   
   render() {
     return (
-      <div className="container-fluid">
-        <Carousel className="bg-dark" indicators={false} controls={true}>
+        <Carousel className="main-dark container-fluid" indicators={false} controls={true}>
           {this.renderStoryCards()}
+          
         </Carousel>
-      </div>
     );
   }
 }

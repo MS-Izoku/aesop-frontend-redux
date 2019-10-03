@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 class StoryEditorGUI extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class StoryEditorGUI extends Component {
     event.preventDefault();
     console.log(this.state);
     this.props.saveStory(this.state);
-    this.props.switchEditorView()
+    this.props.switchEditorView();
     // callback the patch function here
   };
 
@@ -41,61 +41,71 @@ class StoryEditorGUI extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        <Button onClick={this.props.switchEditorView}>SWITCH</Button>
-        <Form onSubmit={this.handleSave}>
-          <Form.Group controlId="titleControl">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Title..."
-              name="title"
-              value={this.state.title}
-              onChange={event => {
-                this.handleChange(event);
-              }}
-            />
-          </Form.Group>
+      <div className="grey-light">
+        <Form onSubmit={this.handleSave} className="mx-2 mb-1 mt-1">
+          <div>
+            <Form.Group controlId="titleControl" className="text-center">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Title..."
+                name="title"
+                value={this.state.title}
+                onChange={event => {
+                  this.handleChange(event);
+                }}
+              />
+            </Form.Group>
 
-          <Form.Group controlId="textControl">
-            <Form.Label>Pitch</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              type="text"
-              placeholder="Pitch..."
-              name="pitch"
-              defaultValue={this.props.currentStory.pitch}
-              onChange={this.handleChange}
-            />
-            <Form.Label>High Concept</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={5}
-              type="text"
-              placeholder="High Concept..."
-              name="high_concept"
-              defaultValue={this.props.currentStory.high_concept}
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Save
-          </Button>
-          <Button variant="danger" onClick={this.handleDelete}>
-            DELETE
-          </Button>
-          <Button
-            variant="warning"
-            onClick={() => {
-              console.log(this.props);
-              this.props.history.push(
-                `/chaptereditor/${this.props.match.params.story_id}/${this.props.currentStory.chapters[0].id}`
-              );
-            }}
-          >
-            Chapter Editor
-          </Button>
+            <Form.Group
+              controlId="textControl"
+              className="mx-2 mb-1 mt-1 text-center"
+            >
+              <Form.Label>Pitch</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                type="text"
+                placeholder="Pitch..."
+                name="pitch"
+                defaultValue={this.props.currentStory.pitch}
+                onChange={this.handleChange}
+              />
+              <Form.Label className="mt-3">High Concept</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={5}
+                type="text"
+                placeholder="High Concept..."
+                name="high_concept"
+                defaultValue={this.props.currentStory.high_concept}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+          </div>
+
+          <ButtonGroup className="container-fluid red-3 mb-3 mt-3">
+            <Button type="submit" bsPrefix="custom-btn btn red-3 col">
+              Save
+            </Button>
+            <Button
+              onClick={this.handleDelete}
+              bsPrefix="custom-btn btn red-3 col"
+            >
+              DELETE
+            </Button>
+            <Button
+              bsPrefix="custom-btn btn red-3 col"
+              onClick={() => {
+                console.log(this.props);
+                this.props.history.push(
+                  `/chaptereditor/${this.props.match.params.story_id}/${this.props.currentStory.chapters[0].id}`
+                );
+              }}
+            >
+              Chapter Editor
+            </Button>
+          </ButtonGroup>
         </Form>
       </div>
     );

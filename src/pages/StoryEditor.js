@@ -12,7 +12,7 @@ import PageFooter from "../components/PageFooter";
 
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-//import Button from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
 //import AccordionToggle from "react-bootstrap/AccordionToggle";
 
 class StoryEditor extends Component {
@@ -59,18 +59,34 @@ class StoryEditor extends Component {
   };
 
   render() {
+    const arrowIcon =
+      "https://img.icons8.com/ios-glyphs/30/000000/collapse-arrow.png";
     return (
       <div>
         <NavHeader />
         {this.state.inEditor ? (
-          <StoryEditorGUI
-            currentStory={this.state.currentStory}
-            saveStory={this.saveStory}
-            handleDelete={this.handleDelete}
-            switchEditorView={this.switchEditorView}
-          />
+          <div>
+            <Button
+              bsPrefix="btn custom-btn btn-block red-2 eggshell-text"
+              onClick={this.switchEditorView}
+            >
+              {this.state.inEditor ? "View Story" : "Edit Story"}
+            </Button>
+            <StoryEditorGUI
+              currentStory={this.state.currentStory}
+              saveStory={this.saveStory}
+              handleDelete={this.handleDelete}
+              switchEditorView={this.switchEditorView}
+            />
+          </div>
         ) : (
           <div>
+            <Button
+              bsPrefix="btn custom-btn btn-block red-2 eggshell-text"
+              onClick={this.switchEditorView}
+            >
+              {this.state.inEditor ? "View Story" : "Edit Story"}
+            </Button>
             <StoryViewerGUI
               currentStory={this.state.currentStory}
               switchEditorView={this.switchEditorView}
@@ -78,8 +94,16 @@ class StoryEditor extends Component {
             />
             <Accordion defaultActiveKey="1">
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
-                  <h2 className="text-center">Story Viewer</h2>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1" className="eggshell">
+                  <h2 className="text-center">
+                    <span>
+                      <img src={arrowIcon} className="accordionIcon" />
+                    </span>{" "}
+                    Story Viewer{" "}
+                    <span>
+                      <img src={arrowIcon} className="accordionIcon" />
+                    </span>
+                  </h2>
                 </Accordion.Toggle>
 
                 <Accordion.Collapse eventKey="1">
@@ -92,11 +116,19 @@ class StoryEditor extends Component {
               </Card>
 
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
-                  <h2 className="text-center">Characters</h2>
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0" className="eggshell">
+                  <h2 className="text-center">
+                    <span>
+                      <img src={arrowIcon} className="accordionIcon" />
+                    </span>{" "}
+                    Characters{" "}
+                    <span>
+                      <img src={arrowIcon} className="accordionIcon" />
+                    </span>
+                  </h2>
                 </Accordion.Toggle>
 
-                <Accordion.Collapse eventKey="0">
+                <Accordion.Collapse eventKey="0" className="eggshell">
                   <CharacterIndex />
                 </Accordion.Collapse>
               </Card>
