@@ -31,7 +31,7 @@ export const postChapter = storyID => {
         Accept: "application/json"
       },
       body: JSON.stringify({
-        title: "New Chapter from DB"
+        title: "New Chapter"
       })
     })
       .then(resp => resp.json())

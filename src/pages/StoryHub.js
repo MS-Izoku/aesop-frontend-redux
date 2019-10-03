@@ -19,11 +19,12 @@ class StoryHub extends Component {
       <div>
         <NavHeader />
         <div className="storyHub grey-light">
+          <p className="mt-5"><hr/></p>
           <StoryCarousel setBottomText={this.setBottomText} />
           <div id="carousel-bottom-text" className="container-fluid">
             <div className="row">
               <div className="col"></div>
-              <div className="col text-center"> {this.state.bottomText} Veiner</div>
+              <div className="mb-5 mt-5"/>
               <div className="col"></div>
             </div>
           </div>

@@ -6,41 +6,70 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 class CharacterViewer extends Component {
   // testing a character for viewin
+
   render() {
-    //console.log(this.props);
+    console.log(this.props.currentCharacter.weight);
     return (
-      <div className="container-fluid">
+      <div className="container-fluid eggshell">
         <Card className="row">
-          <Card.Header>
+          <Card.Header className="eggshell">
             <h2 className="text-center">{this.props.currentCharacter.name}</h2>
           </Card.Header>
-          <div className="text-center bg-dark col">
+          <div className="text-center grey-dark col">
             <Card.Img
-              className="characterCardAvatar"
+              className="characterCardAvatar eggshell"
               src={this.props.currentCharacter.img_url}
               alt="characterImg"
             />
           </div>
+          <Button
+            bsPrefix="btn custom-btn red-3 mt-2"
+            onClick={this.props.swapEditorState}
+          >
+            Edit
+          </Button>
         </Card>
-
         <hr />
-        <div>
-          <h3>Appearance</h3>
-          <p>Height: {this.props.currentCharacter.height}</p>
-          <p>Weight: {this.props.currentCharacter.weight}</p>
-          <h4>Description</h4>
-          <p>{this.props.currentCharacter.appearance}</p>
+        <div className="px-5">
+          <h3 className="text-center">Appearance</h3>
+          <h4 className="pt-3">Description</h4>
+          <p>
+            {this.props.currentCharacter.appearance !== ""
+              ? this.props.currentCharacter.appearance
+              : "Appearnce Not Found"}
+          </p>
+          <hr className="w-50" />
+          <p>
+            Height:{" "}
+            {this.props.currentCharacter.height !== ""
+              ? this.props.currentCharacter.height
+              : "Height Not Found"}
+          </p>
+          <p>
+            Weight:{" "}
+            {this.props.currentCharacter.weight !== ""
+              ? this.props.currentCharacter.weight
+              : "Weight Not Found"}
+          </p>
         </div>
         <hr />
-        <div>
-          <h3>Personality and Backstory</h3>
-          <h4>Personality</h4>
-          <p>{this.props.currentCharacter.personality}</p>
-          <h4>Backstory</h4>
-          <p>{this.props.currentCharacter.biography}</p>
+        <div className="px-5">
+          <h3 className="text-center">Personality and Backstory</h3>
+          <hr className="w-50" />
+          <h4 className="pt-3">Personality</h4>
+          <p>
+            {this.props.currentCharacter.personality !== ""
+              ? this.props.currentCharacter.personality
+              : "Personality Not Found"}
+          </p>
+          <h4 className="pt-3">Backstory</h4>
+          <p>
+            {this.props.currentCharacter.biography !== ""
+              ? this.props.currentCharacter.biography
+              : "Biography Not Found"}
+          </p>
+          <br/>
         </div>
-
-        <Button onClick={this.props.swapEditorState}>Edit</Button>
       </div>
     );
   }

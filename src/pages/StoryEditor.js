@@ -93,7 +93,7 @@ class StoryEditor extends Component {
               currentStory={this.state.currentStory}
             />
             <Accordion defaultActiveKey="1" className="grey-dark">
-              <Card>
+              <Card className="border-0">
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="1" className="eggshell-dark">
                   <h2 className="text-center">
                     <span>
@@ -115,7 +115,7 @@ class StoryEditor extends Component {
                 </Accordion.Collapse>
               </Card>
 
-              <Card>
+              <Card className="border-0">
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="0" className="eggshell-dark">
                   <h2 className="text-center">
                     <span>

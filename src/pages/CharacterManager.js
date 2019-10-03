@@ -6,12 +6,7 @@ import CharacterViewer from "../components/CharacterViewer";
 // import CharacterIndex from "../components/CharacterIndex";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import {
-  getCharacter,
-  postCharacter,
-  patchCharacter,
-  deleteCharacter
-} from "../actions/characterActions";
+import { getCharacters } from "../actions/characterActions";
 import PageFooter from "../components/PageFooter";
 
 class CharacterManager extends Component {
@@ -42,8 +37,10 @@ class CharacterManager extends Component {
     //console.log(this.state.currentCharacter);
     this.setState({ inEditor: !this.state.inEditor });
   };
-  
+
   componentDidMount() {
+    this.props.getCharacters(this.props.match.params.story_id);
+    console.log("Fetching Character");
     fetch(
       `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}/characters/${this.props.match.params.character_id}`
     )
@@ -58,7 +55,7 @@ class CharacterManager extends Component {
   }
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
     return (
       <div>
         <NavHeader />
@@ -74,7 +71,7 @@ class CharacterManager extends Component {
             swapEditorState={this.swapEditorState}
           />
         )}
-        <PageFooter/>
+        <PageFooter />
       </div>
     );
   }
@@ -84,18 +81,14 @@ const mapStateToProps = state => {
   return { character: state.character };
 };
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     getCharacter: (storyID, characterID) =>
-//       dispatch(getCharacter(storyID, characterID)),
-//     postCharacter: () => dispatch(postCharacter()),
-//     patchCharacter: () => dispatch(patchCharacter()),
-//     deleteCharacter: () => dispatch(deleteCharacter())
-//   };
-// };
+const mapDispatchToProps = dispatch => {
+  return {
+    getCharacters: storyID => dispatch(getCharacters(storyID))
+  };
+};
 export default withRouter(
   connect(
-    mapStateToProps
-    // mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
   )(CharacterManager)
 );

@@ -42,7 +42,7 @@ function App() {
 
             <footer className="container-fluid">
               <hr />
-              <Button size="lg" href="/stories" bsPrefix="btn red-1 btn-block light-grey-text">
+              <Button size="lg" href="/stories" bsPrefix="btn red-3 custom-btn btn-block">
                 Start Writing!
               </Button>
             </footer>

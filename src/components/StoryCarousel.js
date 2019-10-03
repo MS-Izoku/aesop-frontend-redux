@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { withRouter } from "react-router";
 
 //import ReactAliceCarousel from "react-alice-carousel";
@@ -51,54 +52,72 @@ class StoryCarousel extends Component {
   }
 
   renderStoryCards = () => {
-    let index = 0
+    let index = 0;
     return this.props.stories.map(story => {
       ++index;
       return (
         <Carousel.Item>
           <div className="container">
             <h2 className="text-center eggshell-text">{story.title}</h2>
-            <div className="text-center m-0 eggshell-text">
-              {story.pitch}
-            </div>
-            <hr className="eggshell"/>
+            <div className="text-center m-0 eggshell-text">{story.pitch}</div>
+            <hr className="eggshell" />
             <div className="text-center">
-              <Button
-              bsPrefix="btn custom-btn red-3"
-                onClick={() => {
-                  this.props.history.push(`/stories/${story.id}`);
-                }}
-              >
-                <span className="eggshell-text">Story Editor</span>
-              </Button>
-              <Button
-                bsPrefix="btn custom-btn red-3"
-                onClick={() => {
-                  this.props.history.push(
-                    `/chaptereditor/${story.id}/${story.chapters[0].id}`
-                  );
-                }}
-              >
-                <span className="eggshell-text">Chapter Editor</span>
-              </Button>
+              <ButtonGroup className="stretchWidth">
+                <Button
+                  bsPrefix="btn custom-btn red-3"
+                  onClick={() => {
+                    this.props.history.push(`/stories/${story.id}`);
+                  }}
+                >
+                  <span className="eggshell-text">Story Editor</span>
+                </Button>
+                <Button
+                  bsPrefix="btn custom-btn red-3"
+                  onClick={() => {
+                    this.props.history.push(
+                      `/chaptereditor/${story.id}/${story.chapters[0].id}`
+                    );
+                  }}
+                >
+                  <span className="eggshell-text">Chapter Editor</span>
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
         </Carousel.Item>
       );
     });
   };
-  
+
   render() {
     return (
-        <Carousel className="main-dark container-fluid" indicators={false} controls={true}>
-          {this.renderStoryCards()}
-          <Carousel.Item className="text-center">
-            <hr/>
-            <Button 
-            bsPrefix="custom-btn w-75 red-3"
-            onClick={()=>{this.props.postStory()}}>New Story</Button>
-          </Carousel.Item>
-        </Carousel>
+      <Carousel
+        className="main-dark container-fluid"
+        indicators={false}
+        controls={true}
+      >
+        {this.renderStoryCards()}
+        <Carousel.Item className="text-center">
+          <h2 className="eggshell-text">Create a New Story</h2>
+          <p>
+            <a
+              href="https://www.seventhsanctum.com/generate.php?Genname=storygen"
+              className="grey-light-text"
+            >
+              Need Inspiration? Click Here!
+            </a>
+          </p>
+          <hr className="eggshell" />
+          <Button
+            bsPrefix="btn custom-btn w-75 red-3"
+            onClick={() => {
+              this.props.postStory();
+            }}
+          >
+            New Story
+          </Button>
+        </Carousel.Item>
+      </Carousel>
     );
   }
 }

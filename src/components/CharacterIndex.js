@@ -4,7 +4,7 @@ import Carousel from "react-bootstrap/Carousel";
 import "react-multi-carousel/lib/styles.css";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import { getCharacters } from "../actions/characterActions";
+import { getCharacters, postCharacter } from "../actions/characterActions";
 import { getStories } from "../actions/storyActions";
 import { connect } from "react-redux";
 import Nav from "react-bootstrap/Nav";
@@ -41,35 +41,42 @@ class CharacterIndex extends Component {
   }
 
   createCharacterCard = characterObj => {
+    //console.log(characterObj);
     return (
-      // <Card key={characterObj.id}>
-      //   <Image rounded fluid alt="character-pic" src={characterObj.img_url} />
-      //   <Card.Title>{characterObj.name}</Card.Title>
-      //   <Card.Text>
-      //     {characterObj.biography !== null
-      //       ? characterObj.biography.substring(0, 50)
-      //       : "No Bio Found"}
-      //   </Card.Text>
-      //   <Button>
-      //     <Nav.Link href={`/cm/${characterObj.story_id}/${characterObj.id}`}>
-      //       Go To
-      //     </Nav.Link>
-      //   </Button>
-      // </Card>
-
-      <Carousel.Item>
+      <Carousel.Item key={characterObj.id}>
         <div className="text-center">
-          <Image src={characterObj.img_url} rounded className="" />
-          <h2>{characterObj.name}</h2>
+          <Image src={characterObj.img_url} rounded className="pb-3" />
+          
+          <h2 className="eggshell-text">{characterObj.name}</h2>
+          <hr className="eggshell"/>
           <div className="container-fluid">
-            <p> {characterObj.biography !== null
-             ? characterObj.biography.substring(0, 50)
-             : "No Bio Found"}</p>
-            <Button href={`/cm/${characterObj.story_id}/${characterObj.id}`}>Charcter Page</Button>
+            <p className="eggshell-text">
+              {characterObj.biography !== null &&
+              characterObj.biography !== undefined
+                ? characterObj.biography.substring(0, 50)
+                : "No Bio Found"}
+            </p>
+            <Button
+              bsPrefix="btn custom-btn red-3 eggshell-text"
+              href={`/cm/${characterObj.story_id}/${characterObj.id}`}
+            >
+              Character Page
+            </Button>
           </div>
         </div>
       </Carousel.Item>
     );
+  };
+
+  tempCharacter = {
+    name: "Character Name",
+    height: 0,
+    weight: 0,
+    biography: "Biography Goes Here",
+    personality: "",
+    appearance: "",
+    img_url: "",
+    story_id: this.props.match.params.story_id
   };
 
   createAllCharacterCards = () => {
@@ -85,11 +92,21 @@ class CharacterIndex extends Component {
         });
     } else
       return (
-        <Carousel.Item>
-          <h2 className="text-center">No Characters Found</h2>
-          <p className="text-center">Make Them Here</p>
+        <Carousel.Item key={0}>
+          <h2 className="text-center eggshell-text">No Characters Found</h2>
+          <p className="text-center eggshell-text">Make Them Here</p>
           <div className="text-center">
-            <Button>Create Character</Button>
+            <Button
+              bsPrefix="btn custom-btn red-3 eggshell-text"
+              onClick={() => {
+                this.props.postCharacter(
+                  this.tempCharacter,
+                  this.props.match.params.story_id
+                );
+              }}
+            >
+              Create Character
+            </Button>
           </div>
         </Carousel.Item>
       );
@@ -97,15 +114,31 @@ class CharacterIndex extends Component {
 
   render() {
     return (
-   
-        <Carousel
-          className="grey-dark"
-          indicators={false}
-          controls={this.props.characters.length > 1 ? true : false}
-        >
-          {this.createAllCharacterCards()}
-        </Carousel>
-   
+      <Carousel
+        className="grey-dark mt-0"
+        indicators={false}
+        controls={this.props.characters.length > 0 ? true : false}
+      >
+        {this.createAllCharacterCards()}
+        <Carousel.Item key={0}>
+          <h2 className="text-center eggshell-text">Create a Character</h2>
+          <hr className="eggshell" />
+          <p className="text-center eggshell-text">...</p>
+          <div className="text-center">
+            <Button
+              bsPrefix="btn custom-btn red-3 eggshell-text"
+              onClick={() => {
+                this.props.postCharacter(
+                  this.tempCharacter,
+                  this.props.match.params.story_id
+                );
+              }}
+            >
+              Create Character
+            </Button>
+          </div>
+        </Carousel.Item>
+      </Carousel>
     );
   }
 }
@@ -117,7 +150,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getStories: () => dispatch(getStories()),
-    getCharacters: storyID => dispatch(getCharacters(storyID))
+    getCharacters: storyID => dispatch(getCharacters(storyID)),
+    postCharacter: (charObj, storyID) =>
+      dispatch(postCharacter(charObj, storyID))
   };
 };
 export default withRouter(

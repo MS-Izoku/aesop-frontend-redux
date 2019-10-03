@@ -18,16 +18,23 @@ class ChapterEditorSelect extends Component {
       })
       .map(chapter => {
         return (
-          <ListGroup.Item className="text-center eggshell border-0"
+          <ListGroup.Item
+            className="text-center eggshell border-0"
             key={chapter.id}
             onClick={() => {
               this.handleSetCurrentChapter(chapter);
             }}
           >
-            <NavLink className="text-center red-3-text"
+            <NavLink
+              className="text-center red-3-text"
               to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
             >
-              {chapter.title.length > 20 ? `${chapter.chapter_index}. ${chapter.title.substring(0 , 20)}...` : `${chapter.chapter_index}. ${chapter.title}`}
+              {chapter.title.length > 20
+                ? `${chapter.chapter_index}. ${chapter.title.substring(
+                    0,
+                    20
+                  )}...`
+                : chapter.title !== 'Preface' ? `${chapter.chapter_index}. ${chapter.title}` : 'Preface'}
             </NavLink>
           </ListGroup.Item>
         );
@@ -49,9 +56,14 @@ class ChapterEditorSelect extends Component {
 
   render() {
     return (
-      <ListGroup>
+      <ListGroup className="eggshell">
         <ListGroup.Item className="eggshell text-center border-0 overflow-scroll">
-          <Button onClick={this.createChapter} bsPrefix="btn btn-block custom-btn mx-0 red-3">Create New Chapter</Button>
+          <Button
+            onClick={this.createChapter}
+            bsPrefix="btn btn-block custom-btn mx-0 red-3"
+          >
+            Create New Chapter
+          </Button>
         </ListGroup.Item>
         <ListGroup>{this.getChaptersForList()}</ListGroup>
         <hr />
@@ -59,7 +71,6 @@ class ChapterEditorSelect extends Component {
     );
   }
 }
-
 
 const mapStateToProps = state => {
   return { chapters: state.chapters };

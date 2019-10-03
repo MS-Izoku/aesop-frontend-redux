@@ -193,3 +193,22 @@ html , body{
   padding-left: 0;
   padding-right: 0;
 }
+
+.onHoverDarken{
+  
+}
+
+.onHoverDarken:hover{
+  background: #d0bb7c;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.onHoverDarken:active{
+  background: #a8a090
+}
+
+a:hover{
+  color: #b86058
+}
