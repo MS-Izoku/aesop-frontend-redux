@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import Pagination from "react-bootstrap/Pagination";
+import ListGroup from "react-bootstrap/ListGroup";
 class ChapterViewer extends Component {
   constructor(props) {
     super(props);
@@ -18,11 +19,9 @@ class ChapterViewer extends Component {
         })
         .map(chapter => {
           return (
-            <Pagination.Item
-              onClick={() => {
-                console.log(chapter);
-                this.renderChapter(chapter.chapter_index);
-              }}
+            <ListGroup.Item
+            className="text-center eggshell"
+              onClick={() => { this.renderChapter(chapter.chapter_index); }}
               key={chapter.id}
             >
               <div className="text-center">
@@ -33,7 +32,7 @@ class ChapterViewer extends Component {
                     )}...`
                   : `${chapter.chapter_index}. ${chapter.title}`}
               </div>
-            </Pagination.Item>
+            </ListGroup.Item>
           );
         });
   };
@@ -52,7 +51,16 @@ class ChapterViewer extends Component {
     return this.state.chapter.body === "Chapter Not Found" ||
       this.state.chapter.body === "" ? (
       <div className="text-center stretchHeight px-3 pt-3 pb-3">
-        Select Chapter
+        {console.log(this.props)}
+        {this.props.currentStory === undefined ? (
+          <div>Select Chapter</div>
+        ) : (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: this.props.currentStory.chapters[0].body
+            }}
+          />
+        )}
       </div>
     ) : (
       <div className="stretchHeight px-3 pt-3 pb-3">
@@ -65,15 +73,16 @@ class ChapterViewer extends Component {
       </div>
     );
   };
+
   render() {
     return (
-      <div className="bg-dark row px-0">
-        <Pagination id="chapter-list" className="col text-center w-100 px-2">
-          <div>{this.renderList()}</div>
-        </Pagination>
+      <div className="grey-dark row">
+        <ListGroup className="col px-0">
+        <div className="text-center">{this.renderList()}</div>
+        </ListGroup>
 
-        <div className="col-lg-8">
-          <div id="reader-header" className="bg-info col">
+        <div className="col-lg-8 px-0">
+          <div id="reader-header" className="eggshell col">
             <p>{this.chapterView()}</p>
           </div>
         </div>

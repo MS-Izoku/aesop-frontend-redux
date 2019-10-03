@@ -92,7 +92,12 @@ class StoryCarousel extends Component {
     return (
         <Carousel className="main-dark container-fluid" indicators={false} controls={true}>
           {this.renderStoryCards()}
-          
+          <Carousel.Item className="text-center">
+            <hr/>
+            <Button 
+            bsPrefix="custom-btn w-75 red-3"
+            onClick={()=>{this.props.postStory()}}>New Story</Button>
+          </Carousel.Item>
         </Carousel>
     );
   }

@@ -42,11 +42,12 @@ class StoryEditorGUI extends Component {
   render() {
     return (
       <div className="grey-light">
-        <Form onSubmit={this.handleSave} className="mx-2 mb-1 mt-1">
-          <div>
+        <Form onSubmit={this.handleSave}>
+          <div className="pt-3 pb-3 mx-3">
             <Form.Group controlId="titleControl" className="text-center">
               <Form.Label>Title</Form.Label>
               <Form.Control
+                className="eggshell"
                 type="text"
                 placeholder="Title..."
                 name="title"
@@ -59,10 +60,11 @@ class StoryEditorGUI extends Component {
 
             <Form.Group
               controlId="textControl"
-              className="mx-2 mb-1 mt-1 text-center"
+              className="text-center"
             >
               <Form.Label>Pitch</Form.Label>
               <Form.Control
+              className="eggshell"
                 as="textarea"
                 rows={3}
                 type="text"
@@ -73,6 +75,7 @@ class StoryEditorGUI extends Component {
               />
               <Form.Label className="mt-3">High Concept</Form.Label>
               <Form.Control
+              className="eggshell"
                 as="textarea"
                 rows={5}
                 type="text"

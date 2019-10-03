@@ -97,35 +97,15 @@ class CharacterIndex extends Component {
 
   render() {
     return (
-      <div className="container-fluid">
-        {/* <Carousel
-          swipeable={false}
-          draggable={false}
-          showDots={true}
-          responsive={responsive}
-          ssr={true} // means to render carousel on server-side.
-          infinite={true}
-          //autoPlay={this.props.deviceType !== "mobile" ? true : false}
-          //autoPlaySpeed={1000}
-          keyBoardControl={true}
-          customTransition="all .005"
-          transitionDuration={500}
-          containerClass="carousel-container"
-          removeArrowOnDeviceType={["tablet", "mobile"]}
-          deviceType={this.props.deviceType}
-          dotListClass="custom-dot-list-style"
-          itemClass="carousel-item-padding-40-px"
-        >
-          {this.createAllCharacterCards(this.props.characters)}
-        </Carousel> */}
+   
         <Carousel
-          className="bg-dark"
+          className="grey-dark"
           indicators={false}
           controls={this.props.characters.length > 1 ? true : false}
         >
           {this.createAllCharacterCards()}
         </Carousel>
-      </div>
+   
     );
   }
 }

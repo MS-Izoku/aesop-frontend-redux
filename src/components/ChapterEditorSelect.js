@@ -60,6 +60,7 @@ class ChapterEditorSelect extends Component {
   }
 }
 
+
 const mapStateToProps = state => {
   return { chapters: state.chapters };
 };

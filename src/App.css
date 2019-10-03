@@ -123,6 +123,10 @@ html , body{
 .eggshell{
   background: #F0EAD6;
 }
+
+.eggshell-dark{
+  background: #d0bb7c
+}
 /* ====== TEXT COLORATION ===== */
 .red-1-text{
   color: #B03830;
@@ -184,3 +188,8 @@ html , body{
   transform: rotate(180deg)
 }
 /*#endregion*/
+
+.no-padding{
+  padding-left: 0;
+  padding-right: 0;
+}

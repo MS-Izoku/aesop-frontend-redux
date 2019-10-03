@@ -26,7 +26,7 @@ class StoryEditor extends Component {
         high_concept: "",
         pitch: "",
         user_id: 1,
-        chapters: []
+        chapters: [{title: "Chapter Not Found" , body:"Chapter Not Found"}]
       }
     };
   }
@@ -92,9 +92,9 @@ class StoryEditor extends Component {
               switchEditorView={this.switchEditorView}
               currentStory={this.state.currentStory}
             />
-            <Accordion defaultActiveKey="1">
+            <Accordion defaultActiveKey="1" className="grey-dark">
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1" className="eggshell">
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1" className="eggshell-dark">
                   <h2 className="text-center">
                     <span>
                       <img src={arrowIcon} className="accordionIcon" />
@@ -116,7 +116,7 @@ class StoryEditor extends Component {
               </Card>
 
               <Card>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0" className="eggshell">
+                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0" className="eggshell-dark">
                   <h2 className="text-center">
                     <span>
                       <img src={arrowIcon} className="accordionIcon" />
