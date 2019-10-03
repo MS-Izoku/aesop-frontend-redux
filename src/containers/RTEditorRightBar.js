@@ -9,11 +9,11 @@ import Button from 'react-bootstrap/Button'
 class RTEditorRightBar extends Component {
   render() {
     return (
-      <div className="col stretchHeight eggshell">
+      <div className="col eggshell">
         <div className="pt-2 pb-2">
         <Button 
         bsPrefix="btn btn-block red-3 custom-btn"
-        href={`/stories/${this.props.match.params.story_id}`}>Viewer</Button>
+        href={`/stories/${this.props.match.params.story_id}`}>Chapter Viewer</Button>
         <ChapterEditorCharacterbar />
         <hr />
         </div>
