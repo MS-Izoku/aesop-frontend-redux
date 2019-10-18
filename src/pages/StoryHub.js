@@ -14,6 +14,7 @@ class StoryHub extends Component {
   setBottomText = bottomText => {
     this.setState({ bottomText });
   };
+  
   render() {
     return (
       <div>

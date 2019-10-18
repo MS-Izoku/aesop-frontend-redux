@@ -3,6 +3,8 @@ import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
+
+import {getStories} from '../actions/storyActions'
 class ChapterViewer extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ class ChapterViewer extends Component {
       chapter: { title: "Chapter Not Found", body: "Chapter Not Found" }
     };
   }
+
 
   renderList = () => {
     if (this.props.currentStory.chapters !== undefined)
@@ -50,6 +53,7 @@ class ChapterViewer extends Component {
   };
 
   chapterView = () => {
+    if(this.props.currentStory.chapters[0]) console.log(this.props.currentStory.chapters[0])
     return this.state.chapter.body === "Chapter Not Found" ||
       this.state.chapter.body === "" ? (
       <div className="text-center stretchHeight px-3 pt-3 pb-3">
@@ -75,26 +79,14 @@ class ChapterViewer extends Component {
     );
   };
 
-  render() {
-    // console.log('PROPPIN', this.props.currentStory.chapters.filter(chapter => {
-    //   return chapter.chapter_index === 1;
-    // })[0].id , this.props.currentStory);
 
-    const urlHelper =
-      this.props.currentStory.id !== 0
-        ? this.props.currentStory.chapters.filter(
-            chap => chap.chapter_index === 1
-          )[0].id
-        : null;
+
+  render() {
+    console.log('CHAPTERS IN PROPS' , this.props.currentStory.chapters)
     return (
       <div className="grey-dark row">
         <ListGroup className="col px-0 grey-light">
-          <Button
-            bsPrefix="btn custom-btn red-3 text-center"
-            onClick={()=>{this.props.history.push(`/chaptereditor/${this.props.match.params.story_id}/${urlHelper}`)}}
-          >
-            Edit Chapters
-          </Button>
+         
           <div className="text-center">{this.renderList()}</div>
         </ListGroup>
 
@@ -110,7 +102,11 @@ class ChapterViewer extends Component {
 }
 
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return { stories: state.stories , chapters: state.chapters };
 };
 
-export default withRouter(connect(mapStateToProps)(ChapterViewer));
+// const mapDispatchToProps = dispatch =>{
+//   return { getStories: ()=> dispatch(getStories())}
+// }
+
+export default withRouter(connect(mapStateToProps , null)(ChapterViewer));

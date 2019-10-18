@@ -62,7 +62,7 @@ class ChapterEditorSelect extends Component {
             onClick={this.createChapter}
             bsPrefix="btn btn-block custom-btn mx-0 red-3"
           >
-            Create New Chapter
+            New Chapter
           </Button>
         </ListGroup.Item>
         <ListGroup>{this.getChaptersForList()}</ListGroup>

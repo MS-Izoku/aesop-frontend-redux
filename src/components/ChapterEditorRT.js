@@ -40,7 +40,7 @@ class ChapterEditorRT extends Component {
         >
           <Form.Control
             id="chapter-title"
-            className="text-center bg-tertiary border-0 pt-1 pb-1"
+            className="text-center pt-2 pb-2 border-0"
             onChange={event => {
               event.preventDefault();
               this.handleTitleChange(event);
@@ -49,25 +49,23 @@ class ChapterEditorRT extends Component {
           />
         </Form>
         <CKEditor
-        className="stretchHeight"
+          className="stretchHeight"
           editor={ClassicEditor}
           data={this.props.currentChapter.body} //this.props.chapter[0].body}
-          onInit={editor => {
-            // You can store the "editor" and use when it is needed.
-            //console.log("Editor is ready to use!", editor);
-            //this.setState({editor})
-          }}
+          onInit={editor => {}}
           onChange={(event, editor) => {
             const data = editor.getData();
             this.props.setCurrentChapterData(data);
-            //console.log({ event, editor, data });
           }}
         />
 
         <div className="container-fluid">
           <div className="row">
             {" "}
-            <Button bsPrefix="btn col custom-btn red-3 mx-2" onClick={this.props.saveChapter}>
+            <Button
+              bsPrefix="btn col custom-btn red-3 mx-2"
+              onClick={this.props.saveChapter}
+            >
               SAVE
             </Button>
             <Nav.Link

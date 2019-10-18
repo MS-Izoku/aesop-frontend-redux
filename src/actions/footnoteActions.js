@@ -17,7 +17,6 @@ export const getFootnotes = (chapterID, storyID) => {
     )
       .then(resp => resp.json())
       .then(notes => {
-        console.log("FETCH DATA: ", notes);
         return dispatch(fetchFootnotes(notes));
       })
       .catch(err => console.error("error fetching things", err));
@@ -30,9 +29,6 @@ export const postFootNoteFetch = footnote => ({
 });
 export const postFootNote = (chapterID, storyID) => {
   return dispatch => {
-    console.log(
-      `http://localhost:3000/users/1/stories/${chapterID}/chapters/${storyID}/footnotes`
-    );
     fetch(
       `http://localhost:3000/users/1/stories/${chapterID}/chapters/${storyID}/footnotes`,
       {

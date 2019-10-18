@@ -6,7 +6,7 @@ import CharacterViewer from "../components/CharacterViewer";
 // import CharacterIndex from "../components/CharacterIndex";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { getCharacters } from "../actions/characterActions";
+import { getCharacters, patchCharacter } from "../actions/characterActions";
 import PageFooter from "../components/PageFooter";
 
 class CharacterManager extends Component {
@@ -29,12 +29,18 @@ class CharacterManager extends Component {
   }
 
   setCurrentCharacter = charObj => {
-    console.log(charObj);
-    this.setState({ currentCharacter: charObj });
+    //console.log(charObj);
+    this.setState({
+      currentCharacter: Object.assign(
+        {},
+        { ...this.state.currentCharacter, charObj }
+      )
+    });
+    console.log("Charcter: ", this.state.currentCharacter);
+    this.props.patchCharacter(this.state.currentCharacter);
   };
 
   swapEditorState = () => {
-    //console.log(this.state.currentCharacter);
     this.setState({ inEditor: !this.state.inEditor });
   };
 
@@ -51,11 +57,9 @@ class CharacterManager extends Component {
         console.log(json);
         this.setState({ currentCharacter: json });
       });
-    //this.props.getCharacter(this.props.match.params.story_id , this.props.match.params.character_id);
   }
 
   render() {
-    //console.log(this.props);
     return (
       <div>
         <NavHeader />
@@ -83,7 +87,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getCharacters: storyID => dispatch(getCharacters(storyID))
+    getCharacters: storyID => dispatch(getCharacters(storyID)),
+    patchCharacter: character => dispatch(patchCharacter(character))
   };
 };
 export default withRouter(

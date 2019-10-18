@@ -57,11 +57,13 @@ export const patchStory = story => {
       body: JSON.stringify({
         title: story.title,
         pitch: story.pitch,
-        high_concept: story.high_concept
+        high_concept: story.high_concept,
+        chapters: story.chapters
       })
     })
       .then(resp => resp.json())
       .then(json => {
+        console.log('JSON' , json)
         return dispatch(patchStoryFetch(json));
       });
   };

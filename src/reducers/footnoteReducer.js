@@ -27,8 +27,14 @@ export default function(
       });
     //return [...state, action.footnote];
     case types.PATCH_FOOTNOTE:
-      console.log(action.footnote)
-      return state
+      console.log("FOOTNOTE REDUCER ACTION:", action.footnote);
+      return Object.assign({} , {
+        ...state,
+        allNotes: state.allNotes.map(note =>{
+          return note.id == action.footnote.id ? action.footnote : note
+        }),
+        currentNote: action.footnote
+      })
     case types.DELETE_FOOTNOTE:
       console.log(action.id + " <========");
       return state.filter(note => {

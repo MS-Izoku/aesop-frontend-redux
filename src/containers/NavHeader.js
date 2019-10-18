@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import HeaderAvatar from "../components/HeaderAvatar.js";
 import NavHeaderStorySelect from "../components/NavHeaderStorySelect";
-import { NavLink } from "react-router-dom";
-
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-
 import Form from "react-bootstrap/Form";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
 
 class NavHeader extends Component {
   render() {
@@ -19,12 +13,9 @@ class NavHeader extends Component {
         <Navbar.Collapse id="basic-navbar-nav" className="main-dark-text">
           <Nav className="mr-auto">
             <Nav.Link href="/stories">Story Hub</Nav.Link>
-            {/* <Nav.Link href="/characters">Character Hub</Nav.Link> */}
             <NavHeaderStorySelect />
           </Nav>
           <Form inline>
-            {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button> */}
           </Form>
         </Navbar.Collapse>
       </Navbar>

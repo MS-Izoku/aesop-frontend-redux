@@ -43,7 +43,10 @@ class StoryEditor extends Component {
   }
 
   saveStory = storyObj => {
-    const newObj = Object.assign({}, storyObj, {
+    const newObj = Object.assign({}, this.state.currentStory, {
+      high_concept: storyObj.high_concept,
+      pitch: storyObj.pitch,
+      title: storyObj.title,
       id: parseInt(this.props.match.params.story_id)
     });
     this.props.patchStory(newObj);

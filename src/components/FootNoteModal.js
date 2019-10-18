@@ -16,15 +16,17 @@ class FootNoteModal extends Component {
       body: this.props.currentNote.body
     };
   }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
 
   handleSave = () => {
     const toggler = this.props.toggleModal;
     toggler();
 
-    console.log(this.state);
+    console.log("Saving:" + this.state)
     this.props.patchFootnote(
       this.props.match.params.chapter_id,
       this.props.match.params.story_id,
@@ -33,13 +35,10 @@ class FootNoteModal extends Component {
     );
   };
 
-  componentDidUpdate() {
-    console.log("MODAL UPDATE <<<", this.props);
-  }
-
   // figure out where in this file to update the form-data
 
   render() {
+    console.log(this.props)
     return (
       <Modal show={this.props.modalIsToggled}>
         <Modal.Header>
@@ -90,6 +89,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(patchFootnote(chapterID, storyID, footnoteID, data))
   };
 };
+
 export default withRouter(
   connect(
     mapStateToProps,

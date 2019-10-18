@@ -8,6 +8,7 @@ import NavHeader from "../containers/NavHeader";
 import { connect } from "react-redux";
 
 import { getChapters, patchChapter } from "../actions/chapterActions";
+import { getFootnotes } from '../actions/footnoteActions'
 
 import { withRouter } from "react-router";
 import { HotKeys } from "react-hotkeys";
@@ -48,7 +49,7 @@ class ChapterEditor extends Component {
   };
 
   setInitialChapter = () => {
-    console.log("Stories:", this.props);
+    console.log("Setting Initial Chapter: " + this.props);
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
       this.autoSave(30000);
@@ -71,8 +72,8 @@ class ChapterEditor extends Component {
     if (this.state.firstChapterInState !== this.props.chapters[0])
       this.setState({ firstChapter: this.props.chapters[0] });
     this.props.getChapters(this.props.match.params.story_id);
+    this.props.getFootnotes(this.props.match.params.chapter_id , this.props.match.params.story_id)
     this.setInitialChapter();
-    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -146,7 +147,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getChapters: storyID => dispatch(getChapters(storyID)),
-    patchChapter: chapter => dispatch(patchChapter(chapter))
+    patchChapter: chapter => dispatch(patchChapter(chapter)),
+    getFootnotes: (chapterID , storyID) => dispatch(getFootnotes(chapterID , storyID))
   };
 };
 

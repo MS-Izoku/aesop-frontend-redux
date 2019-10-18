@@ -90,6 +90,7 @@ class StoryCarousel extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <Carousel
         className="main-dark container-fluid"
