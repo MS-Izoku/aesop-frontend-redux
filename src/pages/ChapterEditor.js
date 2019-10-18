@@ -20,19 +20,18 @@ class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
-      firstChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
-      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
-      currentFootnote: { id: 0, title: "N/A", body: "N/A" },
+      firstChapter: { id: 0, title: "N/A", body: "(EDITOR) Chapter Data Not Found" },
+      currentChapter: { id: 0, title: "N/A", body: "(EDITOR) Chapter Data Not Found" },
       modalIsToggled: false
     };
   }
 
+//#region State Callbacks
   toggleModal = () => {
     this.setState({ modalIsToggled: !this.state.modalIsToggled });
   };
 
   setCurrentFootNote = note => {
-    console.log("Got here");
     this.setState({ currentFootnote: note });
   };
 
@@ -43,42 +42,12 @@ class ChapterEditor extends Component {
   setCurrentChapterTitle = title => {
     this.setState({ currentChapter: { ...this.state.currentChapter, title } });
   };
+
   setCurrentChapterData = body => {
-    if (this.state !== undefined)
       this.setState({ currentChapter: { ...this.state.currentChapter, body } });
   };
+//#endregion
 
-  setInitialChapter = () => {
-    console.log("Setting Initial Chapter: " + this.props);
-    setTimeout(() => {
-      this.setState({ currentChapter: this.props.chapters[0] });
-      this.autoSave(30000);
-    }, 1000);
-  };
-
-  autoSave = time => {
-    this.interval = setInterval(() => {
-      this.saveChapter();
-    }, time);
-  };
-
-  saveChapter = () => {
-    const patchHandler = this.props.patchChapter;
-    if (this.state.currentChapter.id !== 0)
-      patchHandler(this.state.currentChapter);
-  };
-
-  componentDidMount() {
-    if (this.state.firstChapterInState !== this.props.chapters[0])
-      this.setState({ firstChapter: this.props.chapters[0] });
-    this.props.getChapters(this.props.match.params.story_id);
-    this.props.getFootnotes(this.props.match.params.chapter_id , this.props.match.params.story_id)
-    this.setInitialChapter();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
 
   setCurrentChapterAfterDelete = () => {
     this.setState({
@@ -87,21 +56,38 @@ class ChapterEditor extends Component {
     });
   };
 
-  //#region hotkeys
-  keyMap = {
-    saveChapterCMD: {
-      name: "Save Chapter",
-      sequence: "control+s",
-      action: "keydown"
-    }
+
+  autoSave = time => {
+    this.interval = setInterval(() => {
+      this.saveChapter();
+    }, time);
   };
 
-  keyMapHandler = {
-    saveChapterCMD: () => {
-      this.saveChapter();
-      console.log("SAVING WITH HOTKEY");
-    }
+  saveChapter = () => {
+    if (this.state.currentChapter.id !== 0)
+      this.props.patchChapter(this.state.currentChapter);
   };
+
+  setInitialChapter = () => {
+    this.setState({ currentChapter: this.props.chapters.currentChapter });
+    setTimeout(() => {
+      this.autoSave(1200000);
+    }, 1000);
+  };
+
+  componentDidMount() {
+    this.props.getChapters(this.props.match.params.story_id);
+    this.setInitialChapter();
+    if (this.state.firstChapterInState !== this.props.chapters[0])
+      this.setState({ firstChapter: this.props.chapters[0] });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  //#region hotkeys
+
   //#endregion
 
   render() {

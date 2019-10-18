@@ -1,29 +1,67 @@
 import * as types from "../actions/actionTypes.js";
 import update from "immutability-helper";
+import { stat } from "fs";
 
 export default function chapterReducer(
-  state = [
-    { id: 0, title: "Cream Frieche!", body: "This is my body, it is default" }
-  ],
+  state = {
+    currentChapter: {
+      id: 0,
+      title: "Chapter Not Found",
+      body: "(Body) Chapter Not Found"
+    },
+    allChapters: [
+      { id: 0, title: "Chapter Not Found", body: "(Body) Chapter Not Found" }
+    ]
+  },
   action
 ) {
   switch (action.type) {
     case types.GET_CHAPTERS:
-      return action.chapters.sort((a,b) =>{
-        return a.chapter_index - b.chapter_index
-      });
+      const sortedChapters = action.chapters.sort((a, b) => {
+        return a.chapter_index - b.chapter_index;
+      })
+
+      return {
+        allChapters: sortedChapters,
+        currentChapter: sortedChapters[0]
+      };
     case types.POST_CHAPTER:
-      return [...state, action.chapter];
+      return Object.assign(
+        {},
+        { ...state, allChapters: [...state.allChapters, action.chapter] }
+      );
+    // return [...state, action.chapter];
     case types.PATCH_CHAPTER:
-      return state.map(chapter => {
-        if (chapter.id === action.chapter.id) {
-          return action.chapter
-        } else return chapter;
-      });
+      return Object.assign(
+        {},
+        {
+          ...state,
+          allChapters: state.allChapters.map(chapter => {
+            return chapter.id === action.chapter.id ? action.chapter : chapter;
+          }),
+          currentChapter: action.chapter
+        }
+      );
+    // return state.map(chapter => {
+    //   if (chapter.id === action.chapter.id) {
+    //     return action.chapter;
+    //   } else return chapter;
+    // });
     case "DELETE_CHAPTER":
-      console.log('You hit the reducer')
-      return state.filter(chapter => {return chapter.id !== action.chapter.id});
-    //return state
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentChapter: { id: 0, title: "Chapter Not Found", body: "(Body) Chapter Not Found" },
+          allChapters: state.allChapters.filter(chapter => {
+            return chapter.id !== action.chapter.id;
+          })
+        }
+      );
+    // console.log("You hit the reducer");
+    // return state.filter(chapter => {
+    //   return chapter.id !== action.chapter.id;
+    // });
     default:
       return state;
   }

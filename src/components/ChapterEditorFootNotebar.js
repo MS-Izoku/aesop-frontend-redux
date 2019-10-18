@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
 import {
+  getFootnotes,
   setCurrentFootnote,
   deleteFootNote,
   postFootNote
@@ -12,27 +13,26 @@ import {
 
 class ChapterEditorFootnoteBar extends Component {
   parseTime = time => {
-    // console.log(Date(time));
     return new Date(time);
   };
 
   renderListItems = () => {
+    // console.log("Rendering List" , this.props.footnotes)
     const chapterNotes = this.props.footnotes.allNotes.filter(note => {
       return note.chapter_id !== this.props.match.params.chapter_id;
     });
 
     return chapterNotes.map(note => {
       return (
-        <div>
+        <div key={note.id}>
           <span>
-            <h3
+            <p
               onClick={() => {
-                this.props.setCurrentFootnote(note);
-                this.props.toggleModal();
+                this.props.toggleModal(note);
               }}
             >
               {note.title}
-            </h3>
+            </p>
             <div
               onClick={() => {
                 this.props.deleteFootnote(
@@ -51,6 +51,7 @@ class ChapterEditorFootnoteBar extends Component {
 
   setupModal = note => {
     console.log("SETTING UP MODAL", this.props);
+    this.props.setCurrentFootnote(note);
     this.props.toggleModal();
   };
 
@@ -82,7 +83,7 @@ class ChapterEditorFootnoteBar extends Component {
 }
 
 const mapStateToProps = state => {
-  return { footnotes: state.footnotes };
+  return { footnotes: state.footnotes , currentChapter: state.currentChapter };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -92,7 +93,9 @@ const mapDispatchToProps = dispatch => {
       dispatch(deleteFootNote(storyID, footnote)),
 
     postFootNote: (chapterID, storyID) =>
-      dispatch(postFootNote(chapterID, storyID))
+      dispatch(postFootNote(chapterID, storyID)),
+    getFootnotes: (chapterID, storyID) =>
+      dispatch(getFootnotes(chapterID, storyID))
   };
 };
 

@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  // setCurrentChapter,
-  getChapters,
-  postChapter
-} from "../actions/chapterActions";
+import { getChapters, postChapter } from "../actions/chapterActions";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
 import { withRouter } from "react-router";
 
 class ChapterEditorSelect extends Component {
+
   getChaptersForList = () => {
-    return this.props.chapters
+    console.log(this.props , this.props.allChapters)
+    return this.props.allChapters
       .sort((a, b) => {
         return a.chapter_index - b.chapter_index;
       })
@@ -34,7 +32,9 @@ class ChapterEditorSelect extends Component {
                     0,
                     20
                   )}...`
-                : chapter.title !== 'Preface' ? `${chapter.chapter_index}. ${chapter.title}` : 'Preface'}
+                : chapter.title !== "Preface"
+                ? `${chapter.chapter_index}. ${chapter.title}`
+                : "Preface"}
             </NavLink>
           </ListGroup.Item>
         );
@@ -45,10 +45,6 @@ class ChapterEditorSelect extends Component {
     const handler = this.props.setCurrentChapter;
     handler(chapter);
   };
-
-  componentDidMount() {
-    this.props.getChapters();
-  }
 
   createChapter = () => {
     this.props.postChapter(this.props.match.params.story_id);
@@ -73,7 +69,10 @@ class ChapterEditorSelect extends Component {
 }
 
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return {
+    allChapters: state.chapters.allChapters,
+    currentChapter: state.chapters.currentChapter
+  };
 };
 
 const mapDispatchToProps = dispatch => {

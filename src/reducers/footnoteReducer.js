@@ -8,10 +8,6 @@ export default function(
 ) {
   switch (action.type) {
     case types.GET_FOOTNOTES:
-      console.log(
-        "CHECKING ACTION <<<<<<<<",
-        Object.assign(state, { ...state, allNotes: action.footnotes })
-      );
       return Object.assign(
         {},
         {
@@ -32,7 +28,6 @@ export default function(
         currentNote: action.footnote
       })
     case "DELETE_FOOTNOTE":
-      console.log("DELETING NOTE")
       return Object.assign({} , {
         ...state ,
         allNotes: state.allNotes.filter(note =>{
@@ -41,6 +36,8 @@ export default function(
       })
     case "SET_CURRENT_FOOTNOTE":
       return Object.assign({}, { ...state, currentNote: action.footnote });
+    case "GET_CURRENT_FOOTNOTE":
+      return state.currentNote;
     default:
       return state;
   }

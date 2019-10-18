@@ -30,6 +30,7 @@ class ChapterEditorRT extends Component {
   };
 
   render() {
+    console.log(this.props)
     return (
       <div className="col-lg-8 stretchHeight">
         <Form

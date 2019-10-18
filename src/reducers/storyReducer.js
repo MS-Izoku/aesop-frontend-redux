@@ -8,7 +8,6 @@ export default function(
     case types.GET_STORIES:
       return action.stories;
     case types.POST_STORY:
-      console.log('POSTING NEW STORY , REDUCER <<<<' , action.story)
       return [...state, action.story];
     case types.PATCH_STORY:
       return state.map(story =>{

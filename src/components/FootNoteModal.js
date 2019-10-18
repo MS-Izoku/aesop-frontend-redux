@@ -7,17 +7,9 @@ import { withRouter } from "react-router";
 import { patchFootnote } from "../actions/footnoteActions";
 
 class FootNoteModal extends Component {
-  // this component is not properly updating after prop changes
-  constructor(props) {
-    super(props);
-    this.state = {
-      //   id: this.props.currentNote.id,
-      title: this.props.currentNote.title,
-      body: this.props.currentNote.body
-    };
-  }
 
   handleChange = event => {
+    console.log(event.target.name , event.target.value)
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -26,7 +18,7 @@ class FootNoteModal extends Component {
     const toggler = this.props.toggleModal;
     toggler();
 
-    console.log("Saving:" + this.state)
+    //console.log("Saving:" + this.state)
     this.props.patchFootnote(
       this.props.match.params.chapter_id,
       this.props.match.params.story_id,
@@ -35,10 +27,11 @@ class FootNoteModal extends Component {
     );
   };
 
-  // figure out where in this file to update the form-data
+  componentDidMount(){
+    console.log(this.props)
+  }
 
   render() {
-    console.log(this.props)
     return (
       <Modal show={this.props.modalIsToggled}>
         <Modal.Header>
@@ -87,6 +80,7 @@ const mapDispatchToProps = dispatch => {
   return {
     patchFootnote: (chapterID, storyID, footnoteID, data) =>
       dispatch(patchFootnote(chapterID, storyID, footnoteID, data))
+    // getCurrentFootnote: ()=> dispatch(getCurrentFootnote())
   };
 };
 
