@@ -11,13 +11,9 @@ export default function(
       console.log('POSTING NEW STORY , REDUCER <<<<' , action.story)
       return [...state, action.story];
     case types.PATCH_STORY:
-      // get the index of the changed item in the action
       return state.map(story =>{
-        console.log('STORY FROM ACTION' , action.story)
-        console.log('PREV STORY' , story)
         if(story.id === action.story.id){
           return action.story
-          //return Object.assign({} , [...state , {...story , action.story}])
         }
         else return story
       })

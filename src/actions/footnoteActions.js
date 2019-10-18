@@ -82,10 +82,11 @@ export const deleteFootNoteFetch = footnote => ({
   type: "DELETE_FOOTNOTE",
   footnote
 });
-export const deleteFootNote = (chapter, footnote) => {
+export const deleteFootNote = (storyID, footnote) => {
+  console.log(`http://localhost:3000/users/1/stories/${storyID}/chapters/${footnote.chapter_id}/footnotes/${footnote.id}`)
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}/footnotes/${footnote.id}`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnote.chapter_id}/footnotes/${footnote.id}`,
       {
         method: "DELETE",
         headers: {
@@ -99,13 +100,12 @@ export const deleteFootNote = (chapter, footnote) => {
     )
       .then(resp => resp.json())
       .then(json => {
+        console.log("OI" , json)
         return dispatch(deleteFootNoteFetch(json));
       });
   };
 };
 
 export const setCurrentFootnote = footnote => {
-  console.log(">>>>>   SETTING the current footnote over here yo");
-  console.log(footnote);
   return { type: "SET_CURRENT_FOOTNOTE", footnote };
 };

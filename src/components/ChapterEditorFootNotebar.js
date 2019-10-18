@@ -4,7 +4,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
-import { setCurrentFootnote } from "../actions/footnoteActions";
+import {
+  setCurrentFootnote,
+  deleteFootNote,
+  postFootNote
+} from "../actions/footnoteActions";
 
 class ChapterEditorFootnoteBar extends Component {
   parseTime = time => {
@@ -20,14 +24,26 @@ class ChapterEditorFootnoteBar extends Component {
     return chapterNotes.map(note => {
       return (
         <div>
-          <h3
-            onClick={() => {
-              this.props.setCurrentFootnote(note);
-              this.props.toggleModal();
-            }}
-          >
-            {note.title}
-          </h3>
+          <span>
+            <h3
+              onClick={() => {
+                this.props.setCurrentFootnote(note);
+                this.props.toggleModal();
+              }}
+            >
+              {note.title}
+            </h3>
+            <div
+              onClick={() => {
+                this.props.deleteFootnote(
+                  this.props.match.params.story_id,
+                  note
+                );
+              }}
+            >
+              X
+            </div>
+          </span>
         </div>
       );
     });
@@ -51,7 +67,12 @@ class ChapterEditorFootnoteBar extends Component {
         {this.renderListItems()}
         <Button
           bsPrefix="btn btn-block btn-info"
-          onClick={this.postNewFootNote}
+          onClick={() => {
+            this.postNewFootNote(
+              this.props.match.params.chapter_id,
+              this.props.match.params.story_id
+            );
+          }}
         >
           New Note
         </Button>
@@ -66,8 +87,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setCurrentFootnote: footnote => dispatch(setCurrentFootnote(footnote))
+    setCurrentFootnote: footnote => dispatch(setCurrentFootnote(footnote)),
+    deleteFootnote: (storyID, footnote) =>
+      dispatch(deleteFootNote(storyID, footnote)),
+
+    postFootNote: (chapterID, storyID) =>
+      dispatch(postFootNote(chapterID, storyID))
   };
 };
 
-export default withRouter(connect(mapStateToProps , mapDispatchToProps)(ChapterEditorFootnoteBar));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChapterEditorFootnoteBar)
+);
