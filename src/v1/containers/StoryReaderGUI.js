@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getStories } from "../actions/storyActions";
+import { getStories } from "../../actions/storyActions";
 
 class StoryReaderGUI extends Component {
   render() {

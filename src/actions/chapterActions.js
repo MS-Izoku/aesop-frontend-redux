@@ -1,12 +1,5 @@
 const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
 
-// export const setCurrentChapter = chapterObj => {
-//   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
-// };
-
-// export const receiveChapters = () => {
-//   return { type: types.RECEIVE_CHAPTERS };
-// };
 
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
 export const getChapters = (storyID = 1) => {
@@ -21,7 +14,6 @@ export const getChapters = (storyID = 1) => {
 };
 
 export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
-// form popup later to define title?
 export const postChapter = storyID => {
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {

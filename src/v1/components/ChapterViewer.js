@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import {getStories} from '../actions/storyActions'
+import {getStories} from '../../actions/storyActions'
 class ChapterViewer extends Component {
   constructor(props) {
     super(props);
