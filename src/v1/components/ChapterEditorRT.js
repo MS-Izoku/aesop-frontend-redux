@@ -29,6 +29,7 @@ class ChapterEditorRT extends Component {
     this.props.setCurrentChapterAfterDelete();
   };
 
+
   render() {
     console.log(this.props)
     return (
@@ -85,6 +86,7 @@ class ChapterEditorRT extends Component {
     );
   }
 }
+
 
 // I want to get the currently selected chapter
 const mapStateToProps = state => {

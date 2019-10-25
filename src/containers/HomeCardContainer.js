@@ -6,7 +6,7 @@ import StoryShowCard from "../components/StoryShowCard";
 class HomeCardContainer extends Component {
   createStoryCards = () => {
     return this.props.stories.allStories.map(story => {
-      return <StoryShowCard story={story} key={story.id}/>;
+      return <StoryShowCard story={story} key={story.id + 1252}/>;
     });
   };
 

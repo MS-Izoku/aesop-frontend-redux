@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Form from "react-bootstrap/Form";
+//import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-import { patchStory } from "../actions/storyActions";
+import { patchStory , setCurrentStory } from "../actions/storyActions";
 
 class StoryForm extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class StoryForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit = event => {
+   handleSubmit = event => {
     event.preventDefault();
     if (
       this.state.title !== "" &&
@@ -79,7 +79,10 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => {
-  return { patchStory: storyObj => dispatch(patchStory(storyObj)) };
+  return { 
+    setCurrentStory: () => dispatch(setCurrentStory()),
+    patchStory: storyObj => dispatch(patchStory(storyObj)),
+   };
 };
 
 export default connect(

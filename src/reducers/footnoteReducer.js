@@ -23,7 +23,7 @@ export default function(
       return Object.assign({} , {
         ...state,
         allNotes: state.allNotes.map(note =>{
-          return note.id == action.footnote.id ? action.footnote : note
+          return note.id === action.footnote.id ? action.footnote : note
         }),
         currentNote: action.footnote
       })

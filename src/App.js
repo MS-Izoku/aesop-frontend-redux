@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import NavHeader from "./containers/NavHeader.js";
+//import NavHeader from "./containers/NavHeader.js";
 import PageFooter from "./components/PageFooter";
 import { withRouter } from "react-router";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUserProfile } from "./actions/userActions";
 
@@ -13,9 +13,6 @@ import HomePage from "./pages/HomePage";
 import StoryManager from "./pages/StoryManager";
 
 class App extends Component {
-  constructor() {
-    super();
-  }
 
   async componentDidMount() {
     await this.props.getUserProfile();

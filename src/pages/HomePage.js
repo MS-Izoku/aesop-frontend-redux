@@ -4,13 +4,16 @@ import { getStories} from '../actions/storyActions'
 
 import HomeCardContainer from '../containers/HomeCardContainer'
 
+import CreateStoryButton from '../components/CreateStoryButton'
+
 class HomePage extends Component{
     componentDidMount(){
-        this.props.getStories()
+        this.props.getStories(1)
     }
 
     render(){
         return<div>
+            <CreateStoryButton />
             <HomeCardContainer />
         </div>
     }
@@ -21,7 +24,7 @@ const mapStateToProps = (state) =>{
         stories: state.stories}
 }
 const mapDispatchToProps = (dispatch)=>{
-    return { getStories: ()=>dispatch(getStories())}
+    return { getStories: (userID)=>dispatch(getStories(userID))}
 }
 
 export default connect(mapStateToProps , mapDispatchToProps)(HomePage)

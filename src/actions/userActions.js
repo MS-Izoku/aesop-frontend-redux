@@ -32,7 +32,6 @@ export const postUser = userData => {
 // Login Existing User
 const loginUser = userObj => ({ type: "LOGIN_USER", userObj });
 export const loginUserFetch = userData => {
-  console.log("Logging In");
   return dispatch => {
     return fetch("http://localhost:3000/login", {
       method: "POST",
@@ -52,13 +51,12 @@ export const loginUserFetch = userData => {
           localStorage.removeItem("token");
         }
       })
-      .catch(err => console.log("CAUGHT ERROR: ", err));
+      .catch(err => console.error("CAUGHT ERROR: ", err));
   };
 };
 
 // Get User Profile
 export const getUserProfile = () => {
-  console.log("Checking for profile");
   return dispatch => {
     const token = localStorage.token;
     return fetch("http://localhost:3000/profile", {
@@ -87,18 +85,24 @@ export const getUserProfile = () => {
 // Logout User and Delete JWT token
 const logOutUser = () => ({ type: "LOG_OUT", payload: {} });
 export const logOut = () => {
-  console.log("Logging Out");
   localStorage.removeItem("token");
   return dispatch => dispatch(logOutUser());
 };
 
 // this will be called in the StoryActions to change the user state
 export const setCurrentStoryDispatch = storyObj => {
-  console.log("Action Received");
-  return dispatch => {
-    return dispatch({
+  return dispatch =>
+    dispatch({
       type: "SET_CURRENT_STORY",
       storyObj
     });
-  };
+};
+
+// this will be called in ChapterACtions to change the user state
+export const setCurrentChapterDispatch = chapterObj => {
+  return dispatch =>
+    dispatch({
+      type: "SET_CURRENT_CHAPTER",
+      chapterObj
+    });
 };

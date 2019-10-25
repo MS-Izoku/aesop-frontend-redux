@@ -1,10 +1,16 @@
-const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
-
+import { setCurrentChapterDispatch } from './userActions'
 
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
-export const getChapters = (storyID = 1) => {
+export const getChapters = (storyID) => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`)
+    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`,{
+      method: "GET",
+      headers: {
+        "Content-Type" : "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
       .then(resp => resp.json())
       .then(chapters => {
         return dispatch(fetchChapters(chapters));
@@ -20,7 +26,8 @@ export const postChapter = storyID => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
       },
       body: JSON.stringify({
         title: "New Chapter"
@@ -43,7 +50,8 @@ export const patchChapter = chapterData => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           title: chapterData.title,
@@ -65,6 +73,7 @@ export const deleteChapterFetch = chapter => ({
   chapter
 });
 export const deleteChapter = chapter => {
+  console.log("DELETING" , chapter)
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
@@ -72,7 +81,8 @@ export const deleteChapter = chapter => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({ id: chapter.id })
       }
@@ -83,3 +93,7 @@ export const deleteChapter = chapter => {
       });
   };
 };
+
+export const setCurrentChapter = chapterObj =>{
+  return dispatch => dispatch(setCurrentChapterDispatch(chapterObj))
+}

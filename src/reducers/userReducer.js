@@ -19,7 +19,15 @@ export default function userReducer(
     case "POST_USER":
       return Object.assign({}, { ...state, currentUser: action.user });
     case "SET_CURRENT_STORY": // set here for persistence
-      return Object.assign({}, { ...state, currentStory: action.storyObj });
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...action.storyObj
+          }
+        }
+      );
     case "SET_CURRENT_CHAPTER": // set here for persistence
       return Object.assign({}, { ...state, currentChapter: action.chapterObj });
     default:

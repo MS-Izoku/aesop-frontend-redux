@@ -1,12 +1,10 @@
-import { setCurrentStoryDispatch } from './userActions'
-
-export const GET_STORIES = "GET_STORIES";
+import { setCurrentStoryDispatch } from "./userActions";
 
 // get stories
-export const fetchStories = stories => ({ type: GET_STORIES, stories });
-export const getStories = () => {
+export const fetchStories = stories => ({ type: "GET_STORIES", stories });
+export const getStories = userID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/`, {
+    fetch(`http://localhost:3000/users/${userID}/stories/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +22,7 @@ export const getStories = () => {
 
 // Story Creation
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
-export const postStory = (user_id) => {
+export const postStory = user_id => {
   return dispatch => {
     fetch(`http://localhost:3000/users/${user_id}/stories/`, {
       method: "POST",
@@ -46,7 +44,6 @@ export const postStory = (user_id) => {
   };
 };
 
-
 // Story Updating
 export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 export const patchStory = story => {
@@ -63,11 +60,12 @@ export const patchStory = story => {
         title: story.title,
         pitch: story.pitch,
         high_concept: story.high_concept
-        
       })
     })
       .then(resp => resp.json())
       .then(json => {
+        console.log("ALko", json);
+        dispatch(setCurrentStoryDispatch(json));
         return dispatch(patchStoryFetch(json));
       });
   };
@@ -88,15 +86,22 @@ export const deleteStory = story => {
     })
       .then(resp => resp.json())
       .then(json => {
-        
         return dispatch(deleteStoryFetch(json));
       });
   };
 };
 
-export const setCurrentStory = storyObj =>{
-  return dispatch =>{
-    console.log("Dispatching Action to User Controller")
-    return dispatch(setCurrentStoryDispatch(storyObj))
-  }
-}
+// this goes to the user controller
+export const setCurrentStory = storyObj => {
+  return dispatch => {
+    return dispatch(setCurrentStoryDispatch(storyObj));
+  };
+};
+
+const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER" ,  chapterObj});
+export const removeChapterFromStoryDispatch = chapterObj => {
+  console.log("HIT");
+  return dispatch => {
+    return dispatch(chapterRemoval(chapterObj));
+  };
+};

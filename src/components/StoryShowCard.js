@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { setCurrentStory } from "../actions/storyActions";
+import { setCurrentChapter } from "../actions/chapterActions";
 
 const StoryShowCard = props => {
   return (
@@ -11,8 +12,10 @@ const StoryShowCard = props => {
       <p>{props.story.pitch}</p>
       <Button
         onClick={() => {
-          console.log("SETTING STORY: " , props.story)
           props.setCurrentStory(props.story);
+          props.setCurrentChapter(props.story.chapters.sort((chapA , chapB) =>{
+            return chapB.chapter_index - chapA.chapter_index
+          })[0])  // improve this with more-specific backend functionality: {chapters: last_visited_chapter}
           props.history.push(`/storyManager/`);
         }}
       >
@@ -23,7 +26,10 @@ const StoryShowCard = props => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return { setCurrentStory: storyObj => dispatch(setCurrentStory(storyObj)) };
+  return {
+    setCurrentStory: storyObj => dispatch(setCurrentStory(storyObj)),
+    setCurrentChapter: chapterObj => dispatch(setCurrentChapter(chapterObj))
+  };
 };
 
 export default withRouter(

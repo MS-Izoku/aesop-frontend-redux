@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { getChapters } from "../actions/chapterActions";
+
 import StoryForm from "../components/StoryForm";
+import DeleteStoryButton from "../components/DeleteStoryButton";
+import ChapterTextEditor from "../components/ChapterTextEditor";
+import ChapterCard from "../components/ChapterCard";
 
 class StoryManager extends Component {
   constructor() {
@@ -12,30 +17,41 @@ class StoryManager extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.getChapters(this.props.currentStory.id);
+  }
+
   swapEditorState = () => {
     this.setState({ inEditor: !this.state.inEditor });
   };
 
-  createChapterCards = () =>{
-    if(this.props.currentStory.id !== undefined){
-      return this.props.currentStory.chapters.map(chapter =>{
-        return <div className="card">
-          <h3>{chapter.title}</h3>
-        </div>
-      })
+  createChapterCards = () => {
+    if (this.props.currentStory.id !== undefined) {
+      return this.props.currentStory.chapters
+        .sort((chapA, chapB) => {
+          return chapA.chapter_index - chapB.chapter_index;
+        })
+        .map(chapter => {
+          return <ChapterCard chapter={chapter} key={chapter.id + 5412} />;
+        });
     }
-  }
+  };
   render() {
-    //debugger
     return (
       <div className="container-fluid">
         Story Manager ({this.props.currentStory.id})
+        <DeleteStoryButton />
         <div className="row">
-          <div className="col"/>
+          <div className="col" />
           <div className="col">
             <StoryForm swapEditorState={this.swapEditorState} />
           </div>
-          <div className="col"/>
+          <div className="col" />
+        </div>
+        <div className="row bg-info" >
+          <div className="col">
+            <ChapterTextEditor />
+          </div>
         </div>
         <div className="row">
           <div className="col">
@@ -57,4 +73,15 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(StoryManager));
+const mapDispatchToProps = dispatch => {
+  return {
+    getChapters: storyID => dispatch(getChapters(storyID))
+  };
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(StoryManager)
+);
