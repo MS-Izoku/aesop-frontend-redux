@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { deleteChapter } from "../actions/chapterActions";
-import { setCurrentChapterDispatch } from "../actions/userActions";
+import {
+  setCurrentChapterDispatch,
+  removeChapterDispatch as removeChapterFromUserDispatch
+} from "../actions/userActions";
 import { removeChapterFromStoryDispatch } from "../actions/storyActions";
 
 const ChapterDeleteModal = props => {
@@ -34,7 +37,7 @@ const ChapterDeleteModal = props => {
         <Button
           variant="danger"
           onClick={() => {
-            console.log("DELETING");
+            props.removeChapterFromUserDispatch(props.chapter);
             props.removeChapterFromStoryDispatch(props.chapter);
             if (props.chapter === props.currentChapter)
               props.setCurrentChapterDispatch(props.chapters[0]);
@@ -62,7 +65,9 @@ const mapDispatchToProps = dispatch => {
     setCurrentChapterDispatch: chapterObj =>
       dispatch(setCurrentChapterDispatch(chapterObj)),
     removeChapterFromStoryDispatch: chapterObj =>
-      dispatch(removeChapterFromStoryDispatch(chapterObj))
+      dispatch(removeChapterFromStoryDispatch(chapterObj)),
+    removeChapterFromUserDispatch: chapterObj =>
+      dispatch(removeChapterFromUserDispatch(chapterObj))
   };
 };
 export default connect(

@@ -30,6 +30,33 @@ export default function userReducer(
       );
     case "SET_CURRENT_CHAPTER": // set here for persistence
       return Object.assign({}, { ...state, currentChapter: action.chapterObj });
+    case "REMOVE_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            chapters: state.currentStory.chapters.filter(chapter => {
+              return chapter.id !== action.chapterObj.id;
+            })
+          }
+        }
+      );
+    case "UPDATE_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            chapters: state.currentStory.chapters.map(chapter => {
+              if (chapter.id === action.chapterObj.id) return action.chapterObj;
+              else return chapter;
+            })
+          }
+        }
+      );
     default:
       return state;
   }

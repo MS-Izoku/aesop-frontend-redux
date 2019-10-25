@@ -1,3 +1,4 @@
+// NOTES: Most things here will at some point be stored in localStorage
 // Create User
 export const postUser = userData => {
   return dispatch => {
@@ -98,7 +99,7 @@ export const setCurrentStoryDispatch = storyObj => {
     });
 };
 
-// this will be called in ChapterACtions to change the user state
+// this will be called in ChapterActions to change the user state
 export const setCurrentChapterDispatch = chapterObj => {
   return dispatch =>
     dispatch({
@@ -106,3 +107,17 @@ export const setCurrentChapterDispatch = chapterObj => {
       chapterObj
     });
 };
+
+export const removeChapterDispatch = chapterObj =>{
+  return dispatch =>
+    dispatch({
+      type: "REMOVE_CHAPTER",
+      chapterObj
+    })
+}
+
+export const updateUserChapterInStory = chapterObj =>{
+  return dispatch =>{
+    return dispatch({type: "UPDATE_CHAPTER" , chapterObj})
+  }
+}

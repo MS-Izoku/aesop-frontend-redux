@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
-import { setCurrentChapterDispatch } from "../actions/userActions";
+import { setCurrentChapterDispatch , updateUserChapterInStory } from "../actions/userActions";
 import { patchChapter } from "../actions/chapterActions";
 
-import ChapterDeleteModal from './ChapterDeleteModal'
+import ChapterDeleteModal from "./ChapterDeleteModal";
 
 class ChapterTextEditor extends Component {
   constructor(props) {
@@ -30,8 +30,9 @@ class ChapterTextEditor extends Component {
         title: this.state.chapterInEditor.title
       }
     );
-    console.log(configuredChapterObj);
+    //console.log(configuredChapterObj);
     this.props.setCurrentChapterDispatch(configuredChapterObj);
+    this.props.updateUserChapterInStory(configuredChapterObj)
     this.props.patchChapter(configuredChapterObj);
   };
 
@@ -48,30 +49,33 @@ class ChapterTextEditor extends Component {
   }
 
   handleChange = event => {
+    console.log(event.target.value , event.target.name , this.state.chapterInEditor.title)
     this.setState({
-      chapterInEditor: { ...this.state.chapterInEditor, title: event.target.value }
+      chapterInEditor: {
+        title: event.target.value
+      }
     });
   };
 
   handleChapterChange = (eventName, data) => {
     this.setState({ chapterInEditor: { [eventName]: data } });
-    console.log(this.state.chapterInEditor.body);
   };
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
   render() {
+    //console.log("TEXT EDITOR PROPS:", this.props);
     return (
       <div className="col-lg-8 stretchHeight">
-        <ChapterDeleteModal chapter={this.props.currentChapter}/>
-        <form>
+        <ChapterDeleteModal chapter={this.props.currentChapter} />
+        
           <input
             name="title"
-            value={this.state.chapterInEditor.title}
+            value={this.props.currentChapter.title}
             onChange={this.handleChange}
           />
-        </form>
+     
         <CKEditor
           className="stretchHeight"
           editor={ClassicEditor}
@@ -80,7 +84,6 @@ class ChapterTextEditor extends Component {
           name="body"
           onChange={(event, editor) => {
             const data = editor.getData();
-            //console.log(data);
             this.handleChapterChange("body", data);
           }}
         />
@@ -97,7 +100,9 @@ class ChapterTextEditor extends Component {
           </div>
         </div>
 
-        <div id="Debug-Viewer">{this.props.currentChapter.body}</div>
+        <div id="Debug-Viewer">
+          <h2>{this.props.currentChapter.title}</h2>
+          <p>{this.props.currentChapter.body}</p></div>
       </div>
     );
   }
@@ -112,7 +117,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setCurrentChapterDispatch: chapterObj =>
       dispatch(setCurrentChapterDispatch(chapterObj)),
-    patchChapter: chapterObj => dispatch(patchChapter(chapterObj))
+    patchChapter: chapterObj => dispatch(patchChapter(chapterObj)),
+    updateUserChapterInStory: chapterObj => dispatch(updateUserChapterInStory(chapterObj))
   };
 };
 export default withRouter(

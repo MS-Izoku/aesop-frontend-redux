@@ -98,6 +98,13 @@ export const setCurrentStory = storyObj => {
   };
 };
 
+const addChapter = chapterObj => ({type: "ADD_CHAPTER" , chapterObj})
+export const addChapterToCurrentStory = chapterObj =>{
+  return dispatch =>{
+    return dispatch(addChapter(chapterObj))
+  }
+}
+
 const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER" ,  chapterObj});
 export const removeChapterFromStoryDispatch = chapterObj => {
   console.log("HIT");

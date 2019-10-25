@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 //import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import CreateChapterButton from './CreateChapterButton'
 
 import { patchStory , setCurrentStory } from "../actions/storyActions";
 
@@ -39,9 +40,10 @@ class StoryForm extends Component {
   };
 
   render() {
-    console.log(this.state);
+    //console.log(this.state);
     return (
       <div className="p-5 bg-warning">
+        <CreateChapterButton />
         <form onSubmit={this.handleSubmit}>
           <label>Title</label>
           <input
