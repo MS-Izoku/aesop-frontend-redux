@@ -12,7 +12,7 @@ class HomeCardContainer extends Component {
 
   render() {
     return <div className="container-fluid">
-        {this.createStoryCards()}
+        {this.props.stories.allStories.length > 0 ? this.createStoryCards(): null}
     </div>;
   }
 }

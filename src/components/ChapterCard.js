@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import {withRouter} from 'react-router'
 import { setCurrentChapterDispatch } from '../actions/userActions'
 
 const ChapterCard = props => {
@@ -9,6 +10,7 @@ const ChapterCard = props => {
       className="card"
       onClick={() => {
         props.setCurrentChapterDispatch(props.chapter);
+        props.history.push("/chaptereditor")
       }}
     >
       <h3>{props.chapter.title}</h3>
@@ -23,4 +25,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null , mapDispatchToProps)(ChapterCard);
+export default withRouter(connect(null , mapDispatchToProps)(ChapterCard));

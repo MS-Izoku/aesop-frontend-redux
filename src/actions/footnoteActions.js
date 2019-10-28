@@ -12,8 +12,14 @@ export const fetchFootnotes = footnotes => ({
 export const getFootnotes = (chapterID, storyID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`
-    )
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes` , {
+        method: "GET",
+        headers:{
+          "Content-Type": 'application/json',
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        }
+      })
       .then(resp => resp.json())
       .then(notes => {
         return dispatch(fetchFootnotes(notes));
@@ -29,12 +35,13 @@ export const postFootNoteFetch = footnote => ({
 export const postFootNote = (chapterID, storyID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapterID}/chapters/${storyID}/footnotes`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           title: "New Note",
@@ -50,38 +57,39 @@ export const postFootNote = (chapterID, storyID) => {
   };
 };
 
-export const patchFootNoteFetch = footnote => ({
+export const patchFootnoteFetch = footnote => ({
   type: "PATCH_FOOTNOTE",
   footnote
 });
-export const patchFootnote = (chapterID, storyID, footnoteID, footnoteData) => {
+export const patchFootnote = (footnoteObj , storyID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes/${footnoteID}`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnoteObj.chapter_id}/footnotes/${footnoteObj.id}`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
-          title: footnoteData.title,
-          body: footnoteData.body
+          title: footnoteObj.title,
+          body: footnoteObj.body
         })
       }
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(patchFootNoteFetch(json));
+        return dispatch(patchFootnoteFetch(json));
       });
   };
 };
 
-export const deleteFootNoteFetch = footnote => ({
+export const deleteFootnoteFetch = footnote => ({
   type: "DELETE_FOOTNOTE",
   footnote
 });
-export const deleteFootNote = (storyID, footnote) => {
+export const deleteFootnote = (footnote, storyID) => {
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnote.chapter_id}/footnotes/${footnote.id}`,
@@ -89,7 +97,8 @@ export const deleteFootNote = (storyID, footnote) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           id: footnote.id
@@ -98,7 +107,7 @@ export const deleteFootNote = (storyID, footnote) => {
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(deleteFootNoteFetch(json));
+        return dispatch(deleteFootnoteFetch(json));
       });
   };
 };
@@ -109,4 +118,9 @@ export const setCurrentFootnote = footnote => {
 
 export const getCurrentFootnote = () =>{
   return {type: "GET_CURRENT_FOOTNOTE" }
+}
+
+export const setAllNotes = (chapterObj) =>{
+  const notes = chapterObj.footnotes
+  return {type: "SET_ALL_FOOTNOTES" , notes}
 }

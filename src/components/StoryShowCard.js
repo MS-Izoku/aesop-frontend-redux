@@ -16,7 +16,7 @@ const StoryShowCard = props => {
           props.setCurrentChapter(props.story.chapters.sort((chapA , chapB) =>{
             return chapB.chapter_index - chapA.chapter_index
           })[0])  // improve this with more-specific backend functionality: {chapters: last_visited_chapter}
-          props.history.push(`/storyManager/`);
+          props.history.push(`/storymanager/`);
         }}
       >
         Go To

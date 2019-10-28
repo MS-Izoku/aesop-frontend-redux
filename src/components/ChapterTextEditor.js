@@ -5,21 +5,27 @@ import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
-import { setCurrentChapterDispatch , updateUserChapterInStory } from "../actions/userActions";
+import {
+  setCurrentChapterDispatch,
+  updateUserChapterInStory
+} from "../actions/userActions";
 import { patchChapter } from "../actions/chapterActions";
 
 import ChapterDeleteModal from "./ChapterDeleteModal";
+import FootnoteModal from "./FootnoteModal"
 
 class ChapterTextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       chapterInEditor: {
-        title: this.props.currentChapter.title,
+        title: props.currentChapter.title,
         body: this.props.currentChapter.body
-      }
+      },
+      chapterID: this.props.currentChapter.id
     };
   }
+
   // need to get the editorstate here and configure the object to save properly
   saveChapter = () => {
     const configuredChapterObj = Object.assign(
@@ -30,9 +36,8 @@ class ChapterTextEditor extends Component {
         title: this.state.chapterInEditor.title
       }
     );
-    //console.log(configuredChapterObj);
     this.props.setCurrentChapterDispatch(configuredChapterObj);
-    this.props.updateUserChapterInStory(configuredChapterObj)
+    this.props.updateUserChapterInStory(configuredChapterObj);
     this.props.patchChapter(configuredChapterObj);
   };
 
@@ -48,38 +53,58 @@ class ChapterTextEditor extends Component {
     }, 1000);
   }
 
+  componentWillUpdate() {
+    if (this.props.currentChapter.id !== this.state.chapterID) {
+      this.setState({
+        chapterInEditor: {
+          ...this.state.chapterInEditor,
+          title: this.props.currentChapter.title
+        },
+        chapterID: this.props.currentChapter.id
+      });
+    }
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   handleChange = event => {
-    console.log(event.target.value , event.target.name , this.state.chapterInEditor.title)
+    console.log(
+      event.target.value,
+      event.target.name,
+      this.state.chapterInEditor.title
+    );
     this.setState({
       chapterInEditor: {
+        ...this.state.chapterInEditor,
         title: event.target.value
       }
     });
   };
 
   handleChapterChange = (eventName, data) => {
-    this.setState({ chapterInEditor: { [eventName]: data } });
+    this.setState({
+      chapterInEditor: { ...this.state.chapterInEditor, [eventName]: data }
+    });
   };
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+
+
 
   render() {
-    //console.log("TEXT EDITOR PROPS:", this.props);
     return (
-      <div className="col-lg-8 stretchHeight">
-        <ChapterDeleteModal chapter={this.props.currentChapter} />
-        
-          <input
-            name="title"
-            value={this.props.currentChapter.title}
-            onChange={this.handleChange}
-          />
-     
+      <div>
+        <input
+          className="w-100 text-center pv-4"
+          name="title"
+          value={this.state.chapterInEditor.title}
+          onChange={this.handleChange}
+        />
+
         <CKEditor
-          className="stretchHeight"
+          className="w-100"
           editor={ClassicEditor}
-          data={this.props.currentChapter.body} //this.props.chapter[0].body}
+          data={this.props.currentChapter.body}
           onInit={editor => {}}
           name="body"
           onChange={(event, editor) => {
@@ -99,10 +124,8 @@ class ChapterTextEditor extends Component {
             </Button>
           </div>
         </div>
-
-        <div id="Debug-Viewer">
-          <h2>{this.props.currentChapter.title}</h2>
-          <p>{this.props.currentChapter.body}</p></div>
+        <ChapterDeleteModal chapter={this.props.currentChapter} />
+        <FootnoteModal />
       </div>
     );
   }
@@ -118,7 +141,8 @@ const mapDispatchToProps = dispatch => {
     setCurrentChapterDispatch: chapterObj =>
       dispatch(setCurrentChapterDispatch(chapterObj)),
     patchChapter: chapterObj => dispatch(patchChapter(chapterObj)),
-    updateUserChapterInStory: chapterObj => dispatch(updateUserChapterInStory(chapterObj))
+    updateUserChapterInStory: chapterObj =>
+      dispatch(updateUserChapterInStory(chapterObj))
   };
 };
 export default withRouter(

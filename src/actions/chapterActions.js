@@ -56,13 +56,13 @@ export const patchChapter = chapterData => {
         body: JSON.stringify({
           title: chapterData.title,
           body: chapterData.body
-          //chapter data goes here
         })
       }
     )
       .then(resp => resp.json())
       .then(json => {
         console.log("<<<========", json);
+        dispatch(setCurrentChapter(json))
         return dispatch(patchChapterFetch(json));
       });
   };

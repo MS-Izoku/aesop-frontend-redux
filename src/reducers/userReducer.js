@@ -4,7 +4,7 @@ export default function userReducer(
   state = {
     currentUser: {},
     currentStory: { chapters: [{ title: "Chapter Not Found" }] },
-    currentChapter: { title: "Chapter Not Found" }
+    currentChapter: { title: "Chapter Not Found" , body: "Chapter Not Found" }
   },
   action
 ) {

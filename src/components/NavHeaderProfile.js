@@ -2,14 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import LogOutButton from "./LogOutButton";
 
-
 const NavHeaderProfile = props => {
-
   return (
     <div className="bg-info text-center">
       <span>
-        <p className="p-0">{props.user.username !== undefined ? props.user.username : "Log In"}</p>
-        <LogOutButton/>
+        {props.user.username !== undefined ? (
+          <span>
+            {" "}
+            {props.user.username} <LogOutButton />
+          </span>
+        ) : (
+          "Log In"
+        )}
       </span>
     </div>
   );
@@ -19,4 +23,4 @@ const mapStateToProps = state => {
   return { user: state.user.currentUser };
 };
 
-export default connect(mapStateToProps )(NavHeaderProfile);
+export default connect(mapStateToProps)(NavHeaderProfile);

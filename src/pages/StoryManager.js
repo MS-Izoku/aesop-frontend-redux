@@ -48,11 +48,11 @@ class StoryManager extends Component {
           </div>
           <div className="col" />
         </div>
-        <div className="row bg-info" >
+        {/* <div className="row bg-info" >
           <div className="col">
             <ChapterTextEditor />
           </div>
-        </div>
+        </div> */}
         <div className="row">
           <div className="col">
             <h2>{this.props.currentStory.title}</h2>
