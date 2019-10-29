@@ -39,7 +39,7 @@ class App extends Component {
           <Route exact path="/storymanager" store={this.props.store} component={StoryManager}/>
           <Route exact path="/chaptereditor" store={this.props.store} component={ChapterEditorPage} />
     
-        <PageFooter />
+        {/* <PageFooter /> */}
       </div>
     );
   }

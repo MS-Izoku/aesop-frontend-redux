@@ -4,16 +4,19 @@ import {withRouter} from 'react-router'
 import { setCurrentChapterDispatch } from '../actions/userActions'
 
 const ChapterCard = props => {
+  console.log(props)
   return (
     <div
       key={props.chapter.id + 6650}
-      className="card"
+      className="text-center mv-1 chapterCard onHoverDarken"
       onClick={() => {
         props.setCurrentChapterDispatch(props.chapter);
-        props.history.push("/chaptereditor")
+
+        if(props.history.location.pathname !== "/chaptereditor")
+          props.history.push("/chaptereditor")
       }}
     >
-      <h3>{props.chapter.title}</h3>
+      {props.chapter.title}
     </div>
   );
 };

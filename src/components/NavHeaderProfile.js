@@ -8,8 +8,7 @@ const NavHeaderProfile = props => {
       <span>
         {props.user.username !== undefined ? (
           <span>
-            {" "}
-            {props.user.username} <LogOutButton />
+            {props.user.username}<LogOutButton />
           </span>
         ) : (
           "Log In"

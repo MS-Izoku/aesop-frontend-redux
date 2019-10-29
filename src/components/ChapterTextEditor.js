@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+//import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
@@ -12,7 +13,7 @@ import {
 import { patchChapter } from "../actions/chapterActions";
 
 import ChapterDeleteModal from "./ChapterDeleteModal";
-import FootnoteModal from "./FootnoteModal"
+import FootnoteModal from "./FootnoteModal";
 
 class ChapterTextEditor extends Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class ChapterTextEditor extends Component {
       });
     }
   }
-  
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -89,11 +90,9 @@ class ChapterTextEditor extends Component {
     });
   };
 
-
-
   render() {
     return (
-      <div>
+      <>
         <input
           className="w-100 text-center pv-4"
           name="title"
@@ -102,10 +101,16 @@ class ChapterTextEditor extends Component {
         />
 
         <CKEditor
-          className="w-100"
-          editor={ClassicEditor}
+          editor={DecoupledEditor}
           data={this.props.currentChapter.body}
-          onInit={editor => {}}
+          onInit={editor => {
+            editor.ui // manual addition of the toolbar
+              .getEditableElement()
+              .parentElement.insertBefore(
+                editor.ui.view.toolbar.element,
+                editor.ui.getEditableElement()
+              );
+          }}
           name="body"
           onChange={(event, editor) => {
             const data = editor.getData();
@@ -116,17 +121,17 @@ class ChapterTextEditor extends Component {
         <div className="container-fluid">
           <div className="row">
             {" "}
-            <Button
+            {/* <Button
               bsPrefix="btn col custom-btn red-3 mx-2"
               onClick={this.saveChapter}
             >
               SAVE
-            </Button>
+            </Button> */}
           </div>
         </div>
-        <ChapterDeleteModal chapter={this.props.currentChapter} />
-        <FootnoteModal />
-      </div>
+        {/* <ChapterDeleteModal chapter={this.props.currentChapter} />
+        <FootnoteModal /> */}
+      </>
     );
   }
 }

@@ -6,7 +6,7 @@ import { logOut } from "../actions/userActions";
 
 const LogOutButton = props => {
   return (
-    <Button
+    <Button className="btn-sm"
       onClick={() => {
         props.logOut();
         props.history.push("/login");
