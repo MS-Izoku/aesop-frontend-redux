@@ -120,17 +120,16 @@ class ChapterTextEditor extends Component {
 
         <div className="container-fluid">
           <div className="row">
-            {" "}
-            {/* <Button
+            <Button
               bsPrefix="btn col custom-btn red-3 mx-2"
               onClick={this.saveChapter}
             >
               SAVE
-            </Button> */}
+            </Button>
           </div>
         </div>
-        {/* <ChapterDeleteModal chapter={this.props.currentChapter} />
-        <FootnoteModal /> */}
+        {/* <ChapterDeleteModal chapter={this.props.currentChapter} /> */}
+        {/* <FootnoteModal /> */}
       </>
     );
   }

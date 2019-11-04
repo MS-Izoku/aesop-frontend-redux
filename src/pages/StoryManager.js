@@ -6,8 +6,9 @@ import { getChapters } from "../actions/chapterActions";
 
 import StoryForm from "../components/StoryForm";
 import DeleteStoryButton from "../components/DeleteStoryButton";
-import ChapterTextEditor from "../components/ChapterTextEditor";
+import ChapterReader from "../components/ChapterReader";
 import ChapterCard from "../components/ChapterCard";
+import GoToChapterEditorButton from "../components/GoToChapterEditorButton";
 
 class StoryManager extends Component {
   constructor() {
@@ -43,23 +44,26 @@ class StoryManager extends Component {
         <DeleteStoryButton />
         <div className="row">
           <div className="col" />
-          <div className="col">
+          <div className="col-lg-9 text-center">
             <StoryForm swapEditorState={this.swapEditorState} />
+            <h2>{this.props.currentStory.title}</h2>
+            {/* <p>{this.props.currentStory.pitch}</p>
+            <p>{this.props.currentStory.high_concept}</p> */}
           </div>
           <div className="col" />
         </div>
-        {/* <div className="row bg-info" >
-          <div className="col">
-            <ChapterTextEditor />
-          </div>
-        </div> */}
-        <div className="row">
-          <div className="col">
-            <h2>{this.props.currentStory.title}</h2>
-            <p>{this.props.currentStory.pitch}</p>
-            <p>{this.props.currentStory.high_concept}</p>
+        <div className="row" >
+        <div className="col">
             {this.createChapterCards()}
           </div>
+          <div className="col-lg-8">
+            <GoToChapterEditorButton />
+            <ChapterReader />
+          </div>
+          <div className="col" />
+        </div>
+        <div className="row">
+
         </div>
       </div>
     );
@@ -69,7 +73,7 @@ class StoryManager extends Component {
 const mapStateToProps = state => {
   return {
     currentStory: state.user.currentStory,
-    stories: state.stories
+    stories: state.stories,
   };
 };
 

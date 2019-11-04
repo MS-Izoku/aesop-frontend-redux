@@ -65,7 +65,7 @@ export const patchStory = story => {
       .then(resp => resp.json())
       .then(json => {
         //console.log("ALko", json);
-        //dispatch(setCurrentStoryDispatch(json));
+        dispatch(setCurrentStoryDispatch(json));
         return dispatch(patchStoryFetch(json));
       });
   };
@@ -98,6 +98,7 @@ export const setCurrentStory = storyObj => {
   };
 };
 
+// adds a chapter to the story in the state
 const addChapter = chapterObj => ({type: "ADD_CHAPTER" , chapterObj})
 export const addChapterToCurrentStory = chapterObj =>{
   return dispatch =>{
@@ -105,6 +106,7 @@ export const addChapterToCurrentStory = chapterObj =>{
   }
 }
 
+// remvoes a chapter from the story inside the object
 const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER" ,  chapterObj});
 export const removeChapterFromStoryDispatch = chapterObj => {
   console.log("HIT");
