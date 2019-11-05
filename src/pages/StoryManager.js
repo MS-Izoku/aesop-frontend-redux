@@ -47,8 +47,6 @@ class StoryManager extends Component {
           <div className="col-lg-9 text-center">
             <StoryForm swapEditorState={this.swapEditorState} />
             <h2>{this.props.currentStory.title}</h2>
-            {/* <p>{this.props.currentStory.pitch}</p>
-            <p>{this.props.currentStory.high_concept}</p> */}
           </div>
           <div className="col" />
         </div>

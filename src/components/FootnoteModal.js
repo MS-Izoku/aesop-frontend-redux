@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import { connect } from "react-redux";
 import { patchFootnote, deleteFootnote } from "../actions/footnoteActions";
-
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-
-import Form from "react-bootstrap/Form";
 
 class FootnoteModal extends Component {
   constructor(props) {
@@ -16,6 +13,7 @@ class FootnoteModal extends Component {
       body: this.props.currentFootnote.body
     };
   }
+
   handleSubmit = event => {
     event.preventDefault();
     const configuredFootnoteObj = {
@@ -29,6 +27,10 @@ class FootnoteModal extends Component {
     );
   };
 
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   handleDelete = event => {
     event.preventDefault();
     this.props.deleteFootnote(
@@ -37,31 +39,46 @@ class FootnoteModal extends Component {
     );
   };
 
+  handleToggle = () => {
+    this.props.toggleFootnoteModal();
+  };
+
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Modal.Dialog>
-          <Modal.Header closeButton />
-
+      <div id="footnote-modal">
+        <Modal show={this.props.show} onHide={this.handleToggle}>
           <Modal.Body>
-            <Form.Group controlId="footnoteInput">
-              <Form.Control
-                type="text"
-                as="textarea"
-                size="sm"
-                rows="5"
-                placeholder="Your Note..."
-              />
-            </Form.Group>
-            <Button variant="secondary" onClick={() => {}}>
-              Close
-            </Button>
-            <Button variant="primary" type="submit">
-              Save changes
-            </Button>
+            <Form onSubmit={this.handleSubmit}>
+              <Modal.Dialog>
+                <Modal.Header closeButton>
+                  <Form.Control
+                    type="text"
+                    name="title"
+                    value={this.state.title}
+                    onChange={this.handleChange}
+                  />
+                </Modal.Header>
+                <Form.Group controlId="footnoteInput">
+                  <Form.Control
+                    type="text"
+                    as="textarea"
+                    name="body"
+                    size="sm"
+                    rows="5"
+                    placeholder="Your Note..."
+                    value={this.state.body}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+              </Modal.Dialog>
+            </Form>
           </Modal.Body>
-        </Modal.Dialog>
-      </Form>
+          <Modal.Footer>
+            <Button type="submit">Save changes</Button>
+            <Button onClick={this.handleToggle}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     );
   }
 }
@@ -85,12 +102,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(FootnoteModal);
-
-{
-  /* <Form>
-
-<Button variant="primary" type="submit">
-  Submit
-</Button>
-</Form> */
-}

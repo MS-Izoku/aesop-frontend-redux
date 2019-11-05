@@ -41,9 +41,7 @@ export default function(
           })
         }
       );
-      // note to self: chapter state is not updaing in the storyhome page, figure out why
     case "REMOVE_CHAPTER":
-      console.log("REMOVING FROM STORY", action.chapterObj);
       return Object.assign(
         {},
         {

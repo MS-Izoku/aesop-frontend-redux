@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-//import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
-
 import {
   setCurrentChapterDispatch,
   updateUserChapterInStory
@@ -19,6 +17,8 @@ class ChapterTextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      footnoteModalActive: false,
+      deleteChapterModalActive: false,
       chapterInEditor: {
         title: props.currentChapter.title,
         body: this.props.currentChapter.body
@@ -27,7 +27,6 @@ class ChapterTextEditor extends Component {
     };
   }
 
-  // need to get the editorstate here and configure the object to save properly
   saveChapter = () => {
     const configuredChapterObj = Object.assign(
       {},
@@ -48,6 +47,7 @@ class ChapterTextEditor extends Component {
     }, time);
   };
 
+  //#region Lifecycle Methods
   componentDidMount() {
     setTimeout(() => {
       this.autoSave(1200000);
@@ -69,13 +69,11 @@ class ChapterTextEditor extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+  //#endregion
 
+  //#region Chapter Change Handlers
+  // used for things outside of CKEditor
   handleChange = event => {
-    console.log(
-      event.target.value,
-      event.target.name,
-      this.state.chapterInEditor.title
-    );
     this.setState({
       chapterInEditor: {
         ...this.state.chapterInEditor,
@@ -84,15 +82,44 @@ class ChapterTextEditor extends Component {
     });
   };
 
+  // used specifically for CKEditor
   handleChapterChange = (eventName, data) => {
     this.setState({
       chapterInEditor: { ...this.state.chapterInEditor, [eventName]: data }
     });
   };
+  //#endregion
+
+  //#region Modal Toggling
+  toggleFootnoteModal = () => {
+    console.log("Toggling");
+    this.setState({ footnoteModalActive: !this.state.footnoteModalActive });
+  };
+
+  toggleDeleteChapterModal = () => {
+    this.setState({
+      deleteChapterModalActive: !this.state.deleteChapterModalActive
+    });
+  };
+  //#endregion
 
   render() {
     return (
       <>
+        <Button onClick={this.toggleFootnoteModal}>FOOTNOTE MODAL</Button>
+        <Button onClick={this.toggleDeleteChapterModal}>
+          DELETE CHAPTER MODAL
+        </Button>
+        <FootnoteModal
+          toggleFootnoteModal={this.toggleFootnoteModal}
+          show={this.state.footnoteModalActive}
+        />
+        <ChapterDeleteModal
+          chapter={this.props.currentChapter}
+          toggleDeleteChapterModal={this.toggleDeleteChapterModal}
+          show={this.state.deleteChapterModalActive}
+        />
+
         <input
           className="w-100 text-center pv-4"
           name="title"
@@ -110,6 +137,7 @@ class ChapterTextEditor extends Component {
                 editor.ui.view.toolbar.element,
                 editor.ui.getEditableElement()
               );
+              console.log(editor)
           }}
           name="body"
           onChange={(event, editor) => {
@@ -128,8 +156,6 @@ class ChapterTextEditor extends Component {
             </Button>
           </div>
         </div>
-        {/* <ChapterDeleteModal chapter={this.props.currentChapter} /> */}
-        {/* <FootnoteModal /> */}
       </>
     );
   }

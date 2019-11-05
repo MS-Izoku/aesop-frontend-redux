@@ -64,7 +64,6 @@ export const patchStory = story => {
     })
       .then(resp => resp.json())
       .then(json => {
-        //console.log("ALko", json);
         dispatch(setCurrentStoryDispatch(json));
         return dispatch(patchStoryFetch(json));
       });
