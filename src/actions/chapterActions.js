@@ -5,7 +5,7 @@ import {
 import { addChapterToCurrentStory } from "./storyActions";
 
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
-export const getChapters = storyID => {
+export const getChapters = (storyID , loggingIn = false) => {
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
       method: "GET",
@@ -17,6 +17,8 @@ export const getChapters = storyID => {
     })
       .then(resp => resp.json())
       .then(chapters => {
+        if(loggingIn)
+          dispatch(setCurrentChapterDispatch(chapters))
         return dispatch(fetchChapters(chapters));
       })
       .catch(err => console.error("error fetching things", err));

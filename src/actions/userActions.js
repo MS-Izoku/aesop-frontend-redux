@@ -1,7 +1,7 @@
 // NOTES: Most things here will at some point be stored in localStorage
 
 import { updateCharacterDispatch } from "./characterActions";
-import { setCharacterInChapter } from "./storyActions";
+import { getStories, setCharacterInChapter } from "./storyActions";
 
 // Create User
 export const postUser = userData => {
@@ -50,8 +50,9 @@ export const loginUserFetch = userData => {
       .then(json => {
         if (!json.message) {
           localStorage.setItem("token", json.jwt);
-          localStorage.setItem("story", "I am here");
-          return dispatch(loginUser(json));
+          // localStorage.setItem("story", "I am here");
+          dispatch(loginUser(json));
+          return dispatch(getStories(json.user_id , true));
         } else {
           localStorage.removeItem("token");
         }
@@ -87,12 +88,6 @@ export const getUserProfile = () => {
   };
 };
 
-// export const patchUser = (userID) =>{
-//   return dispatch =>{
-//     return fetch("http://localhost:3000/")
-//   }
-// }
-
 // Logout User and Delete JWT token
 const logOutUser = () => ({ type: "LOG_OUT", payload: {} });
 export const logOut = () => {
@@ -101,21 +96,78 @@ export const logOut = () => {
 };
 
 // this will be called in the StoryActions to change the user state
-export const setCurrentStoryDispatch = storyObj => {
-  return dispatch =>
+export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
+  return dispatch => {
+    if (loggingIn) {
+      console.log("SETTING CURRENT STORY ON LOGIN")
+      // if logging in, the storyObj will be an array rather than an object
+      return dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
+    }
+
     dispatch({
       type: "SET_CURRENT_STORY",
       storyObj
     });
+    return fetch(`http://localhost:3000/update-profile/${storyObj.user_id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify({
+        current_story_id: storyObj.id
+      })
+    })
+      .then(resp => resp.json())
+      .then(console.log)
+      .catch(err => {
+        console.error("Error Setting CurrentStory (fetch)", err);
+      });
+  };
 };
 
 // this will be called in ChapterActions to change the user state
-export const setCurrentChapterDispatch = chapterObj => {
-  return dispatch =>
-    dispatch({
-      type: "SET_CURRENT_CHAPTER",
-      chapterObj
-    });
+export const setCurrentChapterDispatch = (chapterObj, loggingIn = false) => {
+  return dispatch => {
+    if (!loggingIn)
+      return dispatch({
+        type: "SET_CURRENT_CHAPTER",
+        chapterObj
+      });
+    else
+      return dispatch({
+        type: "SET_CURRENT_CHAPTER_ON_LOGIN",
+        chapterObj
+      });
+  };
+  // return dispatch => {
+  //   if (loggingIn) {
+  //     // if logging in, the chapterObj will be an array rather than an object
+  //     return dispatch({ type: "SET_CURRENT_CHAPTER_ON_LOGIN", chapterObj });
+  //   }
+
+  //   dispatch({
+  //     type: "SET_CURRENT_CHAPTER",
+  //     chapterObj
+  //   });
+  //   console.log("CHAPTER OBJ" , chapterObj)
+  //   return fetch(`http://localhost:3000/update-profile/${chapterObj.owner_id}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //       Authorization: `Bearer ${localStorage.token}`
+  //     },
+  //     body: JSON.stringify({
+  //       current_chapter_id: chapterObj.id
+  //     })
+  //   })
+  //     .then(resp => resp.json())
+  //     .catch(err => {
+  //       console.error("Error Setting CurrentStory (fetch)", err);
+  //     });
+  // };
 };
 
 export const removeChapterDispatch = chapterObj => {
@@ -145,8 +197,8 @@ export const updateCurrentCharacterDispatch = characterObj => {
   };
 };
 
-export const addChapterToCurrentStoryDispatch = chapterObj =>{
-  return dispatch =>{
-    return dispatch({type: "ADD_CHAPTER_TO_CURRENT_STORY" , chapterObj})
-  }
-}
+export const addChapterToCurrentStoryDispatch = chapterObj => {
+  return dispatch => {
+    return dispatch({ type: "ADD_CHAPTER_TO_CURRENT_STORY", chapterObj });
+  };
+};

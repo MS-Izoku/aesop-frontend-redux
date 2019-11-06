@@ -6,7 +6,7 @@ import PageFooter from "./components/PageFooter";
 import { withRouter } from "react-router";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUserProfile } from "./actions/userActions";
+import { getUserProfile, setCurrentStoryDispatch } from "./actions/userActions";
 import { getStories } from "./actions/storyActions";
 
 import LoginPage from "./pages/LoginPage";
@@ -20,10 +20,7 @@ class App extends Component {
   async componentDidMount() {
     await this.props.getUserProfile();
 
-    if (
-      this.props.user.currentUser.id !== 0 &&
-      this.props.user.currentUser.id !== undefined
-    )
+    if (this.props.user.currentUser.id !== 0)
       await this.props.getStories(this.props.user.currentUser.id);
   }
 
@@ -78,12 +75,14 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     getUserProfile: () => dispatch(getUserProfile()),
-    getStories: userID => dispatch(getStories(userID))
+    getStories: (userID) => dispatch(getStories(userID , true)),
+    setCurrentStoryDispatch: storyObj =>
+      dispatch(setCurrentStoryDispatch(storyObj))
   };
 };
 
 const mapStateToProps = state => {
-  return { user: state.user };
+  return { user: state.user, stories: state.stories };
 };
 
 export default withRouter(

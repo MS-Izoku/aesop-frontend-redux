@@ -2,7 +2,8 @@ import { setCurrentStoryDispatch , addChapterToCurrentStoryDispatch } from "./us
 
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
-export const getStories = userID => {
+export const getStories = (userID , loggingIn = false) => {
+  console.log(loggingIn)
   return dispatch => {
     fetch(`http://localhost:3000/users/${userID}/stories/`, {
       method: "GET",
@@ -14,6 +15,12 @@ export const getStories = userID => {
     })
       .then(resp => resp.json())
       .then(stories => {
+        console.log("GOT THEM STORIES" , loggingIn)
+        if(loggingIn)
+          {
+            console.log("SETTING CURRENT STORY")
+            dispatch(setCurrentStoryDispatch(stories , true))
+          }
         return dispatch(fetchStories(stories));
       })
       .catch(err => console.error("error fetching things", err));

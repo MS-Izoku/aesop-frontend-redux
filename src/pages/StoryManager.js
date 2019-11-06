@@ -21,7 +21,7 @@ class StoryManager extends Component {
   }
 
   componentDidMount() {
-    this.props.getChapters(this.props.currentStory.id);
+    //this.props.getChapters(this.props.currentStory.id);
   }
 
   swapEditorState = () => {
@@ -88,7 +88,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: storyID => dispatch(getChapters(storyID))
+    //getChapters: storyID => dispatch(getChapters(storyID))
   };
 };
 

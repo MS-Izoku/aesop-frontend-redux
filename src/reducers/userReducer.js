@@ -34,6 +34,10 @@ export default function userReducer(
         {},
         {
           ...state,
+          currentUser: {
+            ...state.currentUser,
+            current_story_id: action.storyObj.id
+          },
           currentStory: {
             ...action.storyObj
           }
@@ -101,6 +105,23 @@ export default function userReducer(
             ...state.currentStory,
             chapters: [...state.currentStory.chapters, action.chapterObj]
           }
+        }
+      );
+    case "SET_CURRENT_STORY_ON_LOGIN":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: action.storyObj[state.currentUser.current_story_id]
+        }
+      );
+    case "SET_CURRENT_CHAPTER_ON_LOGIN":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentChapter:
+            state.currentStory.chapters[state.currentUser.current_chapter_id]
         }
       );
     default:
