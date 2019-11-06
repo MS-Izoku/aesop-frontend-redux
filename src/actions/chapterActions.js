@@ -1,12 +1,16 @@
-import { setCurrentChapterDispatch } from './userActions'
+import {
+  setCurrentChapterDispatch,
+  addChapterToCurrentStoryDispatch
+} from "./userActions";
+import { addChapterToCurrentStory } from "./storyActions";
 
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
-export const getChapters = (storyID) => {
+export const getChapters = storyID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`,{
+    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
       method: "GET",
       headers: {
-        "Content-Type" : "application/json",
+        "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.token}`
       }
@@ -34,7 +38,11 @@ export const postChapter = storyID => {
       })
     })
       .then(resp => resp.json())
-      .then(json => dispatch(postChapterFetch(json)));
+      .then(json => {
+        dispatch(addChapterToCurrentStory(json));
+        dispatch(addChapterToCurrentStoryDispatch(json));
+        return dispatch(postChapterFetch(json));
+      });
   };
 };
 
@@ -62,7 +70,7 @@ export const patchChapter = chapterData => {
       .then(resp => resp.json())
       .then(json => {
         console.log("<<<========", json);
-        dispatch(setCurrentChapter(json))
+        dispatch(setCurrentChapter(json));
         return dispatch(patchChapterFetch(json));
       });
   };
@@ -73,7 +81,7 @@ export const deleteChapterFetch = chapter => ({
   chapter
 });
 export const deleteChapter = chapter => {
-  console.log("DELETING" , chapter)
+  console.log("DELETING", chapter);
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
@@ -94,6 +102,6 @@ export const deleteChapter = chapter => {
   };
 };
 
-export const setCurrentChapter = chapterObj =>{
-  return dispatch => dispatch(setCurrentChapterDispatch(chapterObj))
-}
+export const setCurrentChapter = chapterObj => {
+  return dispatch => dispatch(setCurrentChapterDispatch(chapterObj));
+};

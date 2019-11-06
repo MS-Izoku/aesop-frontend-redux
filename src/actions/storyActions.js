@@ -1,4 +1,4 @@
-import { setCurrentStoryDispatch } from "./userActions";
+import { setCurrentStoryDispatch , addChapterToCurrentStoryDispatch } from "./userActions";
 
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
@@ -39,6 +39,7 @@ export const postStory = user_id => {
     })
       .then(resp => resp.json())
       .then(json => {
+        dispatch(addChapterToCurrentStoryDispatch(json))
         return dispatch(postStoryFetch(json));
       });
   };
@@ -98,18 +99,25 @@ export const setCurrentStory = storyObj => {
 };
 
 // adds a chapter to the story in the state
-const addChapter = chapterObj => ({type: "ADD_CHAPTER" , chapterObj})
-export const addChapterToCurrentStory = chapterObj =>{
-  return dispatch =>{
-    return dispatch(addChapter(chapterObj))
-  }
-}
+const addChapter = chapterObj => ({ type: "ADD_CHAPTER", chapterObj });
+export const addChapterToCurrentStory = chapterObj => {
+  console.log("WHOP")
+  return dispatch => {
+    return dispatch(addChapter(chapterObj));
+  };
+};
 
 // remvoes a chapter from the story inside the object
-const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER" ,  chapterObj});
+const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER", chapterObj });
 export const removeChapterFromStoryDispatch = chapterObj => {
   console.log("HIT");
   return dispatch => {
     return dispatch(chapterRemoval(chapterObj));
+  };
+};
+
+export const setCharacterInChapter = characterObj => {
+  return dispatch => {
+    return dispatch({ type: "SET_CHARACTER_IN_STORY", characterObj });
   };
 };

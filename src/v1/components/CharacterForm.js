@@ -50,10 +50,8 @@ class CharacterForm extends Component {
   };
 
   handleSubmit = event => {
-    debugger;
     event.preventDefault();
     this.props.setCurrentCharacter(this.state.currentCharacter);
-    //this.props.patchCharacter(this.state.currentCharacter);
     console.log(this.state.currentCharacter);
     this.props.swapEditorState();
   };

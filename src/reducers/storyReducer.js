@@ -62,6 +62,37 @@ export default function(
           })
         }
       );
+    case "SET_CHARACTER_IN_STORY":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          allStories: state.allStories.map(story => {
+            if (story.id === action.characterObj.story_id) {
+              return story.characters.map(character => {
+                if (character.id === action.characterObj.id)
+                  return action.characterObj;
+                else return character;
+              });
+            } else return story;
+          })
+        }
+      );
+    case "ADD_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          allStories: state.allStories.map(story => {
+            if (story.id === action.chapterObj.story_id) {
+              return Object.assign(
+                {},
+                { ...story, chapters: [...story.chapters, action.chapterObj] }
+              );
+            } else return story;
+          })
+        }
+      );
     default:
       return state;
   }

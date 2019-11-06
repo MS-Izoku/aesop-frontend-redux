@@ -8,7 +8,9 @@ import StoryForm from "../components/StoryForm";
 import DeleteStoryButton from "../components/DeleteStoryButton";
 import ChapterReader from "../components/ChapterReader";
 import ChapterCard from "../components/ChapterCard";
+import CharacterCard from "../components/CharacterCard";
 import GoToChapterEditorButton from "../components/GoToChapterEditorButton";
+import ChapterCreateButton from "../components/ChapterCreateButton";
 
 class StoryManager extends Component {
   constructor() {
@@ -37,6 +39,16 @@ class StoryManager extends Component {
         });
     }
   };
+
+  createCharacterCards = () => {
+    if (this.props.currentStory.id !== undefined) {
+      return this.props.currentStory.characters.map(character => {
+        return (
+          <CharacterCard character={character} key={character.id + 8318} />
+        );
+      });
+    }
+  };
   render() {
     return (
       <div className="container-fluid">
@@ -50,19 +62,18 @@ class StoryManager extends Component {
           </div>
           <div className="col" />
         </div>
-        <div className="row" >
-        <div className="col">
+        <div className="row">
+          <div className="col">
+            <ChapterCreateButton />
             {this.createChapterCards()}
           </div>
           <div className="col-lg-8">
             <GoToChapterEditorButton />
             <ChapterReader />
           </div>
-          <div className="col" />
+          <div className="col">{this.createCharacterCards()}</div>
         </div>
-        <div className="row">
-
-        </div>
+        <div className="row"></div>
       </div>
     );
   }
@@ -71,7 +82,7 @@ class StoryManager extends Component {
 const mapStateToProps = state => {
   return {
     currentStory: state.user.currentStory,
-    stories: state.stories,
+    stories: state.stories
   };
 };
 

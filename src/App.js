@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import StoryManager from "./pages/StoryManager";
 import ChapterEditorPage from './pages/ChapterEditorPage'
+import CharacterManager from "./pages/CharacterManager";
 
 class App extends Component {
 
@@ -38,6 +39,7 @@ class App extends Component {
           />
           <Route exact path="/storymanager" store={this.props.store} component={StoryManager}/>
           <Route exact path="/chaptereditor" store={this.props.store} component={ChapterEditorPage} />
+          <Route exact path="/charactermanager" store={this.props.store} component={CharacterManager} />
     
         {/* <PageFooter /> */}
       </div>

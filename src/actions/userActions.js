@@ -1,4 +1,8 @@
 // NOTES: Most things here will at some point be stored in localStorage
+
+import { updateCharacterDispatch } from "./characterActions";
+import { setCharacterInChapter } from "./storyActions";
+
 // Create User
 export const postUser = userData => {
   return dispatch => {
@@ -108,16 +112,35 @@ export const setCurrentChapterDispatch = chapterObj => {
     });
 };
 
-export const removeChapterDispatch = chapterObj =>{
+export const removeChapterDispatch = chapterObj => {
   return dispatch =>
     dispatch({
       type: "REMOVE_CHAPTER",
       chapterObj
-    })
-}
+    });
+};
 
-export const updateUserChapterInStory = chapterObj =>{
+export const updateUserChapterInStory = chapterObj => {
+  return dispatch => {
+    return dispatch({ type: "UPDATE_CHAPTER", chapterObj });
+  };
+};
+
+export const setCurrentCharacterDispatch = characterObj => {
+  return dispatch => {
+    return dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
+  };
+};
+
+export const updateCurrentCharacterDispatch = characterObj => {
+  return dispatch => {
+    dispatch(setCharacterInChapter(characterObj));
+    return dispatch({ type: "UPDATE_CURRENT_CHARACTER", characterObj });
+  };
+};
+
+export const addChapterToCurrentStoryDispatch = chapterObj =>{
   return dispatch =>{
-    return dispatch({type: "UPDATE_CHAPTER" , chapterObj})
+    return dispatch({type: "ADD_CHAPTER_TO_CURRENT_STORY" , chapterObj})
   }
 }

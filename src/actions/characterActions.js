@@ -1,8 +1,5 @@
 import * as types from "./actionTypes.js";
-// this will need to be modularized based on the current user/story information
-//const baseChapterURL = (id) => {return "http://localhost:3000/users/1/stories/${id}/chapters";}
-//baseChapterURL(1)
-// this action will do something later, need to be able to set the currently selected chapter for editing and updating
+import { updateCurrentCharacterDispatch } from "./userActions";
 export const setCurrentChapter = chapterObj => {
   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
 };
@@ -13,7 +10,14 @@ export const fetchCharacters = characters => ({
 });
 export const getCharacters = storyID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`)
+    fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
       .then(resp => resp.json())
       .then(chars => {
         console.log(chars);
@@ -30,7 +34,15 @@ export const getSingleCharacterFetch = character => ({
 export const getCharacter = (storyID, characterID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`
+      `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        }
+      }
     )
       .then(resp => resp.json())
       .then(json => dispatch(getSingleCharacterFetch(json)));
@@ -41,29 +53,30 @@ export const postFetchCharacter = character => ({
   type: "POST_CHARACTER",
   character
 });
-export const postCharacter = (
-  characterObj,
-  storyID
-) => {
-  console.log(storyID , 'THIS IS THE STORY')
+export const postCharacter = (characterObj, storyID) => {
+  console.log(storyID, "THIS IS THE STORY");
   return dispatch => {
-    return fetch(`http://localhost:3000/users/1/stories/${storyID}/characters`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        name: characterObj.name,
-        height: characterObj.height,
-        weight: characterObj.weight,
-        biography: characterObj.biography,
-        //backstory: characterObj.backstory,
-        personality: characterObj.personality,
-        appearance: characterObj.appearance,
-        story_id: storyID // get this from params
-      })
-    })
+    return fetch(
+      `http://localhost:3000/users/1/stories/${storyID}/characters`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        },
+        body: JSON.stringify({
+          name: characterObj.name,
+          height: characterObj.height,
+          weight: characterObj.weight,
+          biography: characterObj.biography,
+          //backstory: characterObj.backstory,
+          personality: characterObj.personality,
+          appearance: characterObj.appearance,
+          story_id: storyID // get this from params
+        })
+      }
+    )
       .then(resp => resp.json())
       .then(json => {
         return dispatch(postFetchCharacter(json));
@@ -75,7 +88,7 @@ export const patchFetchCharacter = character => ({
   type: "PATCH_CHARACTER",
   character
 });
-export const patchCharacter = characterObj => {
+export const patchCharacter = (characterObj, setCurrent = false) => {
   //console.log(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`)
   console.log(characterObj);
 
@@ -86,7 +99,8 @@ export const patchCharacter = characterObj => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           name: characterObj.name,
@@ -103,6 +117,7 @@ export const patchCharacter = characterObj => {
       .then(resp => resp.json())
       .then(json => {
         console.log(json);
+        if (setCurrent) dispatch(updateCurrentCharacterDispatch(json));
         return dispatch(patchFetchCharacter(json));
       });
   };
@@ -120,7 +135,8 @@ export const deleteCharacter = character => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           id: character.id

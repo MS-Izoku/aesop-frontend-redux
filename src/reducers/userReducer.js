@@ -4,7 +4,18 @@ export default function userReducer(
   state = {
     currentUser: {},
     currentStory: { chapters: [{ title: "Chapter Not Found" }] },
-    currentChapter: { title: "Chapter Not Found" , body: "Chapter Not Found" }
+    currentChapter: { title: "Chapter Not Found", body: "Chapter Not Found" },
+    currentCharacter: {
+      appearance: "",
+      biography: "",
+      height: 100,
+      img_url:
+        "https://cdn1us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/05/toy_story_4_duke_caboom_keanu_reeves.jpg?itok=adUMUrqP",
+      name: "Alpha",
+      personality: "",
+      story_id: 0,
+      weight: 150
+    }
   },
   action
 ) {
@@ -54,6 +65,41 @@ export default function userReducer(
               if (chapter.id === action.chapterObj.id) return action.chapterObj;
               else return chapter;
             })
+          }
+        }
+      );
+    case "SET_CURRENT_CHARACTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentCharacter: action.characterObj
+        }
+      );
+    case "UPDATE_CURRENT_CHARACTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            characters: state.currentStory.characters.map(character => {
+              if (character.id === action.characterObj.id)
+                return action.characterObj;
+              else return character;
+            })
+          },
+          currentCharacter: action.characterObj
+        }
+      );
+    case "ADD_CHAPTER_TO_CURRENT_STORY":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            chapters: [...state.currentStory.chapters, action.chapterObj]
           }
         }
       );

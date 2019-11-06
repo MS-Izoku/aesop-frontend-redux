@@ -31,16 +31,16 @@ class StoryEditor extends Component {
     };
   }
 
-  componentDidMount() {
-    fetch(
-      `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
-    )
-      .then(resp => resp.json())
-      .then(json => {
-        console.log("SETTING CURRENT STORY DATA", json);
-        this.setState({ currentStory: json });
-      });
-  }
+  // componentDidMount() {
+  //   fetch(
+  //     `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
+  //   )
+  //     .then(resp => resp.json())
+  //     .then(json => {
+  //       console.log("SETTING CURRENT STORY DATA", json);
+  //       this.setState({ currentStory: json });
+  //     });
+  // }
 
   saveStory = storyObj => {
     const newObj = Object.assign({}, this.state.currentStory, {
