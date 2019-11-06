@@ -120,10 +120,11 @@ class CharacterManager extends Component {
                 {this.activateEditorButton("nameEditor")}
               </Form>
             ) : (
-              <span className="bg-info">
+              <span>
                 <h2>{this.state.character.name}</h2>
                 {this.activateEditorButton("nameEditor")}
               </span>
+              
             )}
           </div>
           <div className="col" />
@@ -184,7 +185,7 @@ class CharacterManager extends Component {
             {/* Character Appearance */}
             <span>
               <h3>Appearance {this.activateEditorButton("appearanceEditor")}</h3>
-              
+              <hr/>
             </span>
             {this.state.editors.appearanceEditor ? (
               <Form onSubmit={this.handleSubmit}>

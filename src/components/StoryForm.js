@@ -47,6 +47,7 @@ class StoryForm extends Component {
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
+              className="text-center"
               value={this.state.title}
               name="title"
               onChange={this.handleChange}
@@ -57,6 +58,7 @@ class StoryForm extends Component {
             <Form.Control
               type="text"
               value={this.state.pitch}
+              className="text-center"
               name="pitch"
               onChange={this.handleChange}
             />
