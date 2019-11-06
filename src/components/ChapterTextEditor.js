@@ -137,7 +137,6 @@ class ChapterTextEditor extends Component {
                 editor.ui.view.toolbar.element,
                 editor.ui.getEditableElement()
               );
-              console.log(editor)
           }}
           name="body"
           onChange={(event, editor) => {

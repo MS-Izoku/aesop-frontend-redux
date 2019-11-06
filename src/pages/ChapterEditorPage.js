@@ -2,6 +2,7 @@ import React , {Component} from 'react'
 import { connect } from 'react-redux';
 
 import ChapterTextEditor from '../components/ChapterTextEditor'
+import ChapterEditorRightBar from '../components/ChapterEditorRightBar'
 
 import ChapterCard from '../components/ChapterCard'
 class ChapterEditorPage extends Component{
@@ -25,7 +26,9 @@ class ChapterEditorPage extends Component{
                 <div className="col-lg-9 col-sm-12 bg-info px-0 mx-0">
                     <ChapterTextEditor />
                 </div>
-                <div className="col"></div>
+                <div className="col">
+                  <ChapterEditorRightBar />
+                </div>
             </div>
         </div>)
     }

@@ -87,6 +87,12 @@ export const getUserProfile = () => {
   };
 };
 
+// export const patchUser = (userID) =>{
+//   return dispatch =>{
+//     return fetch("http://localhost:3000/")
+//   }
+// }
+
 // Logout User and Delete JWT token
 const logOutUser = () => ({ type: "LOG_OUT", payload: {} });
 export const logOut = () => {

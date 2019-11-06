@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import LogOutButton from "./LogOutButton";
 
 const NavHeaderProfile = props => {
@@ -8,10 +9,27 @@ const NavHeaderProfile = props => {
       <span>
         {props.user.username !== undefined ? (
           <span>
-            {props.user.username}<LogOutButton />
+            {props.user.username}
+            <LogOutButton />
           </span>
         ) : (
-          "Log In"
+          <>
+            <span
+              onClick={() => {
+                props.history.push("/login");
+              }}
+            >
+              Log In
+            </span>
+            {" | "}
+            <span
+              onClick={() => {
+                props.history.push("/signup");
+              }}
+            >
+              Sign Up
+            </span>
+          </>
         )}
       </span>
     </div>
@@ -22,4 +40,4 @@ const mapStateToProps = state => {
   return { user: state.user.currentUser };
 };
 
-export default connect(mapStateToProps)(NavHeaderProfile);
+export default withRouter(connect(mapStateToProps)(NavHeaderProfile));
