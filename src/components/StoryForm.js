@@ -44,7 +44,7 @@ class StoryForm extends Component {
       <div className="p-5 bg-warning">
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
               value={this.state.title}
@@ -53,7 +53,7 @@ class StoryForm extends Component {
             />
           </Form.Group>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Pitch</Form.Label>
             <Form.Control
               type="text"
               value={this.state.pitch}
@@ -61,7 +61,7 @@ class StoryForm extends Component {
               onChange={this.handleChange}
             />
 
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>High Concept</Form.Label>
             <Form.Control
               type="text"
               value={this.state.high_concept}
