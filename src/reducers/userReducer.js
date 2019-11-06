@@ -116,12 +116,25 @@ export default function userReducer(
         }
       );
     case "SET_CURRENT_CHAPTER_ON_LOGIN":
+      const story = action.storyObj.filter(
+        story => story.id === state.currentUser.current_story_id
+      )[0];
+
+      const targetChapter = story.chapters.filter(
+        chapter => chapter.id === state.currentUser.current_chapter_id
+      );
+
+      if (targetChapter[0] === undefined)
+        console.log("NEED TO CHANGE THE STORY");
       return Object.assign(
         {},
         {
           ...state,
-          currentChapter:
-            state.currentStory.chapters[state.currentUser.current_chapter_id]
+          currentChapter: action.storyObj
+            .filter(story => story.id === state.currentUser.current_story_id)[0]
+            .chapters.filter(
+              chapter => chapter.id === state.currentUser.current_chapter_id
+            )[0]
         }
       );
     default:

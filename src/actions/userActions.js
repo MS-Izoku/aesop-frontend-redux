@@ -52,7 +52,7 @@ export const loginUserFetch = userData => {
           localStorage.setItem("token", json.jwt);
           // localStorage.setItem("story", "I am here");
           dispatch(loginUser(json));
-          return dispatch(getStories(json.user_id , true));
+          return dispatch(getStories(json.user_id, true));
         } else {
           localStorage.removeItem("token");
         }
@@ -99,9 +99,9 @@ export const logOut = () => {
 export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
   return dispatch => {
     if (loggingIn) {
-      console.log("SETTING CURRENT STORY ON LOGIN")
       // if logging in, the storyObj will be an array rather than an object
-      return dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
+       dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
+       return dispatch(setCurrentChapterDispatch(storyObj , true))
     }
 
     dispatch({
@@ -130,15 +130,34 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
 // this will be called in ChapterActions to change the user state
 export const setCurrentChapterDispatch = (chapterObj, loggingIn = false) => {
   return dispatch => {
-    if (!loggingIn)
-      return dispatch({
+    if (!loggingIn) {
+      dispatch({
         type: "SET_CURRENT_CHAPTER",
         chapterObj
       });
-    else
+      return fetch(
+        `http://localhost:3000/update-profile/${chapterObj.author_id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.token}`
+          },
+          body: JSON.stringify({
+            current_chapter_id: chapterObj.id
+          })
+        }
+      )
+        .then(resp => resp.json())
+        .then(console.log)
+        .catch(err => {
+          console.error("Error Setting the Current Chapter", err);
+        });
+    } else
       return dispatch({
         type: "SET_CURRENT_CHAPTER_ON_LOGIN",
-        chapterObj
+        storyObj: chapterObj // this will be an array of stories to parse through on login
       });
   };
   // return dispatch => {

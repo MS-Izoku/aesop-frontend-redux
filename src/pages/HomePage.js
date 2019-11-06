@@ -8,7 +8,7 @@ import CreateStoryButton from '../components/CreateStoryButton'
 
 class HomePage extends Component{
     componentDidMount(){
-        this.props.getStories(1)
+       // this.props.getStories(1)
     }
 
     render(){
@@ -24,7 +24,7 @@ const mapStateToProps = (state) =>{
         stories: state.stories}
 }
 const mapDispatchToProps = (dispatch)=>{
-    return { getStories: (userID)=>dispatch(getStories(userID))}
+    //return { getStories: (userID)=>dispatch(getStories(userID))}
 }
 
 export default connect(mapStateToProps , mapDispatchToProps)(HomePage)

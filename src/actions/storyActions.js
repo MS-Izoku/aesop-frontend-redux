@@ -18,7 +18,6 @@ export const getStories = (userID , loggingIn = false) => {
         console.log("GOT THEM STORIES" , loggingIn)
         if(loggingIn)
           {
-            console.log("SETTING CURRENT STORY")
             dispatch(setCurrentStoryDispatch(stories , true))
           }
         return dispatch(fetchStories(stories));
