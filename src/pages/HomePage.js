@@ -25,6 +25,7 @@ const mapStateToProps = (state) =>{
 }
 const mapDispatchToProps = (dispatch)=>{
     //return { getStories: (userID)=>dispatch(getStories(userID))}
+    return {}
 }
 
 export default connect(mapStateToProps , mapDispatchToProps)(HomePage)

@@ -44,7 +44,17 @@ export default function userReducer(
         }
       );
     case "SET_CURRENT_CHAPTER": // set here for persistence
-      return Object.assign({}, { ...state, currentChapter: action.chapterObj });
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentChapter: action.chapterObj,
+          currentUser: {
+            ...state.currentUser,
+            current_chapter_id: action.chapterObj.id
+          }
+        }
+      );
     case "REMOVE_CHAPTER":
       return Object.assign(
         {},
@@ -108,33 +118,41 @@ export default function userReducer(
         }
       );
     case "SET_CURRENT_STORY_ON_LOGIN":
+      console.log("LOGIN STORY OBJ", action.storyObj);
       return Object.assign(
         {},
         {
           ...state,
-          currentStory: action.storyObj[state.currentUser.current_story_id]
+          //currentStory: action.storyObj[state.currentUser.current_story_id]
+          currentStory: action.storyObj.filter(
+            story => story.id === state.currentUser.current_story_id
+          )[0]
         }
       );
     case "SET_CURRENT_CHAPTER_ON_LOGIN":
-      const story = action.storyObj.filter(
-        story => story.id === state.currentUser.current_story_id
-      )[0];
+      console.log(action);
+      // const target = action.storyObj
+      // .filter(story => story.id === state.currentUser.current_story_id)
+      // .chapters.filter(
+      //   chapter => chapter.id === state.currentUser.current_chapter_id
+      // )[0]
 
-      const targetChapter = story.chapters.filter(
-        chapter => chapter.id === state.currentUser.current_chapter_id
-      );
+      const target = action.storyObj
+        .filter(story => story.id === state.currentUser.current_story_id)[0]
+        .chapters.filter(
+          chapter => chapter.id === state.currentUser.current_chapter_id
+        )[0];
 
-      if (targetChapter[0] === undefined)
-        console.log("NEED TO CHANGE THE STORY");
+      console.log(target);
       return Object.assign(
         {},
         {
           ...state,
           currentChapter: action.storyObj
-            .filter(story => story.id === state.currentUser.current_story_id)[0]
-            .chapters.filter(
-              chapter => chapter.id === state.currentUser.current_chapter_id
-            )[0]
+          .filter(story => story.id === state.currentUser.current_story_id)[0]
+          .chapters.filter(
+            chapter => chapter.id === state.currentUser.current_chapter_id
+          )[0]
         }
       );
     default:

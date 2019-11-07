@@ -100,8 +100,8 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
   return dispatch => {
     if (loggingIn) {
       // if logging in, the storyObj will be an array rather than an object
-       dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
-       return dispatch(setCurrentChapterDispatch(storyObj , true))
+      dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
+      return dispatch(setCurrentChapterDispatch(storyObj, true));
     }
 
     dispatch({
@@ -128,65 +128,47 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
 };
 
 // this will be called in ChapterActions to change the user state
-export const setCurrentChapterDispatch = (chapterObj, loggingIn = false) => {
+export const setCurrentChapterDispatch = (
+  chapterObj,
+  loggingIn = false,
+  skipPatch = true
+) => {
   return dispatch => {
     if (!loggingIn) {
       dispatch({
         type: "SET_CURRENT_CHAPTER",
         chapterObj
       });
-      return fetch(
-        `http://localhost:3000/update-profile/${chapterObj.author_id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${localStorage.token}`
-          },
-          body: JSON.stringify({
-            current_chapter_id: chapterObj.id
+      if (!skipPatch) {
+        console.log("PATCHING" , chapterObj);
+        return fetch(
+          `http://localhost:3000/update-profile/${chapterObj.author_id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify({
+              current_chapter_id: chapterObj.id
+            })
+          }
+        )
+          .then(resp => resp.json())
+          .then(json => {
+            debugger;
           })
-        }
-      )
-        .then(resp => resp.json())
-        .then(console.log)
-        .catch(err => {
-          console.error("Error Setting the Current Chapter", err);
-        });
+          .catch(err => {
+            console.error("Error Setting the Current Chapter", err);
+          });
+      }
     } else
       return dispatch({
         type: "SET_CURRENT_CHAPTER_ON_LOGIN",
         storyObj: chapterObj // this will be an array of stories to parse through on login
       });
   };
-  // return dispatch => {
-  //   if (loggingIn) {
-  //     // if logging in, the chapterObj will be an array rather than an object
-  //     return dispatch({ type: "SET_CURRENT_CHAPTER_ON_LOGIN", chapterObj });
-  //   }
-
-  //   dispatch({
-  //     type: "SET_CURRENT_CHAPTER",
-  //     chapterObj
-  //   });
-  //   console.log("CHAPTER OBJ" , chapterObj)
-  //   return fetch(`http://localhost:3000/update-profile/${chapterObj.owner_id}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       Authorization: `Bearer ${localStorage.token}`
-  //     },
-  //     body: JSON.stringify({
-  //       current_chapter_id: chapterObj.id
-  //     })
-  //   })
-  //     .then(resp => resp.json())
-  //     .catch(err => {
-  //       console.error("Error Setting CurrentStory (fetch)", err);
-  //     });
-  // };
 };
 
 export const removeChapterDispatch = chapterObj => {
@@ -205,7 +187,7 @@ export const updateUserChapterInStory = chapterObj => {
 
 export const setCurrentCharacterDispatch = characterObj => {
   return dispatch => {
-    return dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
+    dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
   };
 };
 

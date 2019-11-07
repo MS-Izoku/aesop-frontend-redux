@@ -1,9 +1,11 @@
-import { setCurrentStoryDispatch , addChapterToCurrentStoryDispatch } from "./userActions";
+import {
+  setCurrentStoryDispatch,
+  addChapterToCurrentStoryDispatch
+} from "./userActions";
 
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
-export const getStories = (userID , loggingIn = false) => {
-  console.log(loggingIn)
+export const getStories = (userID, loggingIn = false) => {
   return dispatch => {
     fetch(`http://localhost:3000/users/${userID}/stories/`, {
       method: "GET",
@@ -15,14 +17,17 @@ export const getStories = (userID , loggingIn = false) => {
     })
       .then(resp => resp.json())
       .then(stories => {
-        console.log("GOT THEM STORIES" , loggingIn)
-        if(loggingIn)
-          {
-            dispatch(setCurrentStoryDispatch(stories , true))
-          }
-        return dispatch(fetchStories(stories));
+        if (loggingIn) {
+          dispatch(fetchStories(stories));
+          return dispatch(setCurrentStoryDispatch(stories, true , true));
+        } else return dispatch(fetchStories(stories));
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err =>
+        console.error(
+          "Error: Last-Visited Story Not Found.  If it's your first time logging in, this is expected, and you can disregard this message.",
+          err
+        )
+      );
   };
 };
 
@@ -45,7 +50,7 @@ export const postStory = user_id => {
     })
       .then(resp => resp.json())
       .then(json => {
-        dispatch(addChapterToCurrentStoryDispatch(json))
+        dispatch(addChapterToCurrentStoryDispatch(json));
         return dispatch(postStoryFetch(json));
       });
   };
@@ -107,7 +112,7 @@ export const setCurrentStory = storyObj => {
 // adds a chapter to the story in the state
 const addChapter = chapterObj => ({ type: "ADD_CHAPTER", chapterObj });
 export const addChapterToCurrentStory = chapterObj => {
-  console.log("WHOP")
+  console.log("WHOP");
   return dispatch => {
     return dispatch(addChapter(chapterObj));
   };

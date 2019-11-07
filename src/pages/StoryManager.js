@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getChapters } from "../actions/chapterActions";
-
+import { setCurrentChapterDispatch } from "../actions/userActions";
 import StoryForm from "../components/StoryForm";
 import DeleteStoryButton from "../components/DeleteStoryButton";
 import ChapterReader from "../components/ChapterReader";
@@ -18,10 +18,6 @@ class StoryManager extends Component {
     this.state = {
       inEditor: false
     };
-  }
-
-  componentDidMount() {
-    //this.props.getChapters(this.props.currentStory.id);
   }
 
   swapEditorState = () => {
@@ -49,6 +45,23 @@ class StoryManager extends Component {
       });
     }
   };
+
+  onUnload = (event) => {
+    alert("Waiting to Save!")
+    this.props.setCurrentChapterDispatch(this.props.currentChapter);
+    event.returnValue = "unloading"
+    return "Unloading Story Manager, please wait"
+  };
+
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.onUnload);
+    //this.props.getChapters(this.props.currentStory.id);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.onUnload);
+  }
+
   render() {
     return (
       <div className="container-fluid">
@@ -82,12 +95,15 @@ class StoryManager extends Component {
 const mapStateToProps = state => {
   return {
     currentStory: state.user.currentStory,
-    stories: state.stories
+    stories: state.stories,
+    currentChapter: state.user.currentChapter
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    setCurrentChapterDispatch: chapterObj =>
+      dispatch(setCurrentChapterDispatch(chapterObj, false, false))
     //getChapters: storyID => dispatch(getChapters(storyID))
   };
 };
