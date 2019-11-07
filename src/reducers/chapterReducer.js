@@ -34,11 +34,7 @@ export default function chapterReducer(
           })
         }
       );
-    // return state.map(chapter => {
-    //   if (chapter.id === action.chapter.id) {
-    //     return action.chapter;
-    //   } else return chapter;
-    // });
+
     case "DELETE_CHAPTER":
       return {
         ...state,
@@ -47,10 +43,6 @@ export default function chapterReducer(
         })
       };
 
-    // console.log("You hit the reducer");
-    // return state.filter(chapter => {
-    //   return chapter.id !== action.chapter.id;
-    // });
     default:
       return state;
   }

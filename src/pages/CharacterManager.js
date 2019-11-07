@@ -10,6 +10,7 @@ import RichTextArea from "../components/RichTextArea";
 import Form from "react-bootstrap/Form";
 import NumericInput from "react-numeric-input";
 
+import DomPurify from 'dompurify'
 class CharacterManager extends Component {
   constructor(props) {
     super(props);
@@ -56,6 +57,10 @@ class CharacterManager extends Component {
       }
     });
   };
+
+  sanitizeText = (richText) =>{
+    return {__html: DomPurify.sanitize(richText)}
+  }
 
   handleHeightChange = val => {
     this.setState({ character: { ...this.state.character, height: val } });
@@ -147,7 +152,7 @@ class CharacterManager extends Component {
                 }
               />
             ) : (
-              this.state.character.biography
+              <div dangerouslySetInnerHTML={this.sanitizeText(this.state.character.biography)} />
             )}
           </div>
           <div className="col" />
@@ -172,7 +177,7 @@ class CharacterManager extends Component {
                 changeHandler={this.onRichTextEditorChange}
               />
             ) : (
-              this.state.character.personality
+              <div dangerouslySetInnerHTML={this.sanitizeText(this.state.character.personality)} />
             )}
           </div>
           <div className="col" />
@@ -186,6 +191,7 @@ class CharacterManager extends Component {
               <h3>Appearance {this.activateEditorButton("appearanceEditor")}</h3>
               
             </span>
+            <hr />
             {this.state.editors.appearanceEditor ? (
               <Form onSubmit={this.handleSubmit}>
                 <RichTextArea
@@ -221,7 +227,7 @@ class CharacterManager extends Component {
               </Form>
             ) : (
               <>
-                <p>{this.state.character.appearance}</p>
+                <div dangerouslySetInnerHTML={this.sanitizeText(this.state.character.appearance)} />
                 <p>Height: {this.state.character.height}</p>
                 <p>Weight: {this.state.character.weight}</p>
               </>

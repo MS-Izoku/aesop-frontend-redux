@@ -29,7 +29,7 @@ export default function userReducer(
       );
     case "POST_USER":
       return Object.assign({}, { ...state, currentUser: action.user });
-    case "SET_CURRENT_STORY": // set here for persistence
+    case "SET_CURRENT_STORY":
       return Object.assign(
         {},
         {
@@ -43,7 +43,7 @@ export default function userReducer(
           }
         }
       );
-    case "SET_CURRENT_CHAPTER": // set here for persistence
+    case "SET_CURRENT_CHAPTER":
       return Object.assign(
         {},
         {
@@ -118,12 +118,10 @@ export default function userReducer(
         }
       );
     case "SET_CURRENT_STORY_ON_LOGIN":
-      console.log("LOGIN STORY OBJ", action.storyObj);
       return Object.assign(
         {},
         {
           ...state,
-          //currentStory: action.storyObj[state.currentUser.current_story_id]
           currentStory: action.storyObj.filter(
             story => story.id === state.currentUser.current_story_id
           )[0]

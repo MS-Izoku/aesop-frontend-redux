@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
+import DomPurify from 'dompurify'
 
 const ChapterReader = props => {
-  return <div>{props.chapter.body}</div>;
+  function htmlSetter(){
+    return {__html: DomPurify.sanitize(props.chapter.body)}
+  }
+  return <div dangerouslySetInnerHTML={htmlSetter()}/>;
 };
 
 const mapStateToProps = state => {

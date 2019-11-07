@@ -12,12 +12,10 @@ export default function(
       return [...state, action.character];
     case types.PATCH_CHARACTER:
       return state.map(char => {
-        console.log(action.character)
         if (char.id === action.character.id) return action.character;
         else return char;
       });
     case types.DELETE_CHARACTER:
-      console.log('Character Deletion Requires a Character Obj:' , action.character)
       return state.filter(char =>{
         return char.id !== action.character.id
       });
@@ -25,8 +23,3 @@ export default function(
       return state;
   }
 }
-
-// console.log(action.chapter)
-// if (chapter.id === action.chapter.id) {
-//   return action.chapter
-// } else return chapter;

@@ -18,12 +18,11 @@ export const getChapters = (storyID, loggingIn = false) => {
       .then(resp => resp.json())
       .then(chapters => {
         if (loggingIn) {
-          console.log("Logging in, getting chapters");
           dispatch(setCurrentChapterDispatch(chapters));
         }
         return dispatch(fetchChapters(chapters));
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err => console.error("ERROR GETTING CHAPTERS:", err));
   };
 };
 
@@ -46,7 +45,8 @@ export const postChapter = storyID => {
         dispatch(addChapterToCurrentStory(json));
         dispatch(addChapterToCurrentStoryDispatch(json));
         return dispatch(postChapterFetch(json));
-      });
+      })
+      .catch(err => {console.error("ERROR CREATING CHAPTER:" , err)});
   };
 };
 
@@ -73,10 +73,10 @@ export const patchChapter = chapterData => {
     )
       .then(resp => resp.json())
       .then(json => {
-        console.log("<<<========", json);
         dispatch(setCurrentChapter(json));
         return dispatch(patchChapterFetch(json));
-      });
+      })
+      .catch(err => {console.error("ERROR UPDATING CHAPTER:" , err)});
   };
 };
 
@@ -102,7 +102,8 @@ export const deleteChapter = chapter => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteChapterFetch(json));
-      });
+      })
+      .catch(err => {console.error("ERROR DELETING CHAPTER:" , err)});
   };
 };
 
