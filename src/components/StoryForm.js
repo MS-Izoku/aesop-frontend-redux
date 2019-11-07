@@ -18,7 +18,6 @@ class StoryForm extends Component {
   }
 
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -40,6 +39,7 @@ class StoryForm extends Component {
 
   render() {
     //console.log(this.state);
+    console.log("MOUNTING STORYFORM" , this.props)
     return (
       <div className="p-5 bg-warning">
         <Form onSubmit={this.handleSubmit}>

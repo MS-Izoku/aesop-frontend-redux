@@ -1,6 +1,3 @@
-// NOTES: Most things here will at some point be stored in localStorage
-
-import { updateCharacterDispatch } from "./characterActions";
 import { getStories, setCharacterInChapter } from "./storyActions";
 
 // Create User
@@ -29,7 +26,7 @@ export const postUser = userData => {
         return dispatch(loginUser(configuredUserObject));
       })
       .catch(err => {
-        console.log(err);
+        console.error("ERROR CREATING NEW USER", err);
       });
   };
 };
@@ -50,14 +47,13 @@ export const loginUserFetch = userData => {
       .then(json => {
         if (!json.message) {
           localStorage.setItem("token", json.jwt);
-          // localStorage.setItem("story", "I am here");
           dispatch(loginUser(json));
           return dispatch(getStories(json.user_id, true));
         } else {
           localStorage.removeItem("token");
         }
       })
-      .catch(err => console.error("CAUGHT ERROR: ", err));
+      .catch(err => console.error("ERROR LOGGING IN: ", err));
   };
 };
 
@@ -84,6 +80,9 @@ export const getUserProfile = () => {
         } else {
           localStorage.removeItem("token");
         }
+      })
+      .catch(err => {
+        console.error("ERROR GETTING USER-PROFILE:", err);
       });
   };
 };
@@ -120,7 +119,6 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
       })
     })
       .then(resp => resp.json())
-      .then(console.log)
       .catch(err => {
         console.error("Error Setting CurrentStory (fetch)", err);
       });
@@ -140,7 +138,6 @@ export const setCurrentChapterDispatch = (
         chapterObj
       });
       if (!skipPatch) {
-        console.log("PATCHING" , chapterObj);
         return fetch(
           `http://localhost:3000/update-profile/${chapterObj.author_id}`,
           {
@@ -156,9 +153,6 @@ export const setCurrentChapterDispatch = (
           }
         )
           .then(resp => resp.json())
-          .then(json => {
-            debugger;
-          })
           .catch(err => {
             console.error("Error Setting the Current Chapter", err);
           });

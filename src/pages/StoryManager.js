@@ -47,15 +47,16 @@ class StoryManager extends Component {
   };
 
   onUnload = (event) => {
+    event.preventDefault();
     alert("Waiting to Save!")
     this.props.setCurrentChapterDispatch(this.props.currentChapter);
     event.returnValue = "unloading"
+
     return "Unloading Story Manager, please wait"
   };
 
   componentDidMount() {
     window.addEventListener("beforeunload", this.onUnload);
-    //this.props.getChapters(this.props.currentStory.id);
   }
 
   componentWillUnmount() {

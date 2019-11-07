@@ -19,7 +19,7 @@ export const getStories = (userID, loggingIn = false) => {
       .then(stories => {
         if (loggingIn) {
           dispatch(fetchStories(stories));
-          return dispatch(setCurrentStoryDispatch(stories, true , true));
+          return dispatch(setCurrentStoryDispatch(stories, true, true));
         } else return dispatch(fetchStories(stories));
       })
       .catch(err =>
@@ -52,6 +52,9 @@ export const postStory = user_id => {
       .then(json => {
         dispatch(addChapterToCurrentStoryDispatch(json));
         return dispatch(postStoryFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR CREATING NEW STORY:", err);
       });
   };
 };
@@ -60,7 +63,6 @@ export const postStory = user_id => {
 export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 export const patchStory = story => {
   return dispatch => {
-    console.log(story);
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
       method: "PATCH",
       headers: {
@@ -78,6 +80,9 @@ export const patchStory = story => {
       .then(json => {
         dispatch(setCurrentStoryDispatch(json));
         return dispatch(patchStoryFetch(json));
+      })
+      .catch(err => {
+        console.err("ERROR UPDATING STORY:", err);
       });
   };
 };
@@ -98,7 +103,7 @@ export const deleteStory = story => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteStoryFetch(json));
-      });
+      }).catch(err =>{ console.error("ERROR DELETING STORY:" , err)});
   };
 };
 
@@ -112,7 +117,6 @@ export const setCurrentStory = storyObj => {
 // adds a chapter to the story in the state
 const addChapter = chapterObj => ({ type: "ADD_CHAPTER", chapterObj });
 export const addChapterToCurrentStory = chapterObj => {
-  console.log("WHOP");
   return dispatch => {
     return dispatch(addChapter(chapterObj));
   };
@@ -121,7 +125,6 @@ export const addChapterToCurrentStory = chapterObj => {
 // remvoes a chapter from the story inside the object
 const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER", chapterObj });
 export const removeChapterFromStoryDispatch = chapterObj => {
-  console.log("HIT");
   return dispatch => {
     return dispatch(chapterRemoval(chapterObj));
   };
