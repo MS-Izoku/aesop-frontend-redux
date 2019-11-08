@@ -18,10 +18,19 @@ import SignUpPage from "./pages/SignUpPage";
 
 class App extends Component {
   async componentDidMount() {
-    await this.props.getUserProfile();
+    if (localStorage.token) {
+      await this.props.getUserProfile();
+      if (this.props.user.currentUser.id !== 0)
+        await this.props.getStories(this.props.user.currentUser.id);
+    }
+  }
 
-    if (this.props.user.currentUser.id !== 0)
-      await this.props.getStories(this.props.user.currentUser.id);
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.user.currentUser.id === undefined &&
+      this.props.user.currentUser.id !== undefined
+    )
+      this.props.getStories(this.props.user.currentUser.id);
   }
 
   render() {
@@ -75,7 +84,7 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     getUserProfile: () => dispatch(getUserProfile()),
-    getStories: (userID) => dispatch(getStories(userID , true)),
+    getStories: userID => dispatch(getStories(userID, true)),
     setCurrentStoryDispatch: storyObj =>
       dispatch(setCurrentStoryDispatch(storyObj))
   };

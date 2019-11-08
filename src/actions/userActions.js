@@ -100,6 +100,7 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
     if (loggingIn) {
       // if logging in, the storyObj will be an array rather than an object
       dispatch({ type: "SET_CURRENT_STORY_ON_LOGIN", storyObj });
+      dispatch(setCurrentCharacterDispatch(storyObj, true, true));
       return dispatch(setCurrentChapterDispatch(storyObj, true));
     }
 
@@ -179,9 +180,40 @@ export const updateUserChapterInStory = chapterObj => {
   };
 };
 
-export const setCurrentCharacterDispatch = characterObj => {
+export const setCurrentCharacterDispatch = (
+  characterObj,
+  loggingIn = false,
+  skipFetch = false
+) => {
   return dispatch => {
-    dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
+    if (!loggingIn) {
+      if (!skipFetch) {
+        console.log("FETCH HERE", characterObj);
+        fetch(
+          `http://localhost:3000/update-profile/${characterObj.author_id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify({
+              current_character_id: characterObj.id
+            })
+          })
+            .then(resp => resp.json())
+            .then(json => {console.log(json)})
+            .catch(err => {
+              console.error("ERROR SETTING CURRENT CHARACTER:", err);
+            }
+        );
+      }
+      return dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
+    } else {
+      console.log("STORY OBJ TO GET CHARS FROM", characterObj);
+      return dispatch({ type: "SET_CURRENT_CHARACTER_ON_LOGIN", characterObj });
+    }
   };
 };
 

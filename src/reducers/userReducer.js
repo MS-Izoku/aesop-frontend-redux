@@ -90,6 +90,25 @@ export default function userReducer(
           currentCharacter: action.characterObj
         }
       );
+    case "SET_CURRENT_CHARACTER_ON_LOGIN":
+      const target = action.characterObj
+        .filter(story => story.id === state.currentUser.current_story_id)[0]
+        .characters.filter(
+          character => character.id === state.currentUser.current_character_id
+        )[0];
+      if (target === undefined) return state;
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentCharacter: action.characterObj
+            .filter(story => story.id === state.currentUser.current_story_id)[0]
+            .characters.filter(
+              character =>
+                character.id === state.currentUser.current_character_id
+            )[0]
+        }
+      );
     case "UPDATE_CURRENT_CHARACTER":
       return Object.assign(
         {},
@@ -133,10 +152,10 @@ export default function userReducer(
         {
           ...state,
           currentChapter: action.storyObj
-          .filter(story => story.id === state.currentUser.current_story_id)[0]
-          .chapters.filter(
-            chapter => chapter.id === state.currentUser.current_chapter_id
-          )[0]
+            .filter(story => story.id === state.currentUser.current_story_id)[0]
+            .chapters.filter(
+              chapter => chapter.id === state.currentUser.current_chapter_id
+            )[0]
         }
       );
     default:

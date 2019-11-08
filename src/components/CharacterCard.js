@@ -20,7 +20,7 @@ const CharacterCard = props => {
 const mapDispatchToProps = dispatch => {
   return {
     setCurrentCharacterDispatch: characterObj =>
-      dispatch(setCurrentCharacterDispatch(characterObj))
+      dispatch(setCurrentCharacterDispatch(characterObj , false , false))
   };
 };
 export default withRouter(connect(

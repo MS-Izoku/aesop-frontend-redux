@@ -43,19 +43,21 @@ class StoryForm extends Component {
     return (
       <div className="p-5 bg-warning">
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="storyTitle">
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
+              className="text-center"
               value={this.state.title}
               name="title"
               onChange={this.handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="storyPitch">
             <Form.Label>Pitch</Form.Label>
             <Form.Control
               type="text"
+              className="text-center"
               value={this.state.pitch}
               name="pitch"
               onChange={this.handleChange}
