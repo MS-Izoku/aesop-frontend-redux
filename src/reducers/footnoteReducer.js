@@ -20,13 +20,7 @@ export default function(
         allNotes: [...state.allNotes, action.footnote]
       });
     case types.PATCH_FOOTNOTE:
-      return Object.assign({} , {
-        ...state,
-        allNotes: state.allNotes.map(note =>{
-          return note.id === action.footnote.id ? action.footnote : note
-        }),
-        currentNote: action.footnote
-      })
+      return state
     case "DELETE_FOOTNOTE":
       return Object.assign({} , {
         ...state ,

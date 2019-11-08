@@ -158,6 +158,58 @@ export default function userReducer(
             )[0]
         }
       );
+    case "ADD_FOOTNOTE_TO_CURRENT_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            chapters: state.currentStory.chapters.map(chapter => {
+              if (chapter.id === action.footnoteObj.current_chapter_id) {
+                return {
+                  ...chapter,
+                  footnotes: [...chapter.footnotes, action.footnoteObj]
+                };
+              } else return chapter;
+            })
+          },
+          currentChapter: {
+            ...state.currentChapter,
+            footnotes: [...state.currentChapter.footnotes, action.footnoteObj]
+          }
+        }
+      );
+    case "UPDATE_FOOTNOTE_IN_CURRENT_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentChapter: {
+            ...state.currentChapter,
+            footnotes: state.currentChapter.footnotes.map(note => {
+              if (note.id === action.footnoteObj.id) return action.footnoteObj;
+              else return note;
+            })
+          },
+          currentStory: {
+            ...state.currentStory,
+            chapters: state.currentStory.chapters.map(chapter =>{
+              if(chapter.id === action.footnoteObj.chapter_id){
+                return {
+                  ...chapter,
+                  footnotes: chapter.footnotes.map(note => {
+                    if(note.id === action.footnoteObj.id)
+                      return action.footnoteObj
+                    else return note
+                  })
+                }
+              } // end
+              else return chapter
+            })
+          }
+        }
+      );
     default:
       return state;
   }

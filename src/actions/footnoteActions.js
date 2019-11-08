@@ -1,8 +1,13 @@
-import * as types from "./actionTypes.js";
-// this will need to be modularized based on the current user/story information
-//const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
+import {
+  updateFootnoteInCurrentChapter,
+  addFootnoteToCurrenChapter
+} from "./userActions";
 
-// this action will do something later, need to be able to set the currently selected chapter for editing and updating
+export const getFootnotesFromChapter = chapterObj => {
+  return dispatch => {
+    return dispatch({ type: "GET_FOOTNOTES", footnotes: chapterObj });
+  };
+};
 
 export const fetchFootnotes = footnotes => ({
   type: "GET_FOOTNOTES",
@@ -54,6 +59,7 @@ export const postFootNote = (chapterID, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
+        dispatch(addFootnoteToCurrenChapter(json));
         return dispatch(postFootNoteFetch(json));
       })
       .catch(err => {
@@ -85,7 +91,9 @@ export const patchFootnote = (footnoteObj, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(patchFootnoteFetch(json));
+  
+        dispatch(patchFootnoteFetch(json));
+        return dispatch(updateFootnoteInCurrentChapter(json));
       })
       .catch(err => {
         console.error("ERROR UPDATING FOOTNOTE:", err);

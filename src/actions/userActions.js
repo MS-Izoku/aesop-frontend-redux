@@ -1,4 +1,5 @@
 import { getStories, setCharacterInChapter } from "./storyActions";
+import { getFootnotesFromChapter } from "./footnoteActions";
 
 // Create User
 export const postUser = userData => {
@@ -138,6 +139,7 @@ export const setCurrentChapterDispatch = (
         type: "SET_CURRENT_CHAPTER",
         chapterObj
       });
+      dispatch(getFootnotesFromChapter(chapterObj));
       if (!skipPatch) {
         return fetch(
           `http://localhost:3000/update-profile/${chapterObj.author_id}`,
@@ -158,11 +160,13 @@ export const setCurrentChapterDispatch = (
             console.error("Error Setting the Current Chapter", err);
           });
       }
-    } else
+    } else {
+      //dispatch(getFootnotesFromChapter(chapterObj));
       return dispatch({
         type: "SET_CURRENT_CHAPTER_ON_LOGIN",
         storyObj: chapterObj // this will be an array of stories to parse through on login
       });
+    }
   };
 };
 
@@ -201,17 +205,15 @@ export const setCurrentCharacterDispatch = (
             body: JSON.stringify({
               current_character_id: characterObj.id
             })
-          })
-            .then(resp => resp.json())
-            .then(json => {console.log(json)})
-            .catch(err => {
-              console.error("ERROR SETTING CURRENT CHARACTER:", err);
-            }
-        );
+          }
+        )
+          .then(resp => resp.json())
+          .catch(err => {
+            console.error("ERROR SETTING CURRENT CHARACTER:", err);
+          });
       }
       return dispatch({ type: "SET_CURRENT_CHARACTER", characterObj });
     } else {
-      console.log("STORY OBJ TO GET CHARS FROM", characterObj);
       return dispatch({ type: "SET_CURRENT_CHARACTER_ON_LOGIN", characterObj });
     }
   };
@@ -227,5 +229,20 @@ export const updateCurrentCharacterDispatch = characterObj => {
 export const addChapterToCurrentStoryDispatch = chapterObj => {
   return dispatch => {
     return dispatch({ type: "ADD_CHAPTER_TO_CURRENT_STORY", chapterObj });
+  };
+};
+
+export const addFootnoteToCurrenChapter = footnoteObj => {
+  return dispatch => {
+    return dispatch({ type: "ADD_FOOTNOTE_TO_CURRENT_CHAPTER", footnoteObj });
+  };
+};
+
+export const updateFootnoteInCurrentChapter = footnoteObj => {
+  return dispatch => {
+    return dispatch({
+      type: "UPDATE_FOOTNOTE_IN_CURRENT_CHAPTER",
+      footnoteObj
+    });
   };
 };

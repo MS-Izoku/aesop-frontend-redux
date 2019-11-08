@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { setCurrentFootnote } from '../actions/footnoteActions'
 
 const ChapterEditorRightBar = props => {
   const createCharacterBar = () => {
@@ -21,6 +22,11 @@ const ChapterEditorRightBar = props => {
     );
   };
 
+  const handleFootnoteClick = (note) =>{
+    props.setCurrentFootnote(note)
+    props.toggleFootnoteModal();
+  }
+
   const createFootNoteBar = () => {
     return (
       <div id="footnte-section">
@@ -28,7 +34,7 @@ const ChapterEditorRightBar = props => {
           <div className="card">
               {" Create Note Button! "}
             {props.user.currentChapter.footnotes.map(note => {
-              return <div className="card"><span>{note.body.substring(0 , 10)}</span></div>;
+              return <div className="card" onClick={()=>{handleFootnoteClick(note)}}><span>{note.body.substring(0 , 10)}</span></div>;
             })}
           </div>
         ) : (
@@ -51,9 +57,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
+const mapDispatchToProps = dispatch =>{
+  return {
+    setCurrentFootnote: (footnoteObj) => dispatch(setCurrentFootnote(footnoteObj))
+  }
+}
 
 export default withRouter(
   connect(

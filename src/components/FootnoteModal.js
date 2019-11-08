@@ -16,10 +16,12 @@ class FootnoteModal extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    console.log("SAVING NOTE");
     const configuredFootnoteObj = {
       ...this.props.currentFootnote,
       body: this.state.body,
-      title: this.state.body
+      title: this.state.title,
+      chapter_id: this.props.currentChapter.id
     };
     this.props.patchFootnote(
       configuredFootnoteObj,
@@ -43,12 +45,20 @@ class FootnoteModal extends Component {
     this.props.toggleFootnoteModal();
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentFootnote.id !== this.props.currentFootnote.id)
+      this.setState({
+        title: this.props.currentFootnote.title,
+        body: this.props.currentFootnote.body
+      });
+  }
+
   render() {
     return (
       <div id="footnote-modal">
         <Modal show={this.props.show} onHide={this.handleToggle}>
-          <Modal.Body>
-            <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit}>
+            <Modal.Body>
               <Modal.Dialog>
                 <Modal.Header closeButton>
                   <Form.Control
@@ -71,12 +81,12 @@ class FootnoteModal extends Component {
                   />
                 </Form.Group>
               </Modal.Dialog>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button type="submit">Save changes</Button>
-            <Button onClick={this.handleToggle}>Close</Button>
-          </Modal.Footer>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button type="submit">Save changes</Button>
+              <Button onClick={this.handleToggle}>Close</Button>
+            </Modal.Footer>
+          </Form>
         </Modal>
       </div>
     );
@@ -85,7 +95,7 @@ class FootnoteModal extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentChapter: state.currentChapter,
+    currentChapter: state.user.currentChapter,
     currentFootnote: state.footnotes.currentNote
   };
 };
