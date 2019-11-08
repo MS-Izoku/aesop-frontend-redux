@@ -38,7 +38,6 @@ class StoryForm extends Component {
   };
 
   render() {
-    //console.log(this.state);
     console.log("MOUNTING STORYFORM" , this.props)
     return (
       <div className="p-5 bg-warning">

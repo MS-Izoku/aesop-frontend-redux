@@ -15,7 +15,7 @@ const ChapterEditorRightBar = props => {
             })}
           </div>
         ) : (
-          <div>No Chars found</div>
+          <div>Characters Loading</div>
         )}
       </div>
     );
@@ -32,13 +32,11 @@ const ChapterEditorRightBar = props => {
             })}
           </div>
         ) : (
-          <div>Notes Not Found</div>
+          <div>Notes Loading</div>
         )}
       </div>
     );
   };
-
-  console.log(props);
   return (
     <div id="chapter-editor-management">
       {createCharacterBar()}
