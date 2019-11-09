@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setCurrentFootnote } from '../actions/footnoteActions'
 
+import CreateFootnoteButton from './CreateFootnoteButton'
 const ChapterEditorRightBar = props => {
   const createCharacterBar = () => {
     return (
@@ -32,7 +33,7 @@ const ChapterEditorRightBar = props => {
       <div id="footnte-section">
         {props.user.currentChapter.footnotes ? (
           <div className="card">
-              {" Create Note Button! "}
+              <CreateFootnoteButton />
             {props.user.currentChapter.footnotes.map(note => {
               return <div className="card" onClick={()=>{handleFootnoteClick(note)}}><span>{note.body.substring(0 , 10)}</span></div>;
             })}
