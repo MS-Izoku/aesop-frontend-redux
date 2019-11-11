@@ -6,11 +6,13 @@ import ChapterEditorRightBar from "../components/ChapterEditorRightBar";
 import FootnoteModal from "../components/FootnoteModal";
 
 import ChapterCard from "../components/ChapterCard";
+import ChapterDeleteModal from "../components/ChapterDeleteModal";
 class ChapterEditorPage extends Component {
   constructor() {
     super();
     this.state = {
-      footnoteModalActive: false
+      footnoteModalActive: false,
+      chapterDeleteModalActive: false
     };
   }
   createChapterCards = () => {
@@ -29,11 +31,40 @@ class ChapterEditorPage extends Component {
     this.setState({ footnoteModalActive: !this.state.footnoteModalActive });
   };
 
+  toggleChapterDeleteModal = () => {
+    this.setState({
+      chapterDeleteModalActive: !this.state.chapterDeleteModalActive
+    });
+  };
+
+  onUnload = (event) => {
+    event.preventDefault();
+    alert("Waiting to Save!")
+    this.props.setCurrentChapterDispatch(this.props.currentChapter);
+    event.returnValue = "unloading"
+
+    return "Unloading Story Manager, please wait"
+  };
+
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.onUnload);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.onUnload);
+  }
+
   render() {
     return (
       <div>
-        <button onClick={this.toggleFootnoteModal}>FOOTNOTE MODAL</button>
-        <FootnoteModal show={this.state.footnoteModalActive} toggleFootnoteModal={this.toggleFootnoteModal}/>
+        <FootnoteModal
+          show={this.state.footnoteModalActive}
+          toggleFootnoteModal={this.toggleFootnoteModal}
+        />
+        <ChapterDeleteModal
+          show={this.state.chapterModalActive}
+          handleToggle={this.toggleChapterDeleteModal}
+        />
         <div className="row">
           <div
             id="chapter-editor-select"
@@ -45,8 +76,9 @@ class ChapterEditorPage extends Component {
             <ChapterTextEditor />
           </div>
           <div className="col">
-            <ChapterEditorRightBar 
-            toggleFootnoteModal={this.toggleFootnoteModal}/>
+            <ChapterEditorRightBar
+              toggleFootnoteModal={this.toggleFootnoteModal}
+            />
           </div>
         </div>
       </div>

@@ -17,3 +17,6 @@ This branch is my rework since leaving the school, and was my first larger-scale
 * NumericInput for certain numerical form fields
 * React Bootstrap / MDBReact for basic component styling
 * Thunk for managing async redux
+
+#Notes
+* Currently in dire need of styling and cool information displays

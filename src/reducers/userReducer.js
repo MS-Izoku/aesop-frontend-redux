@@ -11,7 +11,7 @@ export default function userReducer(
       height: 100,
       img_url:
         "https://cdn1us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/05/toy_story_4_duke_caboom_keanu_reeves.jpg?itok=adUMUrqP",
-      name: "Alpha",
+      name: "",
       personality: "",
       story_id: 0,
       weight: 150
@@ -125,6 +125,19 @@ export default function userReducer(
           currentCharacter: action.characterObj
         }
       );
+    case "REMOVE_CHARACTER_FROM_CURRENT_STORY":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentStory: {
+            ...state.currentStory,
+            characters: state.currentStory.characters.filter(character => {
+              return character.id !== action.characterObj.id;
+            })
+          }
+        }
+      );
     case "ADD_CHAPTER_TO_CURRENT_STORY":
       return Object.assign(
         {},
@@ -194,18 +207,44 @@ export default function userReducer(
           },
           currentStory: {
             ...state.currentStory,
-            chapters: state.currentStory.chapters.map(chapter =>{
-              if(chapter.id === action.footnoteObj.chapter_id){
+            chapters: state.currentStory.chapters.map(chapter => {
+              if (chapter.id === action.footnoteObj.chapter_id) {
                 return {
                   ...chapter,
                   footnotes: chapter.footnotes.map(note => {
-                    if(note.id === action.footnoteObj.id)
-                      return action.footnoteObj
-                    else return note
+                    if (note.id === action.footnoteObj.id)
+                      return action.footnoteObj;
+                    else return note;
                   })
-                }
+                };
               } // end
-              else return chapter
+              else return chapter;
+            })
+          }
+        }
+      );
+    case "REMOVE_FOOTNOTE_FROM_CURRENT_CHAPTER":
+      return Object.assign(
+        {},
+        {
+          ...state,
+          currentChapter: {
+            ...state.currentChapter,
+            footnotes: state.footnotes.filter(note => {
+              return note.id !== action.footnoteObj.id;
+            })
+          },
+          currentStory: {
+            ...state.currentStory,
+            chapters: state.currentStory.chapters.map(chapter => {
+              if (chapter.id === action.footnoteObj.chapter_id) {
+                return {
+                  ...chapter,
+                  footnotes: chapter.footnotes.filter(note => {
+                    return note.id !== action.footnoteObj.id;
+                  })
+                };
+              } else return chapter;
             })
           }
         }
