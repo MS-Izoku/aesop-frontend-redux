@@ -12,22 +12,33 @@ import { withRouter } from "react-router";
 
 class ChapterEditorSelect extends Component {
   getChaptersForList = () => {
-    return this.props.chapters.map(chapter => {
-      return (
-        <ListGroup.Item
-          key={chapter.id}
-          onClick={() => {
-            this.handleSetCurrentChapter(chapter);
-          }}
-        >
-          <NavLink
-            to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
+    return this.props.chapters
+      .sort((a, b) => {
+        return a.chapter_index - b.chapter_index;
+      })
+      .map(chapter => {
+        return (
+          <ListGroup.Item
+            className="text-center eggshell border-0"
+            key={chapter.id}
+            onClick={() => {
+              this.handleSetCurrentChapter(chapter);
+            }}
           >
-            {chapter.title}
-          </NavLink>
-        </ListGroup.Item>
-      );
-    });
+            <NavLink
+              className="text-center red-3-text"
+              to={`/chaptereditor/${this.props.match.params.story_id}/${chapter.id}`}
+            >
+              {chapter.title.length > 20
+                ? `${chapter.chapter_index}. ${chapter.title.substring(
+                    0,
+                    20
+                  )}...`
+                : chapter.title !== 'Preface' ? `${chapter.chapter_index}. ${chapter.title}` : 'Preface'}
+            </NavLink>
+          </ListGroup.Item>
+        );
+      });
   };
 
   handleSetCurrentChapter = chapter => {
@@ -45,13 +56,18 @@ class ChapterEditorSelect extends Component {
 
   render() {
     return (
-      <div>
-        <ListGroup.Item>
-          <Button onClick={this.createChapter}>Create New Chapter</Button>
+      <ListGroup className="eggshell">
+        <ListGroup.Item className="eggshell text-center border-0 overflow-scroll">
+          <Button
+            onClick={this.createChapter}
+            bsPrefix="btn btn-block custom-btn mx-0 red-3"
+          >
+            Create New Chapter
+          </Button>
         </ListGroup.Item>
         <ListGroup>{this.getChaptersForList()}</ListGroup>
         <hr />
-      </div>
+      </ListGroup>
     );
   }
 }

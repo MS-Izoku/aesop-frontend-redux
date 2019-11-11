@@ -1,6 +1,3 @@
-import * as types from "./actionTypes.js";
-import thunk from "redux-thunk";
-// this will need to be modularized based on the current user/story information
 const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
 
 // export const setCurrentChapter = chapterObj => {
@@ -26,7 +23,6 @@ export const getChapters = (storyID = 1) => {
 export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
 // form popup later to define title?
 export const postChapter = storyID => {
-  const baseURL = `http://localhost:3000/users/1/stories/${storyID}/chapters/`;
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
       method: "POST",
@@ -35,7 +31,7 @@ export const postChapter = storyID => {
         Accept: "application/json"
       },
       body: JSON.stringify({
-        title: "New Chapter from DB"
+        title: "New Chapter"
       })
     })
       .then(resp => resp.json())
@@ -79,8 +75,7 @@ export const deleteChapterFetch = chapter => ({
 export const deleteChapter = chapter => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters` +
-        `/${chapter.id}`,
+      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
       {
         method: "DELETE",
         headers: {
@@ -89,10 +84,10 @@ export const deleteChapter = chapter => {
         },
         body: JSON.stringify({ id: chapter.id })
       }
-    ).then(resp =>
-      resp.json().then(json => {
+    )
+      .then(resp => resp.json())
+      .then(json => {
         return dispatch(deleteChapterFetch(json));
-      })
-    );
+      });
   };
 };

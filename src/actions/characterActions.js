@@ -11,14 +11,29 @@ export const fetchCharacters = characters => ({
   type: "GET_CHARACTERS",
   characters
 });
-export const getCharacters = (storyID) => {
+export const getCharacters = storyID => {
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`)
       .then(resp => resp.json())
       .then(chars => {
+        console.log(chars);
         return dispatch(fetchCharacters(chars));
       })
       .catch(err => console.error("error fetching things", err));
+  };
+};
+
+export const getSingleCharacterFetch = character => ({
+  type: "GET_SINGLE_CHARACTER",
+  character
+});
+export const getCharacter = (storyID, characterID) => {
+  return dispatch => {
+    fetch(
+      `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`
+    )
+      .then(resp => resp.json())
+      .then(json => dispatch(getSingleCharacterFetch(json)));
   };
 };
 
@@ -26,9 +41,13 @@ export const postFetchCharacter = character => ({
   type: "POST_CHARACTER",
   character
 });
-export const postCharacter = (characterObj, storyID) => {
+export const postCharacter = (
+  characterObj,
+  storyID
+) => {
+  console.log(storyID , 'THIS IS THE STORY')
   return dispatch => {
-    return fetch("http://localhost:3000/users/1/stories/1/characters", {
+    return fetch(`http://localhost:3000/users/1/stories/${storyID}/characters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,8 +58,9 @@ export const postCharacter = (characterObj, storyID) => {
         height: characterObj.height,
         weight: characterObj.weight,
         biography: characterObj.biography,
-        backstory: characterObj.backstory,
+        //backstory: characterObj.backstory,
         personality: characterObj.personality,
+        appearance: characterObj.appearance,
         story_id: storyID // get this from params
       })
     })
@@ -51,30 +71,39 @@ export const postCharacter = (characterObj, storyID) => {
   };
 };
 
-export const updateFetchCharacter = character => ({
+export const patchFetchCharacter = character => ({
   type: "PATCH_CHARACTER",
   character
 });
 export const patchCharacter = characterObj => {
+  //console.log(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`)
+  console.log(characterObj);
+
   return dispatch => {
-    return fetch(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: {
-        name: characterObj.name,
-        height: characterObj.height,
-        weight: characterObj.weight,
-        biography: characterObj.biography,
-        backstory: characterObj.backstory,
-        personality: characterObj.personality
+    return fetch(
+      `http://localhost:3000/users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: characterObj.name,
+          height: characterObj.height,
+          weight: characterObj.weight,
+          biography: characterObj.biography,
+          backstory: characterObj.backstory,
+          personality: characterObj.personality,
+          appearance: characterObj.appearance
+          //story_id: characterObj.story_id
+        })
       }
-    })
+    )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(updateFetchCharacter(json));
+        console.log(json);
+        return dispatch(patchFetchCharacter(json));
       });
   };
 };

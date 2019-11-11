@@ -8,13 +8,16 @@ export const fetchFootnotes = footnotes => ({
   type: "GET_FOOTNOTES",
   footnotes
 });
+
 export const getFootnotes = (chapterID, storyID) => {
+  console.log(chapterID, storyID, "CHAPTER ACTIONS");
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`
     )
       .then(resp => resp.json())
       .then(notes => {
+        console.log("FETCH DATA: ", notes);
         return dispatch(fetchFootnotes(notes));
       })
       .catch(err => console.error("error fetching things", err));
@@ -25,10 +28,13 @@ export const postFootNoteFetch = footnote => ({
   type: "POST_FOOTNOTE",
   footnote
 });
-export const postFootNote = chapter => {
+export const postFootNote = (chapterID, storyID) => {
   return dispatch => {
+    console.log(
+      `http://localhost:3000/users/1/stories/${chapterID}/chapters/${storyID}/footnotes`
+    );
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}/footnotes`,
+      `http://localhost:3000/users/1/stories/${chapterID}/chapters/${storyID}/footnotes`,
       {
         method: "POST",
         headers: {
@@ -38,7 +44,7 @@ export const postFootNote = chapter => {
         body: JSON.stringify({
           title: "New Note",
           body: "New Note Body",
-          chapter_id: chapter.id
+          chapter_id: chapterID
         })
       }
     )
@@ -53,10 +59,10 @@ export const patchFootNoteFetch = footnote => ({
   type: "PATCH_FOOTNOTE",
   footnote
 });
-export const patchFootNote = (chapter, footnote) => {
+export const patchFootnote = (chapterID, storyID, footnoteID, footnoteData) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}/footnotes/${footnote.id}`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes/${footnoteID}`,
       {
         method: "PATCH",
         headers: {
@@ -64,8 +70,8 @@ export const patchFootNote = (chapter, footnote) => {
           Accept: "application/json"
         },
         body: JSON.stringify({
-          title: footnote.title,
-          body: footnote.body
+          title: footnoteData.title,
+          body: footnoteData.body
         })
       }
     )
@@ -102,3 +108,8 @@ export const deleteFootNote = (chapter, footnote) => {
   };
 };
 
+export const setCurrentFootnote = footnote => {
+  console.log(">>>>>   SETTING the current footnote over here yo");
+  console.log(footnote);
+  return { type: "SET_CURRENT_FOOTNOTE", footnote };
+};

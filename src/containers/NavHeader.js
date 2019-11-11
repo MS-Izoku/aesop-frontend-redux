@@ -13,18 +13,18 @@ import Button from "react-bootstrap/Button";
 class NavHeader extends Component {
   render() {
     return (
-      <Navbar bg="dark" expand="lg">
-        <Navbar.Brand href="#home">AESOP</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar className="red-1 custom-page-header affix" expand="lg" data-spy="affix">
+        <Navbar.Brand href="/" >AESOP</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="main-dark-text"/>
+        <Navbar.Collapse id="basic-navbar-nav" className="main-dark-text">
           <Nav className="mr-auto">
             <Nav.Link href="/stories">Story Hub</Nav.Link>
-            <Nav.Link href="/characters">Character Hub</Nav.Link>
+            {/* <Nav.Link href="/characters">Character Hub</Nav.Link> */}
             <NavHeaderStorySelect />
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
+            {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+            <Button variant="outline-success">Search</Button> */}
           </Form>
         </Navbar.Collapse>
       </Navbar>

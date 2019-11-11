@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NavHeader from "../containers/NavHeader.js";
 import LoginForm from '../components/LoginForm'
+import PageFooter from "../components/PageFooter.js";
 
 class LoginPage extends Component {
   handleChange = event => {
@@ -13,6 +14,7 @@ class LoginPage extends Component {
       <div>
         <NavHeader />
         <LoginForm/>
+        <PageFooter/>
       </div>
     );
   }

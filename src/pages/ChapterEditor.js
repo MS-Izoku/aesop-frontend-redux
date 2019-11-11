@@ -12,13 +12,28 @@ import { getChapters, patchChapter } from "../actions/chapterActions";
 import { withRouter } from "react-router";
 import { HotKeys } from "react-hotkeys";
 
+import FootNoteModal from "../components/FootNoteModal.js";
+import PageFooter from '../components/PageFooter'
+
 class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
-      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" }
+      firstChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
+      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
+      currentFootnote: { id: 0, title: "N/A", body: "N/A" },
+      modalIsToggled: false
     };
   }
+
+  toggleModal = () => {
+    this.setState({ modalIsToggled: !this.state.modalIsToggled });
+  };
+
+  setCurrentFootNote = note => {
+    console.log("Got here");
+    this.setState({ currentFootnote: note });
+  };
 
   setCurrentChapter = chapter => {
     this.setState({ currentChapter: chapter });
@@ -33,6 +48,7 @@ class ChapterEditor extends Component {
   };
 
   setInitialChapter = () => {
+    console.log("Stories:", this.props);
     setTimeout(() => {
       this.setState({ currentChapter: this.props.chapters[0] });
       this.autoSave(30000);
@@ -52,28 +68,24 @@ class ChapterEditor extends Component {
   };
 
   componentDidMount() {
-    this.props.getChapters();
+    if (this.state.firstChapterInState !== this.props.chapters[0])
+      this.setState({ firstChapter: this.props.chapters[0] });
+    this.props.getChapters(this.props.match.params.story_id);
     this.setInitialChapter();
+    console.log(this.props);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
-  setCurrentChapterAfterDelete = () =>{
-    // I need to get the chapterIndex working in the seeds to get them working at this point
-    switch(this.state.currentChapter.chapter_index){
-      case undefined:
-        // redirect to the story hub here
-        return
-      case 1:
-        // redirect to the story hub here
-        return
-      default:
-        // go to the previous-chapter based on the index 
-        return
-    }
-  }
+  setCurrentChapterAfterDelete = () => {
+    this.setState({
+      firstChapter: this.props.chapters[0],
+      currentChapter: this.props.chapters[0]
+    });
+  };
+
   //#region hotkeys
   keyMap = {
     saveChapterCMD: {
@@ -96,7 +108,7 @@ class ChapterEditor extends Component {
       <div>
         <HotKeys keyMap={this.keyMap} handlers={this.keyMapHandler}>
           <NavHeader />
-          <div className="container-fluid">
+          <div className="container-fluid grey-light">
             <div className="row">
               <RTEditorLeftBar
                 storyID={this.props.match.params.story_id}
@@ -108,22 +120,32 @@ class ChapterEditor extends Component {
                 setCurrentChapterTitle={this.setCurrentChapterTitle}
                 saveChapter={this.saveChapter}
                 setCurrentChapterAfterDelete={this.setCurrentChapterAfterDelete}
+                firstChapterInState={this.state.firstChapter}
               />
-              <RTEditorRightBar currentChapter={this.state.currentChapter}/>
+              <RTEditorRightBar
+                currentChapter={this.state.currentChapter}
+                toggleModal={this.toggleModal}
+                setCurrentFootnote={this.setCurrentFootNote}
+              />
+              <FootNoteModal
+                toggleModal={this.toggleModal}
+                modalIsToggled={this.state.modalIsToggled}
+              />
             </div>
           </div>
         </HotKeys>
+        <PageFooter />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return { chapters: state.chapters, footnotes: state.footnotes };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: () => dispatch(getChapters()),
+    getChapters: storyID => dispatch(getChapters(storyID)),
     patchChapter: chapter => dispatch(patchChapter(chapter))
   };
 };

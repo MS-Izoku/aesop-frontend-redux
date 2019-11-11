@@ -1,29 +1,100 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { postUser } from "../actions/userActions";
+import { connect } from "react-redux";
 
 class SignUpForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      username: "",
+      password: "",
+      passwordConfirm: "",
+      email: ""
+    };
+  }
+  // signUpUser = event => {
+  //   event.preventDefault();
+  //   if (this.state.password === this.state.passwordConfirm) {
+  //     fetch(`http://localhost:3000/users/`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         user: {
+  //           username: this.state.username,
+  //           password: this.state.password,
+  //           email: this.state.email
+  //         }
+  //       })
+  //     })
+  //       .then(r => r.json())
+  //       .then(console.log);
+  //   } else console.log("Problems", this.state);
+  // };
+
+  signUpUser = event => {
+    event.preventDefault();
+    const userObj = {
+      username: this.state.username,
+      password: this.state.password,
+      email: this.state.email
+    };
+
+    this.props.postUser(userObj);
+  };
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
     return (
       <div className="container-fluid">
         <Form>
-          <Form.Group controlId="loginForm">
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              name="username"
+              onChange={this.handleChange}
+              placeholder="Username"
+            />
+          </Form.Group>
+
+          <Form.Group>
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              onChange={this.handleChange}
+            />
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="Confirm Password" />
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={this.handleChange}
+            />
           </Form.Group>
 
-          <Form.Group controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="text" placeholder="Email Address" />
+          <Form.Group controlId="formBasicPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="passwordConfirm"
+              onChange={this.handleChange}
+            />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" onClick={this.signUpUser}>
             Submit
           </Button>
         </Form>
@@ -32,4 +103,12 @@ class SignUpForm extends Component {
   }
 }
 
-export default SignUpForm
+const mapDispatchToProps = (dispatch) => {
+  return {
+    postUser: userData => dispatch(postUser(userData))
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUpForm);

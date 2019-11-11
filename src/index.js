@@ -19,6 +19,7 @@ import StoryHub from "./pages/StoryHub";
 import CharacterManager from "./pages/CharacterManager";
 import ChapterEditor from "./pages/ChapterEditor";
 import SignUp from "./pages/SignUp";
+import StoryEditor from './pages/StoryEditor'
 
 import CharacterHub from "./pages/CharacterHub";
 //#endregion
@@ -46,12 +47,13 @@ ReactDOM.render(
 
         <Route exact path="/login" component={LoginPage} store={store} />
         <Route exact path="/stories" component={StoryHub} store={store} />
+        <Route exact path="/stories/:story_id" component={StoryEditor} />
         <Route exact path="/cm" component={CharacterManager} store={store} />
         <Route exact path="/cm/:story_id/:character_id" component={CharacterManager} store={store} />
         <Route exact path="/signup" component={SignUp} store={store} />
         <Route
           exact
-          path="/characters"
+          path="/characters/:story_id"
           component={CharacterHub}
           store={store}
         />
@@ -61,6 +63,7 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

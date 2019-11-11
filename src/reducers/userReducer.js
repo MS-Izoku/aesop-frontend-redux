@@ -1,7 +1,7 @@
 import * as types from "../actions/actionTypes.js";
 
 export default function userReducer(
-  state = { user: { username: "That Newjack Swing" } },
+  state = { currentUser: {username: 'That Newjack Swing'}},
   action
 ) {
   switch (action.type) {
@@ -9,6 +9,9 @@ export default function userReducer(
       return state;
     case types.LOGOUT_USER:
       return state;
+    case 'POST_USER':
+      debugger
+      return {...state , currentUser: action.user}
     default:
       return state;
   }

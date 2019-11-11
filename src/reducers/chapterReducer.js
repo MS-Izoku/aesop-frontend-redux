@@ -9,7 +9,9 @@ export default function chapterReducer(
 ) {
   switch (action.type) {
     case types.GET_CHAPTERS:
-      return action.chapters;
+      return action.chapters.sort((a,b) =>{
+        return a.chapter_index - b.chapter_index
+      });
     case types.POST_CHAPTER:
       return [...state, action.chapter];
     case types.PATCH_CHAPTER:
@@ -18,11 +20,9 @@ export default function chapterReducer(
           return action.chapter
         } else return chapter;
       });
-    //return Object.assign(state , action.chapter)
-
-    case types.DELETE_CHAPTER:
-      console.log(action.chapter)
-      return state.filter(chapter => chapter.id !== action.chapter.id);
+    case "DELETE_CHAPTER":
+      console.log('You hit the reducer')
+      return state.filter(chapter => {return chapter.id !== action.chapter.id});
     //return state
     default:
       return state;

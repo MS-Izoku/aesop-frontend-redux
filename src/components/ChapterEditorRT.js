@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { connect } from "react-redux";
-import { getChapters , deleteChapter } from "../actions/chapterActions";
+import { getChapters, deleteChapter } from "../actions/chapterActions";
 import Button from "react-bootstrap/Button";
+import { withRouter } from "react-router";
 import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
 import { HotKeys } from "react-hotkeys";
+
+//import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 class ChapterEditorRT extends Component {
   constructor() {
@@ -20,23 +24,32 @@ class ChapterEditorRT extends Component {
     titleChangeHandler(event.target.value);
   };
 
-  handleDeleteChapter = () =>{
-    console.log(this.props.currentChapter)
-    this.props.deleteChapter(this.props.currentChapter)
-  }
+  handleDeleteChapter = () => {
+    this.props.deleteChapter(this.props.currentChapter);
+    this.props.setCurrentChapterAfterDelete();
+  };
 
   render() {
-    //console.log(this.props.currentChapter)
     return (
       <div className="col-lg-8 stretchHeight">
-        <Form>
+        <Form
+          onSubmit={event => {
+            event.preventDefault();
+            this.props.saveChapter();
+          }}
+        >
           <Form.Control
             id="chapter-title"
-            onChange={this.handleTitleChange}
+            className="text-center bg-tertiary border-0 pt-1 pb-1"
+            onChange={event => {
+              event.preventDefault();
+              this.handleTitleChange(event);
+            }}
             value={this.props.currentChapter.title}
           />
         </Form>
         <CKEditor
+        className="stretchHeight"
           editor={ClassicEditor}
           data={this.props.currentChapter.body} //this.props.chapter[0].body}
           onInit={editor => {
@@ -50,8 +63,25 @@ class ChapterEditorRT extends Component {
             //console.log({ event, editor, data });
           }}
         />
-        <button onClick={this.props.saveChapter}>SAVE</button>
-        <button onClick={this.handleDeleteChapter}>DELETE</button>
+
+        <div className="container-fluid">
+          <div className="row">
+            {" "}
+            <Button bsPrefix="btn col custom-btn red-3 mx-2" onClick={this.props.saveChapter}>
+              SAVE
+            </Button>
+            <Nav.Link
+              href={`/chaptereditor/${this.props.match.params.story_id}/${this.props.firstChapterInState.id}`}
+              className="col btn custom-btn red-3 mx-2"
+              onClick={() => {
+                this.props.setCurrentChapterAfterDelete();
+                this.handleDeleteChapter();
+              }}
+            >
+              DELETE
+            </Nav.Link>
+          </div>
+        </div>
       </div>
     );
   }
@@ -59,16 +89,19 @@ class ChapterEditorRT extends Component {
 
 // I want to get the currently selected chapter
 const mapStateToProps = state => {
-  return { chapters: state.chapters };
+  return { stories: state.stories, chapters: state.chapters };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: () => dispatch(getChapters()),
-    deleteChapter: (chapter)=> dispatch(deleteChapter(chapter))
+    getChapters: storyID => dispatch(getChapters(storyID)),
+
+    deleteChapter: chapter => dispatch(deleteChapter(chapter))
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ChapterEditorRT);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ChapterEditorRT)
+);

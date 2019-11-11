@@ -1,4 +1,4 @@
-import * as types from "../actions/actionTypes.js";
+//import * as types from "../actions/actionTypes.js";
 
 const baseURL = (user_id = 1) => {
   return `http://localhost:3000/users/${user_id}/stories/`;
@@ -20,9 +20,10 @@ export const getStories = () => {
 
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = () => {
+  console.log('Starting story post fetch')
   return dispatch => {
     fetch(`http://localhost:3000/users/1/stories/`, {
-      method: "PATCH",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json"
@@ -30,11 +31,13 @@ export const postStory = () => {
       body: JSON.stringify({
         title: "New Story",
         pitch: "Pitch!",
-        high_concept: "A Story Concept"
+        high_concept: "A Story Concept",
+        //chapters: [{ title: "undefined title", body: "undefined body" }]
       })
     })
       .then(resp => resp.json())
       .then(json => {
+        console.log(json, "Fetching POST");
         return dispatch(postStoryFetch(json));
       });
   };
@@ -44,7 +47,8 @@ export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 
 export const patchStory = story => {
   return dispatch => {
-    fetch("http://localhost:3000/users/1/stories"`/${story.id}`, {
+    console.log(story)
+    fetch(`http://localhost:3000/users/1/stories/${story.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

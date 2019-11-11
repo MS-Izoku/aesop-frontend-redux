@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getCharacters } from "../actions/characterActions";
 import ListGroup from 'react-bootstrap/ListGroup'
+import Button from 'react-bootstrap/Button'
 import {withRouter} from 'react-router'
 
 class ChapterEditorCharacterbar extends Component {
@@ -12,8 +13,10 @@ class ChapterEditorCharacterbar extends Component {
   renderCharacters = () => {
     return this.props.characters.map(char => {
       return (
-        <ListGroup.Item key={char.id === undefined ? 0 : char.id}>
-          {char.name}
+        <ListGroup.Item 
+        className="border-0 eggshell"
+        key={char.id === undefined ? 0 : char.id}>
+          <a className="red-3-text" href={`/cm/${this.props.match.params.story_id}/${char.id}`}>{char.name}</a>
         </ListGroup.Item>
       );
     });

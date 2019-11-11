@@ -1,14 +1,215 @@
-.debugger{
-  border: 5px solid red;
+/* @import "react-alice-carousel/lib/alice-carousel.css"; */
+
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap');
+/* font-family: 'Libre Baskerville', serif; */
+html , body{
+  margin-top: 2%;
+  height: 100%;
+  background: #B03830;
 }
+
+*{
+  color: #161613;
+  font-family: 'Libre Baskerville', serif;
+}
+
+/* .btn:focus{
+  outline: none;
+} */
+
+.overflow-scroll{
+  overflow: scroll;
+}
+/* #region Buttons */
+.custom-btn{
+  border-radius: 0;
+  outline: none;
+  color: #F0EAD6;
+}
+
+.custom-btn:hover{
+  background: #b86058;
+  outline: none;
+}
+
+.custom-btn:focus{
+  outline: none;
+}
+/* Add Color Transitions */
+/* #endregion */
 
 .stretchWidth{
   min-width: 100%;
-  width: 100%
+  width: 100%;
 }
 
 .stretchHeight{
   min-height: 100vh;
   height: 100%;
+}
+
+.customFooter{
+  /* bottom: 0;
+  position: sticky; */
+  /* margin-top: 1vh;
+  position: absolute; */
+}
+
+.characterCardAvatar{
+  min-width: 25vh;
+  width: 25%;
+}
+
+/* *{
+  background-image: url('https://wallpapercave.com/wp/wp2918341.jpg')
+} */
+
+/* .bg-img{
+  background-image: url('https://c.pxhere.com/photos/d0/d6/background_tree_wood_boards_texture_wooden_background_old_brown-1370487.jpg!d');
+  background-size: 125em;
+} */
+
+.landingImage{
+  max-width: 20vh;
+  width: 20vh;
+}
+
+.carousel {
+  padding: 5%;
+  margin-top: 2.5%;
+}
+
+
+/* =====  BACKGROUND COLORS === */
+.red-1{
+  background: #B03830;
+}
+.red-2{
+  background: #b84840;
+}
+
+.red-3{
+  background: #a83830;
+}
+
+.red-4{
+  background: #b84038;
+}
+
+.red-light{
+  background: #b86058;
+}
+
+.main-dark{
+  background: #383020
+}
+
+.main-dark-text{
+  color: #383020
+}
+
+.grey-light{
+  background: #a8a090
+}
+
+.grey{
+  background: #888068
+}
+
+.grey-dark{
+  background: #484838
+}
+
+.eggshell{
+  background: #F0EAD6;
+}
+
+.eggshell-dark{
+  background: #d0bb7c
+}
+/* ====== TEXT COLORATION ===== */
+.red-1-text{
+  color: #B03830;
+}
+.red-2-text{
+  color: #b84840;
+}
+
+.red-3-text{
+  color: #a83830;
+}
+
+.red-4-text{
+  color: #b84038;
+}
+
+.red-light-text{
+  color: #b86058;
+}
+
+.main-dark-text{
+  color: #383020
+}
+
+
+.grey-light-text{
+  color: #a8a090
+}
+
+.grey-text{
+  color: #888068
+}
+
+.grey-dark-text{
+  color: #484838
+}
+
+.eggshell-text{
+  color: #F0EAD6;
+}
+
+/* ===== SHADOW ===== */
+
+
+.affix{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999 !important;
+}
+
+
+.storyHub{
+ margin-bottom: 50vh;
+}
+
+/*#region Accordion Icons*/
+.accordionIcon{
+  transform: rotate(180deg)
+}
+/*#endregion*/
+
+.no-padding{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.onHoverDarken{
   
 }
+
+.onHoverDarken:hover{
+  background: #d0bb7c;
+  -webkit-transition: background-color 250ms linear;
+  -ms-transition: background-color 250ms linear;
+  transition: background-color 250ms linear;
+}
+
+.onHoverDarken:active{
+  background: #a8a090
+}
+
+a:hover{
+  color: #b86058
+}
+
