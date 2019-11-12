@@ -1,7 +1,7 @@
 //import * as types from "../actions/actionTypes.js";
 
 const baseURL = (user_id = 1) => {
-  return `http://localhost:3000/users/${user_id}/stories/`;
+  return `https://aesop-backend.herokuapp.com//users/${user_id}/stories/`;
 };
 
 export const GET_STORIES = "GET_STORIES";
@@ -9,7 +9,7 @@ export const GET_STORIES = "GET_STORIES";
 export const fetchStories = stories => ({ type: GET_STORIES, stories });
 export const getStories = () => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/`)
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/`)
       .then(resp => resp.json())
       .then(stories => {
         return dispatch(fetchStories(stories));
@@ -22,7 +22,7 @@ export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = () => {
   console.log('Starting story post fetch')
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 export const patchStory = story => {
   return dispatch => {
     console.log(story)
-    fetch(`http://localhost:3000/users/1/stories/${story.id}`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${story.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export const deleteStoryFetch = story => ({ type: "DELETE_STORY", story });
 
 export const deleteStory = storyID => {
   return dispatch => {
-    fetch("http://localhost:3000/users/1/stories" + `/${storyID}`, {
+    fetch("https://aesop-backend.herokuapp.com//users/1/stories" + `/${storyID}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

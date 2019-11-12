@@ -1,17 +1,9 @@
-const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
-
-// export const setCurrentChapter = chapterObj => {
-//   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
-// };
-
-// export const receiveChapters = () => {
-//   return { type: types.RECEIVE_CHAPTERS };
-// };
+const baseChapterURL = "https://aesop-backend.herokuapp.com//users/1/stories/1/chapters";
 
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
 export const getChapters = (storyID = 1) => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`)
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/chapters/`)
       .then(resp => resp.json())
       .then(chapters => {
         return dispatch(fetchChapters(chapters));
@@ -21,10 +13,9 @@ export const getChapters = (storyID = 1) => {
 };
 
 export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
-// form popup later to define title?
 export const postChapter = storyID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/chapters/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +37,7 @@ export const patchChapterFetch = chapter => ({
 export const patchChapter = chapterData => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,
       {
         method: "PATCH",
         headers: {
@@ -56,13 +47,11 @@ export const patchChapter = chapterData => {
         body: JSON.stringify({
           title: chapterData.title,
           body: chapterData.body
-          //chapter data goes here
         })
       }
     )
       .then(resp => resp.json())
       .then(json => {
-        console.log("<<<========", json);
         return dispatch(patchChapterFetch(json));
       });
   };
@@ -75,7 +64,7 @@ export const deleteChapterFetch = chapter => ({
 export const deleteChapter = chapter => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
       {
         method: "DELETE",
         headers: {

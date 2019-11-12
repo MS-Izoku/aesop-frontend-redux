@@ -3,7 +3,7 @@ import { join } from "path";
 export const postUserFetch = user => ({ type: "POST_USER", user });
 export const postUser = userData => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

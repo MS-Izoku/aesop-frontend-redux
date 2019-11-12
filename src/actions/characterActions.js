@@ -1,8 +1,5 @@
 import * as types from "./actionTypes.js";
-// this will need to be modularized based on the current user/story information
-//const baseChapterURL = (id) => {return "http://localhost:3000/users/1/stories/${id}/chapters";}
-//baseChapterURL(1)
-// this action will do something later, need to be able to set the currently selected chapter for editing and updating
+
 export const setCurrentChapter = chapterObj => {
   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
 };
@@ -13,7 +10,7 @@ export const fetchCharacters = characters => ({
 });
 export const getCharacters = storyID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`)
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters/`)
       .then(resp => resp.json())
       .then(chars => {
         console.log(chars);
@@ -30,7 +27,7 @@ export const getSingleCharacterFetch = character => ({
 export const getCharacter = (storyID, characterID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`
+      `https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters/${characterID}`
     )
       .then(resp => resp.json())
       .then(json => dispatch(getSingleCharacterFetch(json)));
@@ -47,7 +44,7 @@ export const postCharacter = (
 ) => {
   console.log(storyID , 'THIS IS THE STORY')
   return dispatch => {
-    return fetch(`http://localhost:3000/users/1/stories/${storyID}/characters`, {
+    return fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +55,6 @@ export const postCharacter = (
         height: characterObj.height,
         weight: characterObj.weight,
         biography: characterObj.biography,
-        //backstory: characterObj.backstory,
         personality: characterObj.personality,
         appearance: characterObj.appearance,
         story_id: storyID // get this from params
@@ -76,12 +72,9 @@ export const patchFetchCharacter = character => ({
   character
 });
 export const patchCharacter = characterObj => {
-  //console.log(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`)
-  console.log(characterObj);
-
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
       {
         method: "PATCH",
         headers: {
@@ -96,7 +89,6 @@ export const patchCharacter = characterObj => {
           backstory: characterObj.backstory,
           personality: characterObj.personality,
           appearance: characterObj.appearance
-          //story_id: characterObj.story_id
         })
       }
     )
@@ -115,7 +107,7 @@ export const deleteCharacterFetch = character => ({
 export const deleteCharacter = character => {
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/1/characters/${character.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/1/characters/${character.id}`,
       {
         method: "DELETE",
         headers: {
