@@ -27,10 +27,7 @@ class CharacterForm extends Component {
   weightFormat = num => num + " kg/lbs";
   heightFormat = num => num + " cm/in";
 
-  // load in characer data from the currently selected character state
-
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({
       currentCharacter: {
         ...this.state.currentCharacter,
@@ -55,12 +52,7 @@ class CharacterForm extends Component {
     event.preventDefault();
     this.props.setCurrentCharacter(this.state.currentCharacter);
     this.props.patchCharacter(this.state.currentCharacter);
-    console.log(this.state.currentCharacter);
     this.props.swapEditorState();
-  };
-
-  deleteCharacter = () => {
-    console.log("Delete Here");
   };
 
   componentDidMount = () => {

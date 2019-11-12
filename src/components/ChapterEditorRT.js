@@ -9,7 +9,6 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import { HotKeys } from "react-hotkeys";
 
-//import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 class ChapterEditorRT extends Component {
   constructor() {
@@ -51,16 +50,12 @@ class ChapterEditorRT extends Component {
         <CKEditor
         className="stretchHeight"
           editor={ClassicEditor}
-          data={this.props.currentChapter.body} //this.props.chapter[0].body}
+          data={this.props.currentChapter.body}
           onInit={editor => {
-            // You can store the "editor" and use when it is needed.
-            //console.log("Editor is ready to use!", editor);
-            //this.setState({editor})
           }}
           onChange={(event, editor) => {
             const data = editor.getData();
             this.props.setCurrentChapterData(data);
-            //console.log({ event, editor, data });
           }}
         />
 
@@ -87,7 +82,6 @@ class ChapterEditorRT extends Component {
   }
 }
 
-// I want to get the currently selected chapter
 const mapStateToProps = state => {
   return { stories: state.stories, chapters: state.chapters };
 };

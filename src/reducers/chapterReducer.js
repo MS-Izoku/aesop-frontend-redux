@@ -1,9 +1,8 @@
 import * as types from "../actions/actionTypes.js";
-import update from "immutability-helper";
 
 export default function chapterReducer(
   state = [
-    { id: 0, title: "Cream Frieche!", body: "This is my body, it is default" }
+    { id: 0, title: "Loading Chapters", body: "Loading..." }
   ],
   action
 ) {
@@ -21,9 +20,7 @@ export default function chapterReducer(
         } else return chapter;
       });
     case "DELETE_CHAPTER":
-      console.log('You hit the reducer')
       return state.filter(chapter => {return chapter.id !== action.chapter.id});
-    //return state
     default:
       return state;
   }

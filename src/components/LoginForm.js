@@ -17,22 +17,6 @@ class LoginForm extends Component {
   handlechange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  // signUpUser = input => {
-  //   if (this.state.password === this.state.passwordConfirmation) {
-  //     fetch(`http://localhost:3000/users/`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         username: input.username,
-  //         password: input.password,
-  //         email: input.email
-  //       })
-  //     });
-  //   }
-  // };
 
   signUpUser = event => {
     event.preventDefault();

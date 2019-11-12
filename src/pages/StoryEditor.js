@@ -13,7 +13,6 @@ import PageFooter from "../components/PageFooter";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-//import AccordionToggle from "react-bootstrap/AccordionToggle";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -33,7 +32,7 @@ class StoryEditor extends Component {
 
   componentDidMount() {
     fetch(
-      `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
+      `https://aesop-backend.herokuapp.com//users/1/stories/${this.props.match.params.story_id}`
     )
       .then(resp => resp.json())
       .then(json => {

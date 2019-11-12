@@ -7,11 +7,9 @@ import { withRouter } from "react-router";
 import { patchFootnote } from "../actions/footnoteActions";
 
 class FootNoteModal extends Component {
-  // this component is not properly updating after prop changes
   constructor(props) {
     super(props);
     this.state = {
-      //   id: this.props.currentNote.id,
       title: this.props.currentNote.title,
       body: this.props.currentNote.body
     };
@@ -33,12 +31,6 @@ class FootNoteModal extends Component {
     );
   };
 
-  componentDidUpdate() {
-    console.log("MODAL UPDATE <<<", this.props);
-  }
-
-  // figure out where in this file to update the form-data
-
   render() {
     return (
       <Modal show={this.props.modalIsToggled}>
@@ -47,8 +39,7 @@ class FootNoteModal extends Component {
             size="lg"
             type="text"
             name="title"
-            defaultValue={this.props.currentNote.title} // I need to get this changing depending on
-            //the value of the prop, it currently does not
+            defaultValue={this.props.currentNote.title}
             onChange={this.handleChange}
           />
         </Modal.Header>

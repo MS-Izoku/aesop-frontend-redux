@@ -1,7 +1,7 @@
 import * as types from "../actions/actionTypes.js";
 
 export default function userReducer(
-  state = { currentUser: {username: 'That Newjack Swing'}},
+  state = { currentUser: {username: 'Log In'}},
   action
 ) {
   switch (action.type) {

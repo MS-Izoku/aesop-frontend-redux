@@ -30,7 +30,6 @@ class StoryHub extends Component {
           </div>
         </div>
         <PageFooter />
-        {/* <StoryCarousel /> */}
       </div>
     );
   }

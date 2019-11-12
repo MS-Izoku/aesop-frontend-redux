@@ -8,10 +8,8 @@ export default function(
     case types.GET_STORIES:
       return action.stories;
     case types.POST_STORY:
-      console.log('POSTING NEW STORY , REDUCER <<<<' , action.story)
       return [...state, action.story];
     case types.PATCH_STORY:
-      // get the index of the changed item in the action
       return state.map(story =>{
         if(story.id === action.story.id){
           return action.story

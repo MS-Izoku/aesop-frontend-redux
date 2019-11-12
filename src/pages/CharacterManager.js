@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import NavHeader from "../containers/NavHeader";
 import CharacterForm from "../components/CharacterForm";
 import CharacterViewer from "../components/CharacterViewer";
-// import CharacterIndex from "../components/CharacterIndex";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { getCharacters } from "../actions/characterActions";
@@ -29,20 +28,17 @@ class CharacterManager extends Component {
   }
 
   setCurrentCharacter = charObj => {
-    console.log(charObj);
     this.setState({ currentCharacter: charObj });
   };
 
   swapEditorState = () => {
-    //console.log(this.state.currentCharacter);
     this.setState({ inEditor: !this.state.inEditor });
   };
 
   componentDidMount() {
     this.props.getCharacters(this.props.match.params.story_id);
-    console.log("Fetching Character");
     fetch(
-      `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}/characters/${this.props.match.params.character_id}`
+      `https://aesop-backend.herokuapp.com//users/1/stories/${this.props.match.params.story_id}/characters/${this.props.match.params.character_id}`
     )
       .then(resp => {
         return resp.json();
@@ -51,11 +47,9 @@ class CharacterManager extends Component {
         console.log(json);
         this.setState({ currentCharacter: json });
       });
-    //this.props.getCharacter(this.props.match.params.story_id , this.props.match.params.character_id);
   }
 
   render() {
-    //console.log(this.props);
     return (
       <div>
         <NavHeader />

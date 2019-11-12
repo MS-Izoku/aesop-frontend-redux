@@ -5,7 +5,7 @@ export default class EditorChapterNav extends Component {
     super(props);
     this.state = {
       chapters: [{ title: "Title!", body: "Body!" }]
-    }; // temp state for testing
+    };
   }
 
   renderChapters = () => {

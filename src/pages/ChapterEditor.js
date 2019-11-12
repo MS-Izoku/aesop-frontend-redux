@@ -95,10 +95,10 @@ class ChapterEditor extends Component {
     }
   };
 
+  // NYI
   keyMapHandler = {
     saveChapterCMD: () => {
       this.saveChapter();
-      console.log("SAVING WITH HOTKEY");
     }
   };
   //#endregion

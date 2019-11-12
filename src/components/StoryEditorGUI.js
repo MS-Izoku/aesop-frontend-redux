@@ -22,7 +22,6 @@ class StoryEditorGUI extends Component {
     console.log(this.state);
     this.props.saveStory(this.state);
     this.props.switchEditorView();
-    // callback the patch function here
   };
 
   handleDelete = event => {

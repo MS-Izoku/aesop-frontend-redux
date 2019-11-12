@@ -11,10 +11,8 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import { withRouter } from "react-router";
 
-// boilerplate from the github page, required for user
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 5
   },
@@ -35,13 +33,9 @@ const responsive = {
 class CharacterIndex extends Component {
   componentDidMount() {
     this.props.getCharacters(this.props.match.params.story_id);
-    // this.props.stories.map(story => {
-    //   this.props.getCharacters(story.id);
-    // });
   }
 
   createCharacterCard = characterObj => {
-    //console.log(characterObj);
     return (
       <Carousel.Item key={characterObj.id}>
         <div className="text-center">

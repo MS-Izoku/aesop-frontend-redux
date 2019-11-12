@@ -19,7 +19,6 @@ class CharacterHub extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <NavHeader />

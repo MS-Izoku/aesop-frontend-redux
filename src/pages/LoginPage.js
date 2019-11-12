@@ -6,7 +6,7 @@ import PageFooter from "../components/PageFooter.js";
 
 class LoginPage extends Component {
   handleChange = event => {
-    console.log(event.target.value);
+    
   };
 
   render() {

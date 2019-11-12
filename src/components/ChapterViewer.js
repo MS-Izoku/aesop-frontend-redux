@@ -76,10 +76,6 @@ class ChapterViewer extends Component {
   };
 
   render() {
-    // console.log('PROPPIN', this.props.currentStory.chapters.filter(chapter => {
-    //   return chapter.chapter_index === 1;
-    // })[0].id , this.props.currentStory);
-
     const urlHelper =
       this.props.currentStory.id !== 0
         ? this.props.currentStory.chapters.filter(

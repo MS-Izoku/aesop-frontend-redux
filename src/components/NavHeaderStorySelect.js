@@ -5,9 +5,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { getStories } from "../actions/storyActions";
 import Button from "react-bootstrap/Button";
 
-// this is a seleciton panel for a users stories found in the NavHeader
-// selecting an option should set the current-story to the selected story
-
 class NavHeaderStorySelect extends Component {
   getStoriesForSelect = () => {
     return this.props.stories.map(story => {
