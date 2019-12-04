@@ -109,7 +109,7 @@ export const setCurrentStoryDispatch = (storyObj, loggingIn = false) => {
       type: "SET_CURRENT_STORY",
       storyObj
     });
-    return fetch(`http://localhost:3000/update-profile/${storyObj.user_id}`, {
+    return fetch(`http://localhost:3000/update-profile/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

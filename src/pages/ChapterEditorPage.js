@@ -39,7 +39,7 @@ class ChapterEditorPage extends Component {
 
   onUnload = (event) => {
     event.preventDefault();
-    alert("Waiting to Save!")
+    // alert("Waiting to Save!")
     this.props.setCurrentChapterDispatch(this.props.currentChapter);
     event.returnValue = "unloading"
 
@@ -72,7 +72,7 @@ class ChapterEditorPage extends Component {
           >
             {this.createChapterCards()}
           </div>
-          <div className="col-lg-9 col-sm-12 bg-info px-0 mx-0">
+          <div className="col-lg-9 col-sm-12 bg-info px-0 mx-0" id="chapter-reader">
             <ChapterTextEditor />
           </div>
           <div className="col">

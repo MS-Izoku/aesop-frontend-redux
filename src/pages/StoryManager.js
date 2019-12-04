@@ -66,12 +66,11 @@ class StoryManager extends Component {
   render() {
     return (
       <div className="container-fluid">
-        Story Manager ({this.props.currentStory.id})
         <DeleteStoryButton />
         <div className="row">
           <div className="col" />
           <div className="col-lg-9 text-center">
-            <StoryForm swapEditorState={this.swapEditorState} />
+            <StoryForm swapEditorState={this.swapEditorState} inEditor={this.state.inEditor} />
             <h2>{this.props.currentStory.title}</h2>
           </div>
           <div className="col" />
