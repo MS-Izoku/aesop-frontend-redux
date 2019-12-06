@@ -13,7 +13,8 @@ export const postUser = userData => {
       body: JSON.stringify({
         user: {
           username: userData.username,
-          password: userData.password
+          password: userData.password,
+          email: userData.email
         }
       })
     })
