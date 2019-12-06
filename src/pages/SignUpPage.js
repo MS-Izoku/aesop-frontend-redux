@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { postUser } from '../actions/userActions'
+import { postUser } from "../actions/userActions";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,17 +21,17 @@ class SignUpPage extends Component {
   }
   handleSubmit = event => {
     event.preventDefault();
-    console.log("submitting")
+    debugger
     let validPassword = false;
     let { password, password_confirmation } = this.state;
     //#region password character check
-    const specialChars = /\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\-|\_|\=/y;
+    const specialChars = /\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\-|\_|\=/;
     if (this.state.password.length > 8 && this.state.password.length < 20) {
-      if (this.state.password.match(/\d/y) !== null) {
+      if (this.state.password.match(/\d/)[0] !== null) {
         if (this.state.password.match(specialChars) !== null) {
           if (
-            this.state.password.match(/[A-Z]/y) !== null &&
-            this.state.password.match(/[a-z]/y) !== null
+            this.state.password.match(/[A-Z]/[0]) !== null &&
+            this.state.password.match(/[a-z]/[0]) !== null
           ) {
             validPassword = true;
             this.setState({ password_error: null });
@@ -51,21 +51,20 @@ class SignUpPage extends Component {
             "Your password needs at least one number / numerical character"
         });
     }
-    if(password == "" || password == null) this.setState({password_error: "Password cannot be blank"})
-    console.log(this.state.password_error , validPassword)
-    console.log(this.state.password.match(/[A-Z]/))
-    if(!validPassword) console.log("invalid password" , password)
+    if (password == "" || password == null)
+      this.setState({ password_error: "Password cannot be blank" });
+
+    if (!validPassword) console.log("invalid password", password);
     //#endregion
+
     if (validPassword && password == password_confirmation) {
       const configuredUserObj = {
         username: this.state.username,
         password: this.state.password,
-        email: this.state.email,
-
-      }
-
-      console.log("valid submission")
-      this.props.postUser(configuredUserObj)
+        email: this.state.email
+      };
+      console.log("valid submission");
+      this.props.postUser(configuredUserObj);
     }
   };
 
@@ -99,7 +98,7 @@ class SignUpPage extends Component {
               name="email"
               type="email"
               placeholder="Email..."
-              onChange={this.handlChange}
+              onChange={this.handleChange}
             />
             {this.state.username_error !== null
               ? this.errorSpan(this.state.email_error)
@@ -123,7 +122,9 @@ class SignUpPage extends Component {
               onChange={this.handleChange}
             />
             <div>
-              {this.state.password_error !== null ? this.errorSpan(this.state.password_error) : null}
+              {this.state.password_error !== null
+                ? this.errorSpan(this.state.password_error)
+                : null}
               Passwords require at least: 1 uppercase and lowercase letter, 1
               numerical digit, and 1 special character
             </div>
