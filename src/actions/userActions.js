@@ -21,7 +21,6 @@ export const postUser = userData => {
       .then(resp => resp.json())
       .then(json => {
         localStorage.setItem("token", json.jwt);
-        console.log("FROM SERVER:" , json , userData)
         const configuredUserObject = Object.assign(
           {},
           { ...json, currentStory: {}, currentChapter: {} }

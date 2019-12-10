@@ -23,7 +23,13 @@ class LoginPage extends Component {
       <div>
         <NavHeader />
         <Switch>
-          <LoginForm />
+          <div className="row">
+            <div className="col" />
+            <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <LoginForm />
+            </div>
+            <div className="col" />
+          </div>
         </Switch>
       </div>
     );
