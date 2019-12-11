@@ -13,6 +13,7 @@ class SignUpPage extends Component {
       username_error: null,
       password_error: null,
       email_error: null,
+      terms_read: false,
       username: "",
       email: "",
       password: "",
@@ -23,7 +24,7 @@ class SignUpPage extends Component {
     event.preventDefault();
     debugger;
     let validPassword = false;
-    let { password, password_confirmation } = this.state;
+    let { password, password_confirmation, terms_read } = this.state;
     //#region password character check
     const specialChars = /\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\-|\_|\=/;
     if (this.state.password.length > 8 && this.state.password.length < 20) {
@@ -57,7 +58,7 @@ class SignUpPage extends Component {
     if (!validPassword) console.log("invalid password", password);
     //#endregion
 
-    if (validPassword && password == password_confirmation) {
+    if (validPassword && password == password_confirmation && terms_read) {
       const configuredUserObj = {
         username: this.state.username,
         password: this.state.password,
@@ -72,7 +73,20 @@ class SignUpPage extends Component {
   };
 
   errorSpan = error => {
-    return <span className="form-error-text">{error}</span>;
+    return <span className="form-error-text"><small>{error}</small></span>;
+  };
+
+  termLabel = () => {
+    return (
+      <Form.Label>
+        I have read the
+        <span className="form-error-text" onClick={this.toggleTerms}>
+          <small>{" "}
+          Terms and Conditions
+          </small>
+        </span>
+      </Form.Label>
+    );
   };
 
   render() {
@@ -80,8 +94,9 @@ class SignUpPage extends Component {
       <div className="container-fluid">
         <div className="row">
           <div className="col" />
-          <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 card my-5 p-3">
-          <h2 className="text-center card-title">Sign Up</h2>
+          <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 card my-5 p-3">
+            <h2 className="text-center card-title">Sign Up</h2>
+            <hr  className="mx-5"/>
             <Form onSubmit={this.handleSubmit}>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label className="m-1">Username</Form.Label>
@@ -131,7 +146,27 @@ class SignUpPage extends Component {
                   1 numerical digit, and 1 special character
                 </div>
               </Form.Group>
-              <Button variant="primary" type="submit" bsPrefix="btn btn-block btn-primary text-center">
+
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  label={this.termLabel()}
+                  onChange={() => {
+                    this.setState({ terms_read: !this.state.terms_read });
+                  }}
+                />
+                {this.state.terms_read
+                  ? null
+                  : this.errorSpan(
+                      "You must agree to our terms and conditions"
+                    )}
+              </Form.Group>
+
+              <Button
+                variant="primary"
+                type="submit"
+                bsPrefix="btn btn-block btn-primary text-center"
+              >
                 Submit
               </Button>
             </Form>
