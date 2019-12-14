@@ -52,7 +52,7 @@ class ChapterViewer extends Component {
   chapterView = () => {
     return this.state.chapter.body === "Chapter Not Found" ||
       this.state.chapter.body === "" ? (
-      <div className="text-center stretchHeight px-3 pt-3 pb-3">
+      <div className="text-left stretchHeight px-3 pt-3 pb-3">
         {this.props.currentStory === undefined ? (
           <div>Select Chapter</div>
         ) : (
