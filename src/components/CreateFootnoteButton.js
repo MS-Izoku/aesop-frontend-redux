@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { postFootNote } from "../actions/footnoteActions";
-
 import Button from "react-bootstrap/Button";
 
 const CreateFootnoteButton = props => {

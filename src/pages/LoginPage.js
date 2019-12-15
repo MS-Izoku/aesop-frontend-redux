@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Switch, withRouter } from "react-router-dom";
 import NavHeader from "../containers/NavHeader";
-
 import LoginForm from "../components/LoginForm";
 
 class LoginPage extends Component {
   componentDidMount() {
     if (localStorage.token) {
-      console.log("TOKEN FOUND, REDIRECTING TO HOME PAGE");
       this.props.history.push("/home");
     }
   }

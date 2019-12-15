@@ -4,10 +4,9 @@ import { withRouter } from "react-router-dom";
 import { setCurrentFootnote } from "../actions/footnoteActions";
 import { setCurrentCharacterDispatch } from "../actions/userActions";
 import CreateCharacterButton from "../components/CreateCharacterButton";
-
 import CreateFootnoteButton from "./CreateFootnoteButton";
-const ChapterEditorRightBar = props => {
 
+const ChapterEditorRightBar = props => {
   const handleCharacterClick = character =>{
     props.setCurrentCharacterDispatch(character)
     props.history.push("/charactermanager")

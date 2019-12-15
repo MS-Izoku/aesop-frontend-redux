@@ -8,7 +8,6 @@ import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 class RichTextArea extends Component {
 
   render() {
-    console.log(this.props)
     return (
       <div className="">
         <CKEditor

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.css";
 
 import NavHeader from "./containers/NavHeader.js";
-import PageFooter from "./components/PageFooter";
 import { withRouter } from "react-router";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -18,7 +17,6 @@ import SignUpPage from "./pages/SignUpPage";
 
 class App extends Component {
   async componentDidMount() {
-
     window.addEventListener("beforeunload", this.onUnload);
 
     if (localStorage.token) {
@@ -32,7 +30,6 @@ class App extends Component {
     event.preventDefault();
     this.props.setCurrentChapterDispatch(this.props.currentChapter);
     event.returnValue = "unloading"
-
     return "Unloading Story Manager, please wait"
   };
 
@@ -50,7 +47,6 @@ class App extends Component {
     return (
       <div className="App grey-light">
         <NavHeader />
-
         <Route
           exact
           path="/login"
@@ -87,8 +83,6 @@ class App extends Component {
           store={this.props.store}
           component={CharacterManager}
         />
-
-        {/* <PageFooter /> */}
       </div>
     );
   }
