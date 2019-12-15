@@ -25,6 +25,10 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount(){
+    
+  }
+
   componentDidUpdate(prevProps) {
     if (
       prevProps.user.currentUser.id === undefined &&

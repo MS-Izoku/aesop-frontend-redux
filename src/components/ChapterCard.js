@@ -12,7 +12,7 @@ const ChapterCard = props => {
         props.setCurrentChapterDispatch(props.chapter);
       }}
     >
-      {props.chapter.title}{props.chapter.story_id}
+      {props.chapter.title}
     </div>
   );
 };

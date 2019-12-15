@@ -39,7 +39,6 @@ class ChapterEditorPage extends Component {
 
   onUnload = (event) => {
     event.preventDefault();
-    // alert("Waiting to Save!")
     this.props.setCurrentChapterDispatch(this.props.currentChapter);
     event.returnValue = "unloading"
 

@@ -171,6 +171,27 @@ export const setCurrentChapterDispatch = (
   };
 };
 
+// done after unmounting the app as a whole to save the state
+export const saveUserState = userObj =>{
+  fetch(`http://localhost:3000/users/${userObj.id}/save-user-state` , {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      current_story_id: userObj.currentStory.id,
+      current_chapter_id: userObj.currentStory.id,
+      current_character_id: userObj.currentCharacter.id
+    }).then(resp => resp.json())
+    .then(()=>{
+      
+    })
+    .catch(err => { console.error("Error Updating -User- on refresh" , err)})
+  })
+}
+
 export const removeChapterDispatch = chapterObj => {
   return dispatch =>
     dispatch({
@@ -193,7 +214,6 @@ export const setCurrentCharacterDispatch = (
   return dispatch => {
     if (!loggingIn) {
       if (!skipFetch) {
-        console.log("FETCH HERE", characterObj);
         fetch(
           `http://localhost:3000/update-profile/${characterObj.author_id}`,
           {

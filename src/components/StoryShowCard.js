@@ -12,6 +12,7 @@ const StoryShowCard = props => {
       <p>{props.story.pitch}</p>
       <Button
         onClick={() => {
+          console.log("CHANGING CURRENT STORY TO:" , props.story.title)
           props.setCurrentStory(props.story);
           props.setCurrentChapter(props.story.chapters.sort((chapA , chapB) =>{
             return chapB.chapter_index - chapA.chapter_index
