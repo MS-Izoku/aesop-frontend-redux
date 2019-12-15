@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { getChapters } from "../actions/chapterActions";
 import { setCurrentChapterDispatch } from "../actions/userActions";
 import StoryForm from "../components/StoryForm";
 import DeleteStoryButton from "../components/DeleteStoryButton";
@@ -46,23 +45,6 @@ class StoryManager extends Component {
     }
   };
 
-  onUnload = (event) => {
-    event.preventDefault();
-    alert("Waiting to Save!")
-    this.props.setCurrentChapterDispatch(this.props.currentChapter);
-    event.returnValue = "unloading"
-
-    return "Unloading Story Manager, please wait"
-  };
-
-  componentDidMount() {
-    window.addEventListener("beforeunload", this.onUnload);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.onUnload);
-  }
-
   render() {
     return (
       <div className="container-fluid">
@@ -104,7 +86,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setCurrentChapterDispatch: chapterObj =>
       dispatch(setCurrentChapterDispatch(chapterObj, false, false))
-    //getChapters: storyID => dispatch(getChapters(storyID))
   };
 };
 

@@ -185,8 +185,9 @@ export const saveUserState = userObj =>{
       current_chapter_id: userObj.currentStory.id,
       current_character_id: userObj.currentCharacter.id
     }).then(resp => resp.json())
-    .then(()=>{
-      
+    .then(json =>{
+      console.log(json)
+      debugger
     })
     .catch(err => { console.error("Error Updating -User- on refresh" , err)})
   })

@@ -37,21 +37,7 @@ class ChapterEditorPage extends Component {
     });
   };
 
-  onUnload = (event) => {
-    event.preventDefault();
-    this.props.setCurrentChapterDispatch(this.props.currentChapter);
-    event.returnValue = "unloading"
 
-    return "Unloading Story Manager, please wait"
-  };
-
-  componentDidMount() {
-    window.addEventListener("beforeunload", this.onUnload);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.onUnload);
-  }
 
   render() {
     return (

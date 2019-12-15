@@ -27,7 +27,6 @@ class StoryForm extends Component {
       {},
       { ...this.state, id: this.props.currentStory.id  , user_id: this.props.currentStory.user_id}
     );
-    console.log(storyObj)
     this.props.patchStory(storyObj);
     this.props.swapEditorState();
   };
