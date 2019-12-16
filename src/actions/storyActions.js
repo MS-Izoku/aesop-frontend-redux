@@ -3,6 +3,25 @@ import {
   addChapterToCurrentStoryDispatch
 } from "./userActions";
 
+const formatStory = storyObj =>{
+  if(Array.isArray(storyObj)){
+    return storyObj.map(story =>{
+      return {
+        id: story.id,
+        title: story.attributes.title,
+        pitch: story.attributes.pitch,
+        high_concept: story.attributes.high_concept
+      }
+    })
+  }
+  else return {
+    id: storyObj.id,
+    title: storyObj.attributes.title,
+    pitch: storyObj.attributes.pitch,
+    high_concept: storyObj.attributes.high_concept
+  }
+}
+
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
 export const getStories = (userID, loggingIn = false) => {
@@ -18,9 +37,11 @@ export const getStories = (userID, loggingIn = false) => {
       .then(resp => resp.json())
       .then(stories => {
         if (loggingIn) {
-          dispatch(fetchStories(stories));
+          //stories = stories.data;
+          dispatch(fetchStories(formatStory(stories.data)))
+          //dispatch(fetchStories(stories));
           return dispatch(setCurrentStoryDispatch(stories, true, true));
-        } else return dispatch(fetchStories(stories));
+        } else return dispatch(fetchStories(stories.data));
       })
       .catch(err =>
         console.error(
@@ -103,7 +124,10 @@ export const deleteStory = story => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteStoryFetch(json));
-      }).catch(err =>{ console.error("ERROR DELETING STORY:" , err)});
+      })
+      .catch(err => {
+        console.error("ERROR DELETING STORY:", err);
+      });
   };
 };
 
