@@ -33,11 +33,8 @@ class App extends Component {
     return "Unloading Story Manager, please wait"
   };
 
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.onUnload);
-  }
-
   componentWillUnmount(){
+    window.removeEventListener("beforeunload", this.onUnload);
     if(this.state.currentUser.id !== 0 && this.state.currentUser.id !== null){
       this.props.saveUserState(this.props.currentUser)
     }
