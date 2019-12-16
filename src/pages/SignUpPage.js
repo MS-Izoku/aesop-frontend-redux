@@ -52,13 +52,13 @@ class SignUpPage extends Component {
             "Your password needs at least one number / numerical character"
         });
     }
-    if (password == "" || password == null)
+    if (password === "" || password === null)
       this.setState({ password_error: "Password cannot be blank" });
 
     if (!validPassword) console.log("invalid password", password);
     //#endregion
 
-    if (validPassword && password == password_confirmation && terms_read) {
+    if (validPassword && password === password_confirmation && terms_read) {
       const configuredUserObj = {
         username: this.state.username,
         password: this.state.password,

@@ -85,7 +85,7 @@ class StoryForm extends Component {
   storyViewer = () => {
     return (
       <div id="story-info-gui">
-        <h2>{this.state.title == "" ? "Untitled" : this.state.title}</h2>
+        <h2>{this.state.title === "" ? "Untitled" : this.state.title}</h2>
         <hr />
         <h3>{this.state.pitch}</h3>
         <p>{this.state.high_concept}</p>

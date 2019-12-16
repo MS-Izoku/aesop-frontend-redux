@@ -3,23 +3,29 @@ import {
   addChapterToCurrentStoryDispatch
 } from "./userActions";
 
-const formatStory = storyObj =>{
+import {formatChapterData} from "./chapterActions"
+
+export const formatStory = storyObj =>{
   if(Array.isArray(storyObj)){
     return storyObj.map(story =>{
       return {
         id: story.id,
         title: story.attributes.title,
         pitch: story.attributes.pitch,
-        high_concept: story.attributes.high_concept
+        high_concept: story.attributes.high_concept,
+        chapters: formatChapterData(story.relationships.chapters.data)
       }
     })
   }
-  else return {
+  else {
+    const chapters = formatChapterData(storyObj.relationships.chapters)
+    return {
     id: storyObj.id,
     title: storyObj.attributes.title,
     pitch: storyObj.attributes.pitch,
-    high_concept: storyObj.attributes.high_concept
-  }
+    high_concept: storyObj.attributes.high_concept,
+    chapters: formatChapterData(storyObj.relationships.chapters.data)
+  }}
 }
 
 // get stories
