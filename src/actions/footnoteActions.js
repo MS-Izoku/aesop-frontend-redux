@@ -1,3 +1,14 @@
+import {
+  updateFootnoteInCurrentChapter,
+  addFootnoteToCurrenChapter
+} from "./userActions";
+
+export const getFootnotesFromChapter = chapterObj => {
+  return dispatch => {
+    return dispatch({ type: "GET_FOOTNOTES", footnotes: chapterObj });
+  };
+};
+
 export const fetchFootnotes = footnotes => ({
   type: "GET_FOOTNOTES",
   footnotes
@@ -6,13 +17,21 @@ export const fetchFootnotes = footnotes => ({
 export const getFootnotes = (chapterID, storyID) => {
   return dispatch => {
     fetch(
-      `https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/chapters/${chapterID}/footnotes`
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        }
+      }
     )
       .then(resp => resp.json())
       .then(notes => {
         return dispatch(fetchFootnotes(notes));
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err => console.error("ERROR GETTING FOOTNOTES", err));
   };
 };
 
@@ -22,16 +41,14 @@ export const postFootNoteFetch = footnote => ({
 });
 export const postFootNote = (chapterID, storyID) => {
   return dispatch => {
-    console.log(
-      `https://aesop-backend.herokuapp.com//users/1/stories/${chapterID}/chapters/${storyID}/footnotes`
-    );
     fetch(
-      `https://aesop-backend.herokuapp.com//users/1/stories/${chapterID}/chapters/${storyID}/footnotes`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           title: "New Note",
@@ -42,51 +59,62 @@ export const postFootNote = (chapterID, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
+        dispatch(addFootnoteToCurrenChapter(json));
         return dispatch(postFootNoteFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR CREATING NEW FOOTNOTE:", err);
       });
   };
 };
 
-export const patchFootNoteFetch = footnote => ({
+export const patchFootnoteFetch = footnote => ({
   type: "PATCH_FOOTNOTE",
   footnote
 });
-export const patchFootnote = (chapterID, storyID, footnoteID, footnoteData) => {
+export const patchFootnote = (footnoteObj, storyID) => {
   return dispatch => {
     fetch(
-      `https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/chapters/${chapterID}/footnotes/${footnoteID}`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnoteObj.chapter_id}/footnotes/${footnoteObj.id}`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
-          title: footnoteData.title,
-          body: footnoteData.body
+          title: footnoteObj.title,
+          body: footnoteObj.body
         })
       }
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(patchFootNoteFetch(json));
+        dispatch(patchFootnoteFetch(json));
+        return dispatch(updateFootnoteInCurrentChapter(json));
+      })
+      .catch(err => {
+        console.error("ERROR UPDATING FOOTNOTE:", err);
       });
   };
 };
 
-export const deleteFootNoteFetch = footnote => ({
+export const deleteFootnoteFetch = footnote => ({
   type: "DELETE_FOOTNOTE",
   footnote
 });
-export const deleteFootNote = (chapter, footnote) => {
+export const deleteFootnote = (footnote, storyID) => {
   return dispatch => {
     fetch(
-      `https://aesop-backend.herokuapp.com//users/1/stories/${chapter.story_id}/chapters/${chapter.id}/footnotes/${footnote.id}`,
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnote.chapter_id}/footnotes/${footnote.id}`,
+
       {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
         },
         body: JSON.stringify({
           id: footnote.id
@@ -95,11 +123,23 @@ export const deleteFootNote = (chapter, footnote) => {
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(deleteFootNoteFetch(json));
+        return dispatch(deleteFootnoteFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR DELETING FOOTNOTE:", err);
       });
   };
 };
 
 export const setCurrentFootnote = footnote => {
   return { type: "SET_CURRENT_FOOTNOTE", footnote };
+};
+
+export const getCurrentFootnote = () => {
+  return { type: "GET_CURRENT_FOOTNOTE" };
+};
+
+export const setAllNotes = chapterObj => {
+  const notes = chapterObj.footnotes;
+  return { type: "SET_ALL_FOOTNOTES", notes };
 };

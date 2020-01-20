@@ -1,27 +1,33 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import NavHeader from "../containers/NavHeader.js";
-import LoginForm from '../components/LoginForm'
-import PageFooter from "../components/PageFooter.js";
+import { Switch, withRouter } from "react-router-dom";
+import NavHeader from "../containers/NavHeader";
+
+import LoginForm from "../components/LoginForm";
 
 class LoginPage extends Component {
-  handleChange = event => {
-    
-  };
+  componentDidMount() {
+    if (localStorage.token) {
+      console.log("TOKEN FOUND, REDIRECTING TO HOME PAGE");
+      this.props.history.push("/home");
+    }
+  }
+
+  componentDidUpdate() {
+    if (localStorage.token) {
+      this.props.history.push("/home");
+    }
+  }
 
   render() {
     return (
       <div>
         <NavHeader />
-        <LoginForm/>
-        <PageFooter/>
+        <Switch>
+          <LoginForm />
+        </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { user: state.user };
-};
-
-export default connect(mapStateToProps)(LoginPage);
+export default withRouter(LoginPage);

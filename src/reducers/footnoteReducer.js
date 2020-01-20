@@ -1,8 +1,8 @@
 import * as types from "../actions/actionTypes.js";
 export default function(
   state = {
-    allNotes: [{ id: 0, title: "Allo", body: "N/A", chapter_id: 11 }],
-    currentNote: { id: 0, title: "Allo", body: "N/A", chapter_id: 11 }
+    allNotes: [{ id: 0, title: "Notes Not Found", body: "N/A" }],
+    currentNote: { id: 0, title: "No Notes Found", body: "N/A" }
   },
   action
 ) {
@@ -16,17 +16,24 @@ export default function(
         }
       );
     case types.POST_FOOTNOTE:
-      return Object.assign(state, {
+      return Object.assign({}, { ...state, 
         allNotes: [...state.allNotes, action.footnote]
       });
     case types.PATCH_FOOTNOTE:
       return state
-    case types.DELETE_FOOTNOTE:
-      return state.filter(note => {
-        return note.id !== action.id;
-      });
+    case "DELETE_FOOTNOTE":
+      return Object.assign({} , {
+        ...state ,
+        allNotes: state.allNotes.filter(note =>{
+          return note.id !== action.footnote.id
+        })
+      })
     case "SET_CURRENT_FOOTNOTE":
       return Object.assign({}, { ...state, currentNote: action.footnote });
+    case "GET_CURRENT_FOOTNOTE":
+      return state.currentNote;
+    case "SET_ALL_FOOTNOTES":
+      return Object.assign({} , {...state , allNotes: action.notes})
     default:
       return state;
   }

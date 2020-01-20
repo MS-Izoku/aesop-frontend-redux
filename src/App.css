@@ -200,9 +200,9 @@ html , body{
 
 .onHoverDarken:hover{
   background: #d0bb7c;
-  -webkit-transition: background-color 250ms linear;
-  -ms-transition: background-color 250ms linear;
-  transition: background-color 250ms linear;
+  -webkit-transition: background-color 275ms linear;
+  -ms-transition: background-color 275ms linear;
+  transition: background-color 275ms linear;
 }
 
 .onHoverDarken:active{
@@ -213,3 +213,21 @@ a:hover{
   color: #b86058
 }
 
+/* .ck-content{
+  min-height: 89.125%;
+  height: 70vh;
+  min-width: 10vh;
+  width: 100%;
+  background: white;
+  border-radius: 0px;
+} */
+
+.chapterScrollBar{
+  min-height: 100%;
+  height: 90vh;
+  overflow: scroll;
+}
+
+.chapterCard:hover{
+  
+}

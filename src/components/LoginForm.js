@@ -1,87 +1,67 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { loginUserFetch } from "../actions/userActions";
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { connect } from "react-redux";
-import { postUser } from "../actions/userActions";
 
 class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
       username: "",
-      password: "",
-      passwordConfirmation: "",
-      email: ""
+      password: ""
     };
   }
-  handlechange = event => {
+
+  handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  signUpUser = event => {
+  handleSubmit = event => {
     event.preventDefault();
-    const userObj = {
-      username: this.state.username,
-      password: this.state.password,
-      email: this.state.email
-    };
-    this.props.postUser(userObj);
+    this.props.loginUserFetch(this.state);
   };
 
   render() {
     return (
-      <div>
-        <Form onSubmit={this.signUpUser}>
-          <Form.Group controlId="loginForm">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              name="username"
-              onChange={this.handleChange}
-              placeholder="Username"
-            />
-            <Form.Label>Email address</Form.Label>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group controlId="loginForm">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            onChange={this.handleChange}
+            placeholder="Username"
+          />
+        </Form.Group>
 
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="passwordConfirmation"
-              onChange={this.handleChange}
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
-      </div>
+        <Form.Group controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {  };
+const mapStateToProps = state => {
+  return { user: state.user };
 };
+
+const mapDispatchToProps = dispatch => {
+  return { loginUserFetch: userData => dispatch(loginUserFetch(userData)) };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LoginForm);
