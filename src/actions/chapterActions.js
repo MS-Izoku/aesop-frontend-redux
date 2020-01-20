@@ -62,7 +62,7 @@ export const getChapters = (storyID, loggingIn = false) => {
 export const postChapterFetch = chapter => ({ type: "POST_CHAPTER", chapter });
 export const postChapter = storyID => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/1/stories/${storyID}/chapters/`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/chapters/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export const patchChapterFetch = chapter => ({
 export const patchChapter = chapterData => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${chapterData.story_id}/chapters/${chapterData.id}`,
       {
         method: "PATCH",
         headers: {
@@ -125,7 +125,7 @@ export const deleteChapter = chapter => {
   console.log("DELETING", chapter);
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${chapter.story_id}/chapters/${chapter.id}`,
       {
         method: "DELETE",
         headers: {

@@ -91,7 +91,7 @@ export const patchFetchCharacter = character => ({
 export const patchCharacter = (characterObj, setCurrent = false) => {
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
       {
         method: "PATCH",
         headers: {
@@ -128,7 +128,7 @@ export const deleteCharacterFetch = character => ({
 export const deleteCharacter = character => {
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/1/characters/${character.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/1/characters/${character.id}`,
       {
         method: "DELETE",
         headers: {
