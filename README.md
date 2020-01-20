@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## The Project
 AESOP is meant to be a tool for writers, and no it is not an acronymn.  The app allows users to create stories, chapters, notes, and stories to help them manage their narrative projects.  Most text input is in a richtext format to get the most out of the user input and allow them to go wild with their imagination.
 
@@ -20,3 +21,8 @@ This branch is my rework since leaving the school, and was my first larger-scale
 
 #Notes
 * Currently in dire need of styling and cool information displays
+=======
+## AESOP
+
+This is the final project of my time at Flatiron School, as well as my first dive into Redux.  It is meant to communciate with a rails backend, and allows users to create and manage stories and chapters with a richtext format.  After I graduated from Flatiron, I decided to rework this in a major way.  This serves as a timestamp in my development
+>>>>>>> master
