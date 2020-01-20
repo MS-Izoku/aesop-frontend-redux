@@ -7,9 +7,6 @@ import HomeCardContainer from '../containers/HomeCardContainer'
 import CreateStoryButton from '../components/CreateStoryButton'
 
 class HomePage extends Component{
-    componentDidMount(){
-       // this.props.getStories(1)
-    }
 
     render(){
         return<div>

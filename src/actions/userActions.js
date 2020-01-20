@@ -4,7 +4,7 @@ import { getFootnotesFromChapter } from "./footnoteActions";
 // Create User
 export const postUser = userData => {
   return dispatch => {
-    fetch(`http://localhost:3000/users/`, {
+    fetch(`https://aesop-backend.herokuapp.com//users/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

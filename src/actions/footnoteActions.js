@@ -91,7 +91,6 @@ export const patchFootnote = (footnoteObj, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
-  
         dispatch(patchFootnoteFetch(json));
         return dispatch(updateFootnoteInCurrentChapter(json));
       })
@@ -109,6 +108,7 @@ export const deleteFootnote = (footnote, storyID) => {
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnote.chapter_id}/footnotes/${footnote.id}`,
+
       {
         method: "DELETE",
         headers: {

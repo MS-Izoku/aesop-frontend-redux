@@ -1,5 +1,9 @@
 import * as types from "./actionTypes.js";
+<<<<<<< HEAD
 import { updateCurrentCharacterDispatch } from "./userActions";
+=======
+
+>>>>>>> master
 export const setCurrentChapter = chapterObj => {
   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
 };
@@ -10,6 +14,7 @@ export const fetchCharacters = characters => ({
 });
 export const getCharacters = storyID => {
   return dispatch => {
+<<<<<<< HEAD
     fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`, {
       method: "GET",
       headers: {
@@ -18,6 +23,9 @@ export const getCharacters = storyID => {
         Authorization: `Bearer ${localStorage.token}`
       }
     })
+=======
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters/`)
+>>>>>>> master
       .then(resp => resp.json())
       .then(chars => {
         return dispatch(fetchCharacters(chars));
@@ -33,6 +41,7 @@ export const getSingleCharacterFetch = character => ({
 export const getCharacter = (storyID, characterID) => {
   return dispatch => {
     fetch(
+<<<<<<< HEAD
       `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`,
       {
         method: "GET",
@@ -42,6 +51,9 @@ export const getCharacter = (storyID, characterID) => {
           Authorization: `Bearer ${localStorage.token}`
         }
       }
+=======
+      `https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters/${characterID}`
+>>>>>>> master
     )
       .then(resp => resp.json())
       .then(json => dispatch(getSingleCharacterFetch(json)))
@@ -57,6 +69,7 @@ export const postFetchCharacter = character => ({
 });
 export const postCharacter = (characterObj, storyID) => {
   return dispatch => {
+<<<<<<< HEAD
     return fetch(
       `http://localhost:3000/users/1/stories/${storyID}/characters`,
       {
@@ -77,6 +90,24 @@ export const postCharacter = (characterObj, storyID) => {
         })
       }
     )
+=======
+    return fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${storyID}/characters`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        name: characterObj.name,
+        height: characterObj.height,
+        weight: characterObj.weight,
+        biography: characterObj.biography,
+        personality: characterObj.personality,
+        appearance: characterObj.appearance,
+        story_id: storyID // get this from params
+      })
+    })
+>>>>>>> master
       .then(resp => resp.json())
       .then(json => {
         return dispatch(postFetchCharacter(json));
@@ -88,10 +119,14 @@ export const patchFetchCharacter = character => ({
   type: "PATCH_CHARACTER",
   character
 });
+<<<<<<< HEAD
 export const patchCharacter = (characterObj, setCurrent = false) => {
+=======
+export const patchCharacter = characterObj => {
+>>>>>>> master
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
       {
         method: "PATCH",
         headers: {
@@ -128,7 +163,7 @@ export const deleteCharacterFetch = character => ({
 export const deleteCharacter = character => {
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/1/characters/${character.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/1/characters/${character.id}`,
       {
         method: "DELETE",
         headers: {

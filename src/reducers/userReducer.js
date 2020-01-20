@@ -1,22 +1,7 @@
 import * as types from "../actions/actionTypes.js";
 
 export default function userReducer(
-  state = {
-    currentUser: {},
-    currentStory: { chapters: [{ title: "Chapter Not Found" }] },
-    currentChapter: { title: "Chapter Not Found", body: "Chapter Not Found" },
-    currentCharacter: {
-      appearance: "",
-      biography: "",
-      height: 100,
-      img_url:
-        "https://cdn1us.denofgeek.com/sites/denofgeekus/files/styles/main_wide/public/2019/05/toy_story_4_duke_caboom_keanu_reeves.jpg?itok=adUMUrqP",
-      name: "",
-      personality: "",
-      story_id: 0,
-      weight: 150
-    }
-  },
+  state = { currentUser: {username: 'Log In'}},
   action
 ) {
   switch (action.type) {

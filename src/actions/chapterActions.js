@@ -4,6 +4,39 @@ import {
 } from "./userActions";
 import { addChapterToCurrentStory } from "./storyActions";
 
+//#region chapter data formatting
+export const formatChapterData = (chapterData , targetKey = "included") => {
+  // if (Array.isArray(chapterData)) {
+  //   return chapterData.map(chapter => {
+  //     return {
+  //       id: chapter.id,
+  //       title: chapter[targetKey].attributes.title,
+  //       body: chapter[targetKey].attributes.body,
+  //       chapter_index: chapter[targetKey].attributes.chapter_index,
+  //       author_id: chapter[targetKey].attributes.author_id,
+  //       story_id: chapter[targetKey].attributes.story_id
+  //     };
+  //   });
+  // } else
+  //   return {
+  //     id: chapterData.id,
+  //     body: chapterData[targetKey].body,
+  //     title: chapterData[targetKey].title,
+  //     chapter_index: chapterData[targetKey].chapter_index,
+  //     story_id: chapterData[targetKey].story_id,
+  //     author_id: chapterData[targetKey].author_id
+  //   };
+};
+
+export const chapterDataToFastJSON = chapterData => {
+  return {
+    id: chapterData.id,
+    attributes: {},
+    relationships: {}
+  };
+};
+////#endregion
+
 export const fetchChapters = chapters => ({ type: "GET_CHAPTERS", chapters });
 export const getChapters = (storyID, loggingIn = false) => {
   return dispatch => {
@@ -46,7 +79,9 @@ export const postChapter = storyID => {
         dispatch(addChapterToCurrentStoryDispatch(json));
         return dispatch(postChapterFetch(json));
       })
-      .catch(err => {console.error("ERROR CREATING CHAPTER:" , err)});
+      .catch(err => {
+        console.error("ERROR CREATING CHAPTER:", err);
+      });
   };
 };
 
@@ -76,7 +111,9 @@ export const patchChapter = chapterData => {
         dispatch(setCurrentChapter(json));
         return dispatch(patchChapterFetch(json));
       })
-      .catch(err => {console.error("ERROR UPDATING CHAPTER:" , err)});
+      .catch(err => {
+        console.error("ERROR UPDATING CHAPTER:", err);
+      });
   };
 };
 
@@ -103,7 +140,9 @@ export const deleteChapter = chapter => {
       .then(json => {
         return dispatch(deleteChapterFetch(json));
       })
-      .catch(err => {console.error("ERROR DELETING CHAPTER:" , err)});
+      .catch(err => {
+        console.error("ERROR DELETING CHAPTER:", err);
+      });
   };
 };
 

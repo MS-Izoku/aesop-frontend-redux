@@ -3,6 +3,7 @@ import {
   addChapterToCurrentStoryDispatch
 } from "./userActions";
 
+<<<<<<< HEAD
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
 export const getStories = (userID, loggingIn = false) => {
@@ -15,6 +16,18 @@ export const getStories = (userID, loggingIn = false) => {
         Authorization: `Bearer ${localStorage.token}`
       }
     })
+=======
+const baseURL = (user_id = 1) => {
+  return `https://aesop-backend.herokuapp.com//users/${user_id}/stories/`;
+};
+
+export const GET_STORIES = "GET_STORIES";
+
+export const fetchStories = stories => ({ type: GET_STORIES, stories });
+export const getStories = () => {
+  return dispatch => {
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/`)
+>>>>>>> master
       .then(resp => resp.json())
       .then(stories => {
         if (loggingIn) {
@@ -35,7 +48,11 @@ export const getStories = (userID, loggingIn = false) => {
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = user_id => {
   return dispatch => {
+<<<<<<< HEAD
     fetch(`http://localhost:3000/users/${user_id}/stories/`, {
+=======
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/`, {
+>>>>>>> master
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +80,12 @@ export const postStory = user_id => {
 export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 export const patchStory = story => {
   return dispatch => {
+<<<<<<< HEAD
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
+=======
+    console.log(story)
+    fetch(`https://aesop-backend.herokuapp.com//users/1/stories/${story.id}`, {
+>>>>>>> master
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +113,11 @@ export const patchStory = story => {
 export const deleteStoryFetch = story => ({ type: "DELETE_STORY", story });
 export const deleteStory = story => {
   return dispatch => {
+<<<<<<< HEAD
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
+=======
+    fetch("https://aesop-backend.herokuapp.com//users/1/stories" + `/${storyID}`, {
+>>>>>>> master
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
