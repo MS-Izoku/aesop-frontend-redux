@@ -3,30 +3,40 @@ import {
   addChapterToCurrentStoryDispatch
 } from "./userActions";
 
-import {formatChapterData} from "./chapterActions"
+import { formatChapterData } from "./chapterActions";
 
-export const formatStory = storyObj =>{
-  if(Array.isArray(storyObj)){
-    return storyObj.map(story =>{
+//#region story data formatting
+export const formatStory = storyObj => {
+  if (Array.isArray(storyObj)) {
+    return storyObj.map(story => {
       return {
         id: story.id,
         title: story.attributes.title,
         pitch: story.attributes.pitch,
         high_concept: story.attributes.high_concept,
-        chapters: formatChapterData(story.relationships.chapters.data)
-      }
-    })
-  }
-  else {
-    const chapters = formatChapterData(storyObj.relationships.chapters)
+        chapters: formatChapterData(story.relationships.chapters.data , "included")
+      };
+    });
+  } else {
+    const chapters = formatChapterData(storyObj.relationships.chapters , "included");
     return {
-    id: storyObj.id,
-    title: storyObj.attributes.title,
-    pitch: storyObj.attributes.pitch,
-    high_concept: storyObj.attributes.high_concept,
-    chapters: formatChapterData(storyObj.relationships.chapters.data)
-  }}
-}
+      id: storyObj.id,
+      title: storyObj.attributes.title,
+      pitch: storyObj.attributes.pitch,
+      high_concept: storyObj.attributes.high_concept,
+      chapters: formatChapterData(storyObj.relationships.chapters.data)
+    };
+  }
+};
+
+export const storyDataToFastJSON = storyData => {
+  return {
+    id: storyData.id,
+    relationships: {},
+    attributes: {}
+  };
+};
+//#endregion
 
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
@@ -43,10 +53,8 @@ export const getStories = (userID, loggingIn = false) => {
       .then(resp => resp.json())
       .then(stories => {
         if (loggingIn) {
-          //stories = stories.data;
-          dispatch(fetchStories(formatStory(stories.data)))
-          //dispatch(fetchStories(stories));
-          return dispatch(setCurrentStoryDispatch(stories, true, true));
+          dispatch(fetchStories(formatStory(stories.data , "included")));
+          return dispatch(setCurrentStoryDispatch(formatStory(stories.data), true, true));
         } else return dispatch(fetchStories(stories.data));
       })
       .catch(err =>
