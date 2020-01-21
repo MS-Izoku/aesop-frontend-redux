@@ -9,6 +9,8 @@ import Button from "react-bootstrap/Button";
 import RichTextArea from "../components/RichTextArea";
 import Form from "react-bootstrap/Form";
 import NumericInput from "react-numeric-input";
+import DomPurify from "dompurify";
+
 
 import DomPurify from "dompurify";
 class CharacterManager extends Component {
@@ -41,7 +43,6 @@ class CharacterManager extends Component {
   }
 
   //#region Event Handlers
-  // activate an editor on the page from state
   activateEditor = editor => {
     this.setState({
       editors: { ...this.state.editors, [editor]: !this.state.editors[editor] }
@@ -96,7 +97,8 @@ class CharacterManager extends Component {
   activateEditorButton = editorName => {
     return (
       <span
-        className="h6 text-right"
+        className="h6 text-right text-primary"
+
         onClick={() => {
           this.activateEditor(editorName);
         }}

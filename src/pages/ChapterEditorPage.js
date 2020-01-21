@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import ChapterTextEditor from "../components/ChapterTextEditor";
 import ChapterEditorRightBar from "../components/ChapterEditorRightBar";
 import FootnoteModal from "../components/FootnoteModal";
-
 import ChapterCard from "../components/ChapterCard";
 import ChapterDeleteModal from "../components/ChapterDeleteModal";
+
+
 class ChapterEditorPage extends Component {
   constructor() {
     super();
@@ -36,23 +37,6 @@ class ChapterEditorPage extends Component {
       chapterDeleteModalActive: !this.state.chapterDeleteModalActive
     });
   };
-
-  onUnload = (event) => {
-    event.preventDefault();
-    // alert("Waiting to Save!")
-    this.props.setCurrentChapterDispatch(this.props.currentChapter);
-    event.returnValue = "unloading"
-
-    return "Unloading Story Manager, please wait"
-  };
-
-  componentDidMount() {
-    window.addEventListener("beforeunload", this.onUnload);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.onUnload);
-  }
 
   render() {
     return (

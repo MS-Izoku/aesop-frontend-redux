@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
@@ -27,7 +26,6 @@ class StoryForm extends Component {
       {},
       { ...this.state, id: this.props.currentStory.id  , user_id: this.props.currentStory.user_id}
     );
-    console.log(storyObj)
     this.props.patchStory(storyObj);
     this.props.swapEditorState();
   };
@@ -88,7 +86,7 @@ class StoryForm extends Component {
   storyViewer = () => {
     return (
       <div id="story-info-gui">
-        <h2>{this.state.title == "" ? "Untitled" : this.state.title}</h2>
+        <h2>{this.state.title === "" ? "Untitled" : this.state.title}</h2>
         <hr />
         <h3>{this.state.pitch}</h3>
         <p>{this.state.high_concept}</p>
@@ -98,6 +96,7 @@ class StoryForm extends Component {
   };
 
   render() {
+    console.log(this.props.currentStory)
     return (
       <div className="p-5 bg-warning">
         {this.props.inEditor ? this.storyForm() : this.storyViewer()}

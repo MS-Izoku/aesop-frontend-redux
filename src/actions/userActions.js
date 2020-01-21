@@ -21,7 +21,6 @@ export const postUser = userData => {
       .then(resp => resp.json())
       .then(json => {
         localStorage.setItem("token", json.jwt);
-        console.log("FROM SERVER:" , json , userData)
         const configuredUserObject = Object.assign(
           {},
           { ...json, currentStory: {}, currentChapter: {} }
@@ -90,6 +89,61 @@ export const getUserProfile = () => {
   };
 };
 
+// Login Existing User
+const loginUser = userObj => ({ type: "LOGIN_USER", userObj });
+export const loginUserFetch = userData => {
+  return dispatch => {
+    return fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({ user: userData })
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        if (!json.message) {
+          localStorage.setItem("token", json.jwt);
+          dispatch(loginUser(json));
+          return dispatch(getStories(json.user_id, true));
+        } else {
+          localStorage.removeItem("token");
+        }
+      })
+      .catch(err => console.error("ERROR LOGGING IN: ", err));
+  };
+};
+
+// Get User Profile
+export const getUserProfile = () => {
+  return dispatch => {
+    const token = localStorage.token;
+    return fetch("http://localhost:3000/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(json => {
+        if (!json.message) {
+          const configuredUserObject = Object.assign(
+            {},
+            { ...json, currentStory: {}, currentChapter: {} }
+          );
+          dispatch(loginUser(configuredUserObject));
+        } else {
+          localStorage.removeItem("token");
+        }
+      })
+      .catch(err => {
+        console.error("ERROR GETTING USER-PROFILE:", err);
+      });
+  };
+};
 // Logout User and Delete JWT token
 const logOutUser = () => ({ type: "LOG_OUT", payload: {} });
 export const logOut = () => {
@@ -172,6 +226,29 @@ export const setCurrentChapterDispatch = (
   };
 };
 
+
+// done after unmounting the app as a whole to save the state
+export const saveUserState = userObj =>{
+  fetch(`http://localhost:3000/users/${userObj.id}/save-user-state` , {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.token}`,
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      current_story_id: userObj.currentStory.id,
+      current_chapter_id: userObj.currentStory.id,
+      current_character_id: userObj.currentCharacter.id
+    }).then(resp => resp.json())
+    .then(json =>{
+      console.log(json)
+      debugger
+    })
+    .catch(err => { console.error("Error Updating -User- on refresh" , err)})
+  })
+}
+
 export const removeChapterDispatch = chapterObj => {
   return dispatch =>
     dispatch({
@@ -194,7 +271,6 @@ export const setCurrentCharacterDispatch = (
   return dispatch => {
     if (!loggingIn) {
       if (!skipFetch) {
-        console.log("FETCH HERE", characterObj);
         fetch(
           `http://localhost:3000/update-profile/${characterObj.author_id}`,
           {

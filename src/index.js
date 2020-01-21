@@ -14,19 +14,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import App from "./App";
 
-import LoginPage from "./pages/LoginPage";
-import StoryHub from "./pages/StoryHub";
-import CharacterManager from "./pages/CharacterManager";
-import ChapterEditor from "./pages/ChapterEditor";
-import SignUp from "./pages/SignUp";
-import StoryEditor from "./pages/StoryEditor";
-
-import CharacterHub from "./pages/CharacterHub";
-//#endregion
-
-const middleware = applyMiddleware(thunkMiddleware);
 
 
+const middleware = composeWithDevTools(
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+);
 
 const store = createStore(rootReducer, middleware);
 
@@ -39,6 +31,5 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
-
 
 serviceWorker.unregister();

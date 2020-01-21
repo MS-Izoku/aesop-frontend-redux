@@ -13,6 +13,7 @@ class SignUpPage extends Component {
       username_error: null,
       password_error: null,
       email_error: null,
+      terms_read: false,
       username: "",
       email: "",
       password: "",
@@ -21,9 +22,9 @@ class SignUpPage extends Component {
   }
   handleSubmit = event => {
     event.preventDefault();
-    debugger
+    debugger;
     let validPassword = false;
-    let { password, password_confirmation } = this.state;
+    let { password, password_confirmation, terms_read } = this.state;
     //#region password character check
     const specialChars = /\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\-|\_|\=/;
     if (this.state.password.length > 8 && this.state.password.length < 20) {
@@ -51,19 +52,19 @@ class SignUpPage extends Component {
             "Your password needs at least one number / numerical character"
         });
     }
-    if (password == "" || password == null)
+    if (password === "" || password === null)
       this.setState({ password_error: "Password cannot be blank" });
 
     if (!validPassword) console.log("invalid password", password);
     //#endregion
 
-    if (validPassword && password == password_confirmation) {
+    if (validPassword && password === password_confirmation && terms_read) {
+
       const configuredUserObj = {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email
       };
-      console.log("valid submission");
       this.props.postUser(configuredUserObj);
     }
   };
@@ -73,66 +74,107 @@ class SignUpPage extends Component {
   };
 
   errorSpan = error => {
-    return <span className="form-error-text">{error}</span>;
+    return <span className="form-error-text"><small>{error}</small></span>;
+  };
+
+  termLabel = () => {
+    return (
+      <Form.Label>
+        I have read the
+        <span className="form-error-text" onClick={this.toggleTerms}>
+          <small>{" "}
+          Terms and Conditions
+          </small>
+        </span>
+      </Form.Label>
+    );
   };
 
   render() {
     return (
       <div className="container-fluid">
-        <h2 className="text-center">Sign Up</h2>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              name="username"
-              type="text"
-              placeholder="Username..."
-              onChange={this.handleChange}
-            />
-            {this.state.username_error !== null
-              ? this.errorSpan(this.state.username_error)
-              : null}
+        <div className="row">
+          <div className="col" />
+          <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 card my-5 p-3">
+            <h2 className="text-center card-title">Sign Up</h2>
+            <hr  className="mx-5"/>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group controlId="formBasicEmail">
+                <Form.Label className="m-1">Username</Form.Label>
+                <Form.Control
+                  name="username"
+                  type="text"
+                  placeholder="Username..."
+                  onChange={this.handleChange}
+                />
+                {this.state.username_error !== null
+                  ? this.errorSpan(this.state.username_error)
+                  : null}
 
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              name="email"
-              type="email"
-              placeholder="Email..."
-              onChange={this.handleChange}
-            />
-            {this.state.username_error !== null
-              ? this.errorSpan(this.state.email_error)
-              : null}
-          </Form.Group>
+                <Form.Label className="m-1">Email address</Form.Label>
+                <Form.Control
+                  name="email"
+                  type="email"
+                  placeholder="Email..."
+                  onChange={this.handleChange}
+                />
+                {this.state.username_error !== null
+                  ? this.errorSpan(this.state.email_error)
+                  : null}
+              </Form.Group>
 
-          <Form.Group controlId="password-field">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              placeholder="Password"
-              onChange={this.handleChange}
-            />
+              <Form.Group controlId="password-field">
+                <Form.Label className="m-1">Password</Form.Label>
+                <Form.Control
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  onChange={this.handleChange}
+                />
 
-            <Form.Label>Password Confirmation</Form.Label>
-            <Form.Control
-              name="password_confirmation"
-              type="password"
-              placeholder="Password Confirmation..."
-              onChange={this.handleChange}
-            />
-            <div>
-              {this.state.password_error !== null
-                ? this.errorSpan(this.state.password_error)
-                : null}
-              Passwords require at least: 1 uppercase and lowercase letter, 1
-              numerical digit, and 1 special character
-            </div>
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+                <Form.Label className="m-1">Password Confirmation</Form.Label>
+                <Form.Control
+                  name="password_confirmation"
+                  type="password"
+                  placeholder="Password Confirmation..."
+                  onChange={this.handleChange}
+                />
+                <div className=" mx-3 my-3 text-center">
+                  {this.state.password_error !== null
+                    ? this.errorSpan(this.state.password_error)
+                    : null}
+                  Passwords require at least: 1 uppercase and lowercase letter,
+                  1 numerical digit, and 1 special character
+                </div>
+              </Form.Group>
+
+              <Form.Group controlId="formBasicCheckbox">
+                <Form.Check
+                  type="checkbox"
+                  label={this.termLabel()}
+                  onChange={() => {
+                    this.setState({ terms_read: !this.state.terms_read });
+                  }}
+                />
+                {this.state.terms_read
+                  ? null
+                  : this.errorSpan(
+                      "You must agree to our terms and conditions"
+                    )}
+              </Form.Group>
+
+              <Button
+                variant="primary"
+                type="submit"
+                bsPrefix="btn btn-block btn-primary text-center"
+              >
+                Submit
+              </Button>
+            </Form>
+          </div>
+          <div className="col" />
+        </div>
+
       </div>
     );
   }
