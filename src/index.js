@@ -15,9 +15,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 
 
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
+
 const store = createStore(rootReducer, middleware);
 
 ReactDOM.render(

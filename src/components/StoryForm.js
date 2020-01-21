@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+
 import { patchStory, setCurrentStory } from "../actions/storyActions";
 
 class StoryForm extends Component {
@@ -110,7 +111,6 @@ const mapStateToProps = state => {
     user: state.user.currentUser
   };
 };
-
 const mapDispatchToProps = dispatch => {
   return {
     setCurrentStory: () => dispatch(setCurrentStory()),

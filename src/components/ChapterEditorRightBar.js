@@ -7,6 +7,7 @@ import CreateCharacterButton from "../components/CreateCharacterButton";
 import CreateFootnoteButton from "./CreateFootnoteButton";
 
 const ChapterEditorRightBar = props => {
+
   const handleCharacterClick = character =>{
     props.setCurrentCharacterDispatch(character)
     props.history.push("/charactermanager")

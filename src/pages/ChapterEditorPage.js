@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import ChapterTextEditor from "../components/ChapterTextEditor";
 import ChapterEditorRightBar from "../components/ChapterEditorRightBar";
 import FootnoteModal from "../components/FootnoteModal";
 import ChapterCard from "../components/ChapterCard";
 import ChapterDeleteModal from "../components/ChapterDeleteModal";
+
 
 class ChapterEditorPage extends Component {
   constructor() {

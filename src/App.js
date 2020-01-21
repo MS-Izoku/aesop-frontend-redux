@@ -5,7 +5,9 @@ import NavHeader from "./containers/NavHeader.js";
 import { withRouter } from "react-router";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
+
 import { getUserProfile, setCurrentStoryDispatch, saveUserState } from "./actions/userActions";
+
 import { getStories } from "./actions/storyActions";
 
 import LoginPage from "./pages/LoginPage";
@@ -26,6 +28,7 @@ class App extends Component {
     }
   }
 
+
   onUnload = (event) => {
     event.preventDefault();
     this.props.setCurrentChapterDispatch(this.props.currentChapter);
@@ -38,12 +41,14 @@ class App extends Component {
     if(this.state.currentUser.id !== 0 && this.state.currentUser.id !== null){
       this.props.saveUserState(this.props.currentUser)
     }
+
   }
 
   render() {
     return (
       <div className="App grey-light">
         <NavHeader />
+
         <Route
           exact
           path="/login"
@@ -80,6 +85,7 @@ class App extends Component {
           store={this.props.store}
           component={CharacterManager}
         />
+
       </div>
     );
   }

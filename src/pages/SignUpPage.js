@@ -59,6 +59,7 @@ class SignUpPage extends Component {
     //#endregion
 
     if (validPassword && password === password_confirmation && terms_read) {
+
       const configuredUserObj = {
         username: this.state.username,
         password: this.state.password,
@@ -173,6 +174,7 @@ class SignUpPage extends Component {
           </div>
           <div className="col" />
         </div>
+
       </div>
     );
   }

@@ -1,5 +1,7 @@
 import * as types from "./actionTypes.js";
+
 import { updateCurrentCharacterDispatch } from "./userActions";
+
 export const setCurrentChapter = chapterObj => {
   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
 };
@@ -10,6 +12,7 @@ export const fetchCharacters = characters => ({
 });
 export const getCharacters = storyID => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`, {
       method: "GET",
       headers: {
@@ -33,6 +36,7 @@ export const getSingleCharacterFetch = character => ({
 export const getCharacter = (storyID, characterID) => {
   return dispatch => {
     fetch(
+
       `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`,
       {
         method: "GET",
@@ -57,6 +61,7 @@ export const postFetchCharacter = character => ({
 });
 export const postCharacter = (characterObj, storyID) => {
   return dispatch => {
+
     return fetch(
       `http://localhost:3000/users/1/stories/${storyID}/characters`,
       {

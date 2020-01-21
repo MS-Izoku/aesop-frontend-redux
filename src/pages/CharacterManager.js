@@ -11,6 +11,8 @@ import Form from "react-bootstrap/Form";
 import NumericInput from "react-numeric-input";
 import DomPurify from "dompurify";
 
+
+import DomPurify from "dompurify";
 class CharacterManager extends Component {
   constructor(props) {
     super(props);
@@ -96,6 +98,7 @@ class CharacterManager extends Component {
     return (
       <span
         className="h6 text-right text-primary"
+
         onClick={() => {
           this.activateEditor(editorName);
         }}

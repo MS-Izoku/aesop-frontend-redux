@@ -3,6 +3,7 @@ import {
   addChapterToCurrentStoryDispatch
 } from "./userActions";
 
+
 import { formatChapterData } from "./chapterActions";
 
 //#region story data formatting
@@ -53,9 +54,11 @@ export const getStories = (userID, loggingIn = false) => {
       .then(resp => resp.json())
       .then(stories => {
         if (loggingIn) {
+
           dispatch(fetchStories(formatStory(stories.data , "included")));
           return dispatch(setCurrentStoryDispatch(formatStory(stories.data), true, true));
         } else return dispatch(fetchStories(stories.data));
+
       })
       .catch(err =>
         console.error(
@@ -70,6 +73,7 @@ export const getStories = (userID, loggingIn = false) => {
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = user_id => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/${user_id}/stories/`, {
       method: "POST",
       headers: {
@@ -126,6 +130,7 @@ export const patchStory = story => {
 export const deleteStoryFetch = story => ({ type: "DELETE_STORY", story });
 export const deleteStory = story => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
       method: "DELETE",
       headers: {

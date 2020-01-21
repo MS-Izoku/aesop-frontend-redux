@@ -91,7 +91,7 @@ export const patchFootnote = (footnoteObj, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
-  
+
         dispatch(patchFootnoteFetch(json));
         return dispatch(updateFootnoteInCurrentChapter(json));
       })
