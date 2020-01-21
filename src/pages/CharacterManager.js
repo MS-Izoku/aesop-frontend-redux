@@ -130,10 +130,11 @@ class CharacterManager extends Component {
                 {this.activateEditorButton("nameEditor")}
               </Form>
             ) : (
-              <span className="bg-info">
+              <span>
                 <h2>{this.state.character.name}</h2>
                 {this.activateEditorButton("nameEditor")}
               </span>
+              
             )}
           </div>
           <div className="col" />
@@ -207,9 +208,11 @@ class CharacterManager extends Component {
           <div className="col-lg-9">
             {/* Character Appearance */}
             <span>
+
               <h3>
                 Appearance {this.activateEditorButton("appearanceEditor")}
               </h3>
+
             </span>
             <hr />
             {this.state.editors.appearanceEditor ? (

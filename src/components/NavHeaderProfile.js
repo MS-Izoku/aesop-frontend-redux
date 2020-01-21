@@ -2,14 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import LogOutButton from "./LogOutButton";
-
+import { withRouter } from "react-router-dom";
 const NavHeaderProfile = props => {
   return (
     <div className="bg-info text-center">
       <span>
         {props.user.username !== undefined ? (
           <span>
+
             {props.user.username}
+
             <LogOutButton />
           </span>
         ) : (

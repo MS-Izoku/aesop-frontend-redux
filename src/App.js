@@ -10,6 +10,7 @@ import { getUserProfile, setCurrentStoryDispatch, saveUserState } from "./action
 
 import { getStories } from "./actions/storyActions";
 
+
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import StoryManager from "./pages/StoryManager";
@@ -42,6 +43,7 @@ class App extends Component {
       this.props.saveUserState(this.props.currentUser)
     }
 
+
   }
 
   render() {
@@ -57,6 +59,7 @@ class App extends Component {
         />
         <Route
           exact
+
           path="/signup"
           component={SignUpPage}
           store={this.props.store}
@@ -85,6 +88,7 @@ class App extends Component {
           store={this.props.store}
           component={CharacterManager}
         />
+
 
       </div>
     );

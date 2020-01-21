@@ -99,6 +99,7 @@ class StoryForm extends Component {
     console.log(this.props.currentStory)
     return (
       <div className="p-5 bg-warning">
+
         {this.props.inEditor ? this.storyForm() : this.storyViewer()}
       </div>
     );
