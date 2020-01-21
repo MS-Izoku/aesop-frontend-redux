@@ -9,7 +9,10 @@ import Button from "react-bootstrap/Button";
 import RichTextArea from "../components/RichTextArea";
 import Form from "react-bootstrap/Form";
 import NumericInput from "react-numeric-input";
+import DomPurify from "dompurify";
 
+
+import DomPurify from "dompurify";
 class CharacterManager extends Component {
   constructor(props) {
     super(props);
@@ -33,13 +36,13 @@ class CharacterManager extends Component {
     };
   }
 
-  // save the character as a whole
-  onCharacterSave = () => {
-    // patch the character here
-  };
+  componentDidUpdate(prevState , prevProps){
+    if(prevProps.character.id === 0 || prevProps.character.id === undefined)
+      if(this.props.character.id !== 0 && this.props.character.id !== undefined)
+        this.setState({character: this.props.character})
+  }
 
   //#region Event Handlers
-  // activate an editor on the page from state
   activateEditor = editor => {
     this.setState({
       editors: { ...this.state.editors, [editor]: !this.state.editors[editor] }
@@ -48,13 +51,18 @@ class CharacterManager extends Component {
 
   // save the character form in its current state
   onFieldChange = event => {
-    console.log("Field Change", event.target.value);
     this.setState({
       character: {
         ...this.state.character,
         [event.target.name]: event.target.value
       }
     });
+  };
+
+  // sanitizes the rich text from CKEditor
+  // Prevents XSS
+  sanitizeText = richText => {
+    return { __html: DomPurify.sanitize(richText) };
   };
 
   handleHeightChange = val => {
@@ -89,7 +97,8 @@ class CharacterManager extends Component {
   activateEditorButton = editorName => {
     return (
       <span
-        className="h6 text-right"
+        className="h6 text-right text-primary"
+
         onClick={() => {
           this.activateEditor(editorName);
         }}
@@ -116,6 +125,7 @@ class CharacterManager extends Component {
                     value={this.state.character.name}
                     onChange={this.onFieldChange}
                   />
+                  <Button type="submit">Submit</Button>
                 </Form.Group>
                 {this.activateEditorButton("nameEditor")}
               </Form>
@@ -134,21 +144,27 @@ class CharacterManager extends Component {
           <div className="col-lg-9">
             <span>
               <h3>Biography {this.activateEditorButton("biographyEditor")}</h3>
-              
             </span>
             <hr />
             {this.state.editors.biographyEditor ? (
-              <RichTextArea
-                stateKey="biography"
-                changeHandler={this.onRichTextEditorChange}
-                body={
-                  this.state.character.biography
-                    ? this.state.character.biography
-                    : "No Text Found"
-                }
-              />
+              <Form onSubmit={this.handleSubmit}>
+                <RichTextArea
+                  stateKey="biography"
+                  changeHandler={this.onRichTextEditorChange}
+                  body={
+                    this.state.character.biography
+                      ? this.state.character.biography
+                      : "No Text Found"
+                  }
+                />
+                <Button type="submit">Submit</Button>
+              </Form>
             ) : (
-              this.state.character.biography
+              <div
+                dangerouslySetInnerHTML={this.sanitizeText(
+                  this.state.character.biography
+                )}
+              />
             )}
           </div>
           <div className="col" />
@@ -158,22 +174,30 @@ class CharacterManager extends Component {
           <div className="col" /> {/* Characer Personality */}
           <div className="col-lg-9">
             <span>
-              <h3>Personality {this.activateEditorButton("personalityEditor")}</h3>
-              
+              <h3>
+                Personality {this.activateEditorButton("personalityEditor")}
+              </h3>
             </span>
             <hr />
             {this.state.editors.personalityEditor ? (
-              <RichTextArea
-                stateKey={"personality"}
-                body={
-                  this.state.character.personality
-                    ? this.state.character.personality
-                    : "No Text Foud"
-                }
-                changeHandler={this.onRichTextEditorChange}
-              />
+              <Form onSubmit={this.handleSubmit}>
+                <RichTextArea
+                  stateKey={"personality"}
+                  body={
+                    this.state.character.personality
+                      ? this.state.character.personality
+                      : "No Text Foud"
+                  }
+                  changeHandler={this.onRichTextEditorChange}
+                />
+                <Button type="submit">Submit</Button>
+              </Form>
             ) : (
-              this.state.character.personality
+              <div
+                dangerouslySetInnerHTML={this.sanitizeText(
+                  this.state.character.personality
+                )}
+              />
             )}
           </div>
           <div className="col" />
@@ -184,9 +208,13 @@ class CharacterManager extends Component {
           <div className="col-lg-9">
             {/* Character Appearance */}
             <span>
-              <h3>Appearance {this.activateEditorButton("appearanceEditor")}</h3>
-              <hr/>
+
+              <h3>
+                Appearance {this.activateEditorButton("appearanceEditor")}
+              </h3>
+
             </span>
+            <hr />
             {this.state.editors.appearanceEditor ? (
               <Form onSubmit={this.handleSubmit}>
                 <RichTextArea
@@ -222,7 +250,11 @@ class CharacterManager extends Component {
               </Form>
             ) : (
               <>
-                <p>{this.state.character.appearance}</p>
+                <div
+                  dangerouslySetInnerHTML={this.sanitizeText(
+                    this.state.character.appearance
+                  )}
+                />
                 <p>Height: {this.state.character.height}</p>
                 <p>Weight: {this.state.character.weight}</p>
               </>

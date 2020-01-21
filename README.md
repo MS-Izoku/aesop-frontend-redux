@@ -1,68 +1,28 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<<<<<<< HEAD
+## The Project
+AESOP is meant to be a tool for writers, and no it is not an acronymn.  The app allows users to create stories, chapters, notes, and stories to help them manage their narrative projects.  Most text input is in a richtext format to get the most out of the user input and allow them to go wild with their imagination.
 
-## Available Scripts
+This was originally created at Flatiron School as a way to showcase my skillset, and is my first dive into redux.
+This branch is my rework since leaving the school, and was my first larger-scale undertaking
 
-In the project directory, you can run:
 
-### `npm start`
+### Core Features
+* Create Stories, Characters, and Notes
+* Edit your chapters and character profiles in a richtext format to maximize your organization
+* Timed-Autosaving WYSIWYG Chapter Editor
+* Save changes to your account, including progress from page to page (as long as you save)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Packages Inside
+* CKEditor5 React w/ Decoupled-Document Editor and Classic Editor
+* DOMPurify to sanitize richtext to prevent XSS
+* NumericInput for certain numerical form fields
+* React Bootstrap / MDBReact for basic component styling
+* Thunk for managing async redux
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+#Notes
+* Currently in dire need of styling and cool information displays
+=======
+## AESOP
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This is the final project of my time at Flatiron School, as well as my first dive into Redux.  It is meant to communciate with a rails backend, and allows users to create and manage stories and chapters with a richtext format.  After I graduated from Flatiron, I decided to rework this in a major way.  This serves as a timestamp in my development
+>>>>>>> master

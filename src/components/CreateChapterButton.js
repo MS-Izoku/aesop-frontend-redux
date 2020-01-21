@@ -6,7 +6,6 @@ import { postChapter } from "../actions/chapterActions";
 const CreateChapterButton = props => {
   return <Button onClick={() => {
       props.postChapter(props.currentStory.id)
-      //props.addChapterToCurrentStory()
   }}> New Chapter </Button>;
 };
 

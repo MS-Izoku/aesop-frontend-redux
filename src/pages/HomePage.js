@@ -1,30 +1,23 @@
-import React, {Component} from 'react'
-import { connect } from 'react-redux'
-import { getStories} from '../actions/storyActions'
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import HomeCardContainer from '../containers/HomeCardContainer'
+import HomeCardContainer from "../containers/HomeCardContainer";
 
-import CreateStoryButton from '../components/CreateStoryButton'
+import CreateStoryButton from "../components/CreateStoryButton";
 
-class HomePage extends Component{
-    componentDidMount(){
-        this.props.getStories(1)
-    }
-
-    render(){
-        return<div>
-            <CreateStoryButton />
-            <HomeCardContainer />
-        </div>
-    }
+class HomePage extends Component {
+  render() {
+    return (
+      <div>
+        <CreateStoryButton />
+        <HomeCardContainer />
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) =>{
-    return {user: state.user,
-        stories: state.stories}
-}
-const mapDispatchToProps = (dispatch)=>{
-    return { getStories: (userID)=>dispatch(getStories(userID))}
-}
+const mapStateToProps = state => {
+  return { user: state.user, stories: state.stories };
+};
 
-export default connect(mapStateToProps , mapDispatchToProps)(HomePage)
+export default connect(mapStateToProps)(HomePage);

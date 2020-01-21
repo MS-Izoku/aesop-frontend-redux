@@ -1,8 +1,13 @@
-import * as types from "./actionTypes.js";
-// this will need to be modularized based on the current user/story information
-//const baseChapterURL = "http://localhost:3000/users/1/stories/1/chapters";
+import {
+  updateFootnoteInCurrentChapter,
+  addFootnoteToCurrenChapter
+} from "./userActions";
 
-// this action will do something later, need to be able to set the currently selected chapter for editing and updating
+export const getFootnotesFromChapter = chapterObj => {
+  return dispatch => {
+    return dispatch({ type: "GET_FOOTNOTES", footnotes: chapterObj });
+  };
+};
 
 export const fetchFootnotes = footnotes => ({
   type: "GET_FOOTNOTES",
@@ -12,19 +17,21 @@ export const fetchFootnotes = footnotes => ({
 export const getFootnotes = (chapterID, storyID) => {
   return dispatch => {
     fetch(
-      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes` , {
+      `http://localhost:3000/users/1/stories/${storyID}/chapters/${chapterID}/footnotes`,
+      {
         method: "GET",
-        headers:{
-          "Content-Type": 'application/json',
+        headers: {
+          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.token}`
         }
-      })
+      }
+    )
       .then(resp => resp.json())
       .then(notes => {
         return dispatch(fetchFootnotes(notes));
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err => console.error("ERROR GETTING FOOTNOTES", err));
   };
 };
 
@@ -52,7 +59,11 @@ export const postFootNote = (chapterID, storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
+        dispatch(addFootnoteToCurrenChapter(json));
         return dispatch(postFootNoteFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR CREATING NEW FOOTNOTE:", err);
       });
   };
 };
@@ -61,7 +72,7 @@ export const patchFootnoteFetch = footnote => ({
   type: "PATCH_FOOTNOTE",
   footnote
 });
-export const patchFootnote = (footnoteObj , storyID) => {
+export const patchFootnote = (footnoteObj, storyID) => {
   return dispatch => {
     fetch(
       `http://localhost:3000/users/1/stories/${storyID}/chapters/${footnoteObj.chapter_id}/footnotes/${footnoteObj.id}`,
@@ -80,7 +91,12 @@ export const patchFootnote = (footnoteObj , storyID) => {
     )
       .then(resp => resp.json())
       .then(json => {
-        return dispatch(patchFootnoteFetch(json));
+
+        dispatch(patchFootnoteFetch(json));
+        return dispatch(updateFootnoteInCurrentChapter(json));
+      })
+      .catch(err => {
+        console.error("ERROR UPDATING FOOTNOTE:", err);
       });
   };
 };
@@ -108,6 +124,9 @@ export const deleteFootnote = (footnote, storyID) => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteFootnoteFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR DELETING FOOTNOTE:", err);
       });
   };
 };
@@ -116,11 +135,11 @@ export const setCurrentFootnote = footnote => {
   return { type: "SET_CURRENT_FOOTNOTE", footnote };
 };
 
-export const getCurrentFootnote = () =>{
-  return {type: "GET_CURRENT_FOOTNOTE" }
-}
+export const getCurrentFootnote = () => {
+  return { type: "GET_CURRENT_FOOTNOTE" };
+};
 
-export const setAllNotes = (chapterObj) =>{
-  const notes = chapterObj.footnotes
-  return {type: "SET_ALL_FOOTNOTES" , notes}
-}
+export const setAllNotes = chapterObj => {
+  const notes = chapterObj.footnotes;
+  return { type: "SET_ALL_FOOTNOTES", notes };
+};

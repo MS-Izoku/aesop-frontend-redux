@@ -13,13 +13,13 @@ class StoryEditorGUI extends Component {
       pitch: ""
     };
   }
-  
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSave = event => {
     event.preventDefault();
+    console.log(this.state);
     this.props.saveStory(this.state);
     this.props.switchEditorView();
   };
@@ -30,6 +30,7 @@ class StoryEditorGUI extends Component {
   };
 
   componentDidMount() {
+    console.log("Mouting props", this.props);
     this.setState({
       title: this.props.currentStory.title,
       high_concept: this.props.currentStory.high_concept,

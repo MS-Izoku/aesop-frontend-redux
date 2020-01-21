@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import LogOutButton from "./LogOutButton";
 import { withRouter } from "react-router-dom";
 const NavHeaderProfile = props => {
@@ -8,17 +9,29 @@ const NavHeaderProfile = props => {
       <span>
         {props.user.username !== undefined ? (
           <span>
-            <span
-              onClick={() => {
-                props.history.push("/profile");
-              }}
-            >
-              {props.user.username}
-            </span>
+
+            {props.user.username}
+
             <LogOutButton />
           </span>
         ) : (
-          "Log In"
+          <>
+            <span
+              onClick={() => {
+                props.history.push("/login");
+              }}
+            >
+              Log In
+            </span>
+            {" | "}
+            <span
+              onClick={() => {
+                props.history.push("/signup");
+              }}
+            >
+              Sign Up
+            </span>
+          </>
         )}
       </span>
     </div>

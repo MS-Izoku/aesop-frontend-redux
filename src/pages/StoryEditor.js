@@ -13,7 +13,6 @@ import PageFooter from "../components/PageFooter";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-//import AccordionToggle from "react-bootstrap/AccordionToggle";
 
 class StoryEditor extends Component {
   constructor(props) {
@@ -31,22 +30,19 @@ class StoryEditor extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   fetch(
-  //     `http://localhost:3000/users/1/stories/${this.props.match.params.story_id}`
-  //   )
-  //     .then(resp => resp.json())
-  //     .then(json => {
-  //       console.log("SETTING CURRENT STORY DATA", json);
-  //       this.setState({ currentStory: json });
-  //     });
-  // }
+  componentDidMount() {
+    fetch(
+      `https://aesop-backend.herokuapp.com//users/1/stories/${this.props.match.params.story_id}`
+    )
+      .then(resp => resp.json())
+      .then(json => {
+        console.log("SETTING CURRENT STORY DATA", json);
+        this.setState({ currentStory: json });
+      });
+  }
 
   saveStory = storyObj => {
-    const newObj = Object.assign({}, this.state.currentStory, {
-      high_concept: storyObj.high_concept,
-      pitch: storyObj.pitch,
-      title: storyObj.title,
+    const newObj = Object.assign({}, storyObj, {
       id: parseInt(this.props.match.params.story_id)
     });
     this.props.patchStory(newObj);

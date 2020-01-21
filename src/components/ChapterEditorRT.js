@@ -9,7 +9,6 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import { HotKeys } from "react-hotkeys";
 
-//import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 class ChapterEditorRT extends Component {
   constructor() {
@@ -29,9 +28,7 @@ class ChapterEditorRT extends Component {
     this.props.setCurrentChapterAfterDelete();
   };
 
-
   render() {
-    console.log(this.props)
     return (
       <div className="col-lg-8 stretchHeight">
         <Form
@@ -42,7 +39,7 @@ class ChapterEditorRT extends Component {
         >
           <Form.Control
             id="chapter-title"
-            className="text-center pt-2 pb-2 border-0"
+            className="text-center bg-tertiary border-0 pt-1 pb-1"
             onChange={event => {
               event.preventDefault();
               this.handleTitleChange(event);
@@ -51,10 +48,11 @@ class ChapterEditorRT extends Component {
           />
         </Form>
         <CKEditor
-          className="stretchHeight"
+        className="stretchHeight"
           editor={ClassicEditor}
-          data={this.props.currentChapter.body} //this.props.chapter[0].body}
-          onInit={editor => {}}
+          data={this.props.currentChapter.body}
+          onInit={editor => {
+          }}
           onChange={(event, editor) => {
             const data = editor.getData();
             this.props.setCurrentChapterData(data);
@@ -64,10 +62,7 @@ class ChapterEditorRT extends Component {
         <div className="container-fluid">
           <div className="row">
             {" "}
-            <Button
-              bsPrefix="btn col custom-btn red-3 mx-2"
-              onClick={this.props.saveChapter}
-            >
+            <Button bsPrefix="btn col custom-btn red-3 mx-2" onClick={this.props.saveChapter}>
               SAVE
             </Button>
             <Nav.Link
@@ -87,8 +82,6 @@ class ChapterEditorRT extends Component {
   }
 }
 
-
-// I want to get the currently selected chapter
 const mapStateToProps = state => {
   return { stories: state.stories, chapters: state.chapters };
 };

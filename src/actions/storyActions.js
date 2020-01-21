@@ -1,8 +1,47 @@
-import { setCurrentStoryDispatch , addChapterToCurrentStoryDispatch } from "./userActions";
+import {
+  setCurrentStoryDispatch,
+  addChapterToCurrentStoryDispatch
+} from "./userActions";
+
+
+import { formatChapterData } from "./chapterActions";
+
+//#region story data formatting
+export const formatStory = storyObj => {
+  if (Array.isArray(storyObj)) {
+    return storyObj.map(story => {
+      return {
+        id: story.id,
+        title: story.attributes.title,
+        pitch: story.attributes.pitch,
+        high_concept: story.attributes.high_concept,
+        chapters: formatChapterData(story.relationships.chapters.data , "included")
+      };
+    });
+  } else {
+    const chapters = formatChapterData(storyObj.relationships.chapters , "included");
+    return {
+      id: storyObj.id,
+      title: storyObj.attributes.title,
+      pitch: storyObj.attributes.pitch,
+      high_concept: storyObj.attributes.high_concept,
+      chapters: formatChapterData(storyObj.relationships.chapters.data)
+    };
+  }
+};
+
+export const storyDataToFastJSON = storyData => {
+  return {
+    id: storyData.id,
+    relationships: {},
+    attributes: {}
+  };
+};
+//#endregion
 
 // get stories
 export const fetchStories = stories => ({ type: "GET_STORIES", stories });
-export const getStories = userID => {
+export const getStories = (userID, loggingIn = false) => {
   return dispatch => {
     fetch(`http://localhost:3000/users/${userID}/stories/`, {
       method: "GET",
@@ -14,9 +53,19 @@ export const getStories = userID => {
     })
       .then(resp => resp.json())
       .then(stories => {
-        return dispatch(fetchStories(stories));
+        if (loggingIn) {
+
+          dispatch(fetchStories(formatStory(stories.data , "included")));
+          return dispatch(setCurrentStoryDispatch(formatStory(stories.data), true, true));
+        } else return dispatch(fetchStories(stories.data));
+
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err =>
+        console.error(
+          "Error: Last-Visited Story Not Found.  If it's your first time logging in, this is expected, and you can disregard this message.",
+          err
+        )
+      );
   };
 };
 
@@ -24,6 +73,7 @@ export const getStories = userID => {
 export const postStoryFetch = story => ({ type: "POST_STORY", story });
 export const postStory = user_id => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/${user_id}/stories/`, {
       method: "POST",
       headers: {
@@ -39,8 +89,11 @@ export const postStory = user_id => {
     })
       .then(resp => resp.json())
       .then(json => {
-        dispatch(addChapterToCurrentStoryDispatch(json))
+        dispatch(addChapterToCurrentStoryDispatch(json));
         return dispatch(postStoryFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR CREATING NEW STORY:", err);
       });
   };
 };
@@ -49,7 +102,6 @@ export const postStory = user_id => {
 export const patchStoryFetch = story => ({ type: "PATCH_STORY", story });
 export const patchStory = story => {
   return dispatch => {
-    console.log(story);
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
       method: "PATCH",
       headers: {
@@ -67,6 +119,9 @@ export const patchStory = story => {
       .then(json => {
         dispatch(setCurrentStoryDispatch(json));
         return dispatch(patchStoryFetch(json));
+      })
+      .catch(err => {
+        console.err("ERROR UPDATING STORY:", err);
       });
   };
 };
@@ -75,6 +130,7 @@ export const patchStory = story => {
 export const deleteStoryFetch = story => ({ type: "DELETE_STORY", story });
 export const deleteStory = story => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/${story.user_id}/stories/${story.id}`, {
       method: "DELETE",
       headers: {
@@ -87,6 +143,9 @@ export const deleteStory = story => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteStoryFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR DELETING STORY:", err);
       });
   };
 };
@@ -101,7 +160,6 @@ export const setCurrentStory = storyObj => {
 // adds a chapter to the story in the state
 const addChapter = chapterObj => ({ type: "ADD_CHAPTER", chapterObj });
 export const addChapterToCurrentStory = chapterObj => {
-  console.log("WHOP")
   return dispatch => {
     return dispatch(addChapter(chapterObj));
   };
@@ -110,7 +168,6 @@ export const addChapterToCurrentStory = chapterObj => {
 // remvoes a chapter from the story inside the object
 const chapterRemoval = chapterObj => ({ type: "REMOVE_CHAPTER", chapterObj });
 export const removeChapterFromStoryDispatch = chapterObj => {
-  console.log("HIT");
   return dispatch => {
     return dispatch(chapterRemoval(chapterObj));
   };

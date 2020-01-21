@@ -4,7 +4,7 @@ import CharacterIndex from "../components/CharacterIndex";
 import { withRouter } from "react-router";
 import { connect } from "react-redux";
 
-import { getCharacters } from "../../actions/characterActions";
+import { getCharacters } from "../actions/characterActions";
 import PageFooter from "../components/PageFooter";
 
 class CharacterHub extends Component {
@@ -19,7 +19,6 @@ class CharacterHub extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <NavHeader />

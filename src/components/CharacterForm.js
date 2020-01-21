@@ -28,7 +28,6 @@ class CharacterForm extends Component {
   heightFormat = num => num + " cm/in";
 
   handleChange = event => {
-    console.log(event.target.value);
     this.setState({
       currentCharacter: {
         ...this.state.currentCharacter,
@@ -52,13 +51,8 @@ class CharacterForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.setCurrentCharacter(this.state.currentCharacter);
-    console.log(this.state.currentCharacter);
+    this.props.patchCharacter(this.state.currentCharacter);
     this.props.swapEditorState();
-  };
-
-  deleteCharacter = () => {
-   this.props.deleteCharacter(this.state.currentCharacter);
-    console.log("Delete Here");
   };
 
   componentDidMount = () => {
@@ -147,7 +141,7 @@ class CharacterForm extends Component {
               type="text"
               placeholder="http://..."
               name="img_url"
-              value={this.state.currentCharacter.img_url}
+              value={this.props.currentCharacter.img_url}
               onChange={this.handleChange}
             ></Form.Control>
           </Form.Group>

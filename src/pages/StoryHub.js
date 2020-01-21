@@ -14,7 +14,6 @@ class StoryHub extends Component {
   setBottomText = bottomText => {
     this.setState({ bottomText });
   };
-  
   render() {
     return (
       <div>
@@ -31,7 +30,6 @@ class StoryHub extends Component {
           </div>
         </div>
         <PageFooter />
-        {/* <StoryCarousel /> */}
       </div>
     );
   }

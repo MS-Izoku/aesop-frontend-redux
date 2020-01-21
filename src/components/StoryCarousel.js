@@ -11,9 +11,6 @@ import Nav from "react-bootstrap/Nav";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { withRouter } from "react-router";
 
-//import ReactAliceCarousel from "react-alice-carousel";
-//import InfiniteCarousel from "react-leaf-carousel";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -90,7 +87,6 @@ class StoryCarousel extends Component {
   };
 
   render() {
-    console.log(this.props)
     return (
       <Carousel
         className="main-dark container-fluid"

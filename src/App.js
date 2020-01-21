@@ -2,24 +2,48 @@ import React, { Component } from "react";
 import "./App.css";
 
 import NavHeader from "./containers/NavHeader.js";
-import PageFooter from "./components/PageFooter";
 import { withRouter } from "react-router";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUserProfile } from "./actions/userActions";
-import {getStories} from './actions/storyActions'
+
+import { getUserProfile, setCurrentStoryDispatch, saveUserState } from "./actions/userActions";
+
+import { getStories } from "./actions/storyActions";
+
 
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import StoryManager from "./pages/StoryManager";
 import ChapterEditorPage from "./pages/ChapterEditorPage";
 import CharacterManager from "./pages/CharacterManager";
-import UserProfilePage from "./pages/UserProfilePage";
+import SignUpPage from "./pages/SignUpPage";
 
 class App extends Component {
   async componentDidMount() {
-    await this.props.getUserProfile();
-    this.props.getStories(this.props.user.id);
+    window.addEventListener("beforeunload", this.onUnload);
+
+    if (localStorage.token) {
+      await this.props.getUserProfile();
+      if (this.props.user.currentUser.id !== 0 && this.props.user.currentUser.id !== null)
+        await this.props.getStories(this.props.user.currentUser.id);
+    }
+  }
+
+
+  onUnload = (event) => {
+    event.preventDefault();
+    this.props.setCurrentChapterDispatch(this.props.currentChapter);
+    event.returnValue = "unloading"
+    return "Unloading Story Manager, please wait"
+  };
+
+  componentWillUnmount(){
+    window.removeEventListener("beforeunload", this.onUnload);
+    if(this.state.currentUser.id !== 0 && this.state.currentUser.id !== null){
+      this.props.saveUserState(this.props.currentUser)
+    }
+
+
   }
 
   render() {
@@ -31,6 +55,13 @@ class App extends Component {
           exact
           path="/login"
           component={LoginPage}
+          store={this.props.store}
+        />
+        <Route
+          exact
+
+          path="/signup"
+          component={SignUpPage}
           store={this.props.store}
         />
         <Route
@@ -57,14 +88,8 @@ class App extends Component {
           store={this.props.store}
           component={CharacterManager}
         />
-        <Route
-          exact
-          path="/profile"
-          store={this.props.store}
-          component={UserProfilePage}
-        />
 
-        {/* <PageFooter /> */}
+
       </div>
     );
   }
@@ -73,12 +98,15 @@ class App extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     getUserProfile: () => dispatch(getUserProfile()),
-    getStories: userID => dispatch(getStories(userID))
+    getStories: userID => dispatch(getStories(userID, true)),
+    setCurrentStoryDispatch: storyObj =>
+      dispatch(setCurrentStoryDispatch(storyObj)),
+      saveUserState: userObj => dispatch(saveUserState(userObj))
   };
 };
 
 const mapStateToProps = state => {
-  return { user: state.user };
+  return { user: state.user, stories: state.stories };
 };
 
 export default withRouter(

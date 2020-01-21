@@ -8,7 +8,6 @@ import NavHeader from "../containers/NavHeader";
 import { connect } from "react-redux";
 
 import { getChapters, patchChapter } from "../actions/chapterActions";
-import { getFootnotes } from '../actions/footnoteActions'
 
 import { withRouter } from "react-router";
 import { HotKeys } from "react-hotkeys";
@@ -20,18 +19,19 @@ class ChapterEditor extends Component {
   constructor() {
     super();
     this.state = {
-      firstChapter: { id: 0, title: "N/A", body: "(EDITOR) Chapter Data Not Found" },
-      currentChapter: { id: 0, title: "N/A", body: "(EDITOR) Chapter Data Not Found" },
+      firstChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
+      currentChapter: { id: 0, title: "N/A", body: "Chapter Data Not Found" },
+      currentFootnote: { id: 0, title: "N/A", body: "N/A" },
       modalIsToggled: false
     };
   }
 
-//#region State Callbacks
   toggleModal = () => {
     this.setState({ modalIsToggled: !this.state.modalIsToggled });
   };
 
   setCurrentFootNote = note => {
+    console.log("Got here");
     this.setState({ currentFootnote: note });
   };
 
@@ -42,20 +42,18 @@ class ChapterEditor extends Component {
   setCurrentChapterTitle = title => {
     this.setState({ currentChapter: { ...this.state.currentChapter, title } });
   };
-
   setCurrentChapterData = body => {
+    if (this.state !== undefined)
       this.setState({ currentChapter: { ...this.state.currentChapter, body } });
   };
-//#endregion
 
-
-  setCurrentChapterAfterDelete = () => {
-    this.setState({
-      firstChapter: this.props.chapters[0],
-      currentChapter: this.props.chapters[0]
-    });
+  setInitialChapter = () => {
+    console.log("Stories:", this.props);
+    setTimeout(() => {
+      this.setState({ currentChapter: this.props.chapters[0] });
+      this.autoSave(30000);
+    }, 1000);
   };
-
 
   autoSave = time => {
     this.interval = setInterval(() => {
@@ -64,30 +62,45 @@ class ChapterEditor extends Component {
   };
 
   saveChapter = () => {
+    const patchHandler = this.props.patchChapter;
     if (this.state.currentChapter.id !== 0)
-      this.props.patchChapter(this.state.currentChapter);
-  };
-
-  setInitialChapter = () => {
-    this.setState({ currentChapter: this.props.chapters.currentChapter });
-    setTimeout(() => {
-      this.autoSave(1200000);
-    }, 1000);
+      patchHandler(this.state.currentChapter);
   };
 
   componentDidMount() {
-    this.props.getChapters(this.props.match.params.story_id);
-    this.setInitialChapter();
     if (this.state.firstChapterInState !== this.props.chapters[0])
       this.setState({ firstChapter: this.props.chapters[0] });
+    this.props.getChapters(this.props.match.params.story_id);
+    this.setInitialChapter();
+    console.log(this.props);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
-  //#region hotkeys
+  setCurrentChapterAfterDelete = () => {
+    this.setState({
+      firstChapter: this.props.chapters[0],
+      currentChapter: this.props.chapters[0]
+    });
+  };
 
+  //#region hotkeys
+  keyMap = {
+    saveChapterCMD: {
+      name: "Save Chapter",
+      sequence: "control+s",
+      action: "keydown"
+    }
+  };
+
+  // NYI
+  keyMapHandler = {
+    saveChapterCMD: () => {
+      this.saveChapter();
+    }
+  };
   //#endregion
 
   render() {
@@ -133,8 +146,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getChapters: storyID => dispatch(getChapters(storyID)),
-    patchChapter: chapter => dispatch(patchChapter(chapter)),
-    getFootnotes: (chapterID , storyID) => dispatch(getFootnotes(chapterID , storyID))
+    patchChapter: chapter => dispatch(patchChapter(chapter))
   };
 };
 

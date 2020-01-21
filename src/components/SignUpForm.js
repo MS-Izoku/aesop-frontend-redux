@@ -14,27 +14,6 @@ class SignUpForm extends Component {
       email: ""
     };
   }
-  // signUpUser = event => {
-  //   event.preventDefault();
-  //   if (this.state.password === this.state.passwordConfirm) {
-  //     fetch(`http://localhost:3000/users/`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         user: {
-  //           username: this.state.username,
-  //           password: this.state.password,
-  //           email: this.state.email
-  //         }
-  //       })
-  //     })
-  //       .then(r => r.json())
-  //       .then(console.log);
-  //   } else console.log("Problems", this.state);
-  // };
 
   signUpUser = event => {
     event.preventDefault();

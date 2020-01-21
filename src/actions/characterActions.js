@@ -1,5 +1,7 @@
 import * as types from "./actionTypes.js";
+
 import { updateCurrentCharacterDispatch } from "./userActions";
+
 export const setCurrentChapter = chapterObj => {
   return { type: types.SET_CURRENT_CHAPTER, chapterObj };
 };
@@ -10,6 +12,7 @@ export const fetchCharacters = characters => ({
 });
 export const getCharacters = storyID => {
   return dispatch => {
+
     fetch(`http://localhost:3000/users/1/stories/${storyID}/characters/`, {
       method: "GET",
       headers: {
@@ -20,10 +23,9 @@ export const getCharacters = storyID => {
     })
       .then(resp => resp.json())
       .then(chars => {
-        console.log(chars);
         return dispatch(fetchCharacters(chars));
       })
-      .catch(err => console.error("error fetching things", err));
+      .catch(err => console.error("ERROR GETTING CHARACTERS:", err));
   };
 };
 
@@ -34,6 +36,7 @@ export const getSingleCharacterFetch = character => ({
 export const getCharacter = (storyID, characterID) => {
   return dispatch => {
     fetch(
+
       `http://localhost:3000/users/1/stories/${storyID}/characters/${characterID}`,
       {
         method: "GET",
@@ -45,7 +48,10 @@ export const getCharacter = (storyID, characterID) => {
       }
     )
       .then(resp => resp.json())
-      .then(json => dispatch(getSingleCharacterFetch(json)));
+      .then(json => dispatch(getSingleCharacterFetch(json)))
+      .catch(err => {
+        console.error("ERROR GETTING THIS CHARACTER:", err);
+      });
   };
 };
 
@@ -54,8 +60,8 @@ export const postFetchCharacter = character => ({
   character
 });
 export const postCharacter = (characterObj, storyID) => {
-  console.log(storyID, "THIS IS THE STORY");
   return dispatch => {
+
     return fetch(
       `http://localhost:3000/users/1/stories/${storyID}/characters`,
       {
@@ -70,10 +76,9 @@ export const postCharacter = (characterObj, storyID) => {
           height: characterObj.height,
           weight: characterObj.weight,
           biography: characterObj.biography,
-          //backstory: characterObj.backstory,
           personality: characterObj.personality,
           appearance: characterObj.appearance,
-          story_id: storyID // get this from params
+          story_id: storyID
         })
       }
     )
@@ -89,12 +94,9 @@ export const patchFetchCharacter = character => ({
   character
 });
 export const patchCharacter = (characterObj, setCurrent = false) => {
-  //console.log(`http://localhost:3000/users/1/stories/1/characters/${characterObj.id}`)
-  console.log(characterObj);
-
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/${characterObj.story_id}/characters/${characterObj.id}`,
       {
         method: "PATCH",
         headers: {
@@ -110,15 +112,16 @@ export const patchCharacter = (characterObj, setCurrent = false) => {
           backstory: characterObj.backstory,
           personality: characterObj.personality,
           appearance: characterObj.appearance
-          //story_id: characterObj.story_id
         })
       }
     )
       .then(resp => resp.json())
       .then(json => {
-        console.log(json);
         if (setCurrent) dispatch(updateCurrentCharacterDispatch(json));
         return dispatch(patchFetchCharacter(json));
+      })
+      .catch(err => {
+        console.error("ERROR UPDATING CHARACTER:", err);
       });
   };
 };
@@ -130,7 +133,7 @@ export const deleteCharacterFetch = character => ({
 export const deleteCharacter = character => {
   return dispatch => {
     return fetch(
-      `http://localhost:3000/users/1/stories/1/characters/${character.id}`,
+      `https://aesop-backend.herokuapp.com//users/1/stories/1/characters/${character.id}`,
       {
         method: "DELETE",
         headers: {
@@ -146,6 +149,9 @@ export const deleteCharacter = character => {
       .then(resp => resp.json())
       .then(json => {
         return dispatch(deleteCharacterFetch(json));
+      })
+      .catch(err => {
+        console.error("ERROR DELETING CHARACTER:", err);
       });
   };
 };

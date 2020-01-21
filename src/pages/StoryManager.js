@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-import { getChapters } from "../actions/chapterActions";
-
+import { setCurrentChapterDispatch } from "../actions/userActions";
 import StoryForm from "../components/StoryForm";
 import DeleteStoryButton from "../components/DeleteStoryButton";
 import ChapterReader from "../components/ChapterReader";
@@ -18,10 +16,6 @@ class StoryManager extends Component {
     this.state = {
       inEditor: false
     };
-  }
-
-  componentDidMount() {
-    this.props.getChapters(this.props.currentStory.id);
   }
 
   swapEditorState = () => {
@@ -49,15 +43,15 @@ class StoryManager extends Component {
       });
     }
   };
+
   render() {
     return (
       <div className="container-fluid">
-        Story Manager ({this.props.currentStory.id})
         <DeleteStoryButton />
         <div className="row">
           <div className="col" />
           <div className="col-lg-9 text-center">
-            <StoryForm swapEditorState={this.swapEditorState} />
+            <StoryForm swapEditorState={this.swapEditorState} inEditor={this.state.inEditor} />
             <h2>{this.props.currentStory.title}</h2>
           </div>
           <div className="col" />
@@ -82,13 +76,15 @@ class StoryManager extends Component {
 const mapStateToProps = state => {
   return {
     currentStory: state.user.currentStory,
-    stories: state.stories
+    stories: state.stories,
+    currentChapter: state.user.currentChapter
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getChapters: storyID => dispatch(getChapters(storyID))
+    setCurrentChapterDispatch: chapterObj =>
+      dispatch(setCurrentChapterDispatch(chapterObj, false, false))
   };
 };
 

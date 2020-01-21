@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-// get ONE character to view in this panel
-// This panel should have an edit link that goes to the form
 
 import Card from "react-bootstrap/Card";
 class CharacterViewer extends Component {
-  // testing a character for viewin
 
   render() {
-    console.log(this.props.currentCharacter.weight);
     return (
       <div className="container-fluid eggshell">
         <Card className="row">

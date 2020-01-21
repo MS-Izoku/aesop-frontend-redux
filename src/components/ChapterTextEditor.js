@@ -17,7 +17,7 @@ class ChapterTextEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      footnoteModalActive: false,
+      // footnoteModalActive: false,
       deleteChapterModalActive: false,
       chapterInEditor: {
         title: props.currentChapter.title,
@@ -106,14 +106,14 @@ class ChapterTextEditor extends Component {
   render() {
     return (
       <>
-        <Button onClick={this.toggleFootnoteModal}>FOOTNOTE MODAL</Button>
+        {/* <Button onClick={this.toggleFootnoteModal}>FOOTNOTE MODAL</Button> */}
         <Button onClick={this.toggleDeleteChapterModal}>
           DELETE CHAPTER MODAL
         </Button>
-        <FootnoteModal
+        {/* <FootnoteModal
           toggleFootnoteModal={this.toggleFootnoteModal}
           show={this.state.footnoteModalActive}
-        />
+        /> */}
         <ChapterDeleteModal
           chapter={this.props.currentChapter}
           toggleDeleteChapterModal={this.toggleDeleteChapterModal}
@@ -137,7 +137,6 @@ class ChapterTextEditor extends Component {
                 editor.ui.view.toolbar.element,
                 editor.ui.getEditableElement()
               );
-              console.log(editor)
           }}
           name="body"
           onChange={(event, editor) => {
